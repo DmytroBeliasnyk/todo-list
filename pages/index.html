@@ -7,11 +7,25 @@
   <link rel="stylesheet" href="/styles/index.css">
 </head>
 <body>
+<div class="sidebar">
+  <header class="sidebar__header">TODO list</header>
+  <div class="sidebar__body">
+    <div class="sidebar__files-container">
+      <div class="sidebar__files"></div>
+    </div>
+    <div class="sidebar__buttons-panel">
+      <button class="sidebar__add-folder" type="button">Add folder</button>
+      <button class="sidebar__add-task" type="button">Add task</button>
+      <button class="sidebar__remove-folder" type="button">Delete</button>
+    </div>
+  </div>
+  <footer class="sidebar__footer"></footer>
+</div>
 <div class="index">
   <header class="index__header"></header>
   <div class="index__body"></div>
   <footer class="index__footer"></footer>
 </div>
 </body>
-<script src="/scripts/index.js"></script>
+<script type="module" src="../scripts/index.js"></script>
 </html>

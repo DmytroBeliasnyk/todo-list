@@ -1,9 +1,12 @@
 body {
+  display: flex;
+  gap: 20px;
   padding: 20px;
   background-color: rgb(17 24 39);
 }
 
-.index {
+.index,
+.sidebar {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -11,14 +14,76 @@ body {
   background-color: rgb(31 41 55);
 }
 
-.index__header,
-.index__footer {
-  height: 40px;
-  padding: 5px;
+.index {
+  flex: 1 1 100%;
 }
 
-.index__body {
+.sidebar {
+  flex: 1 0 400px;
+}
+
+.index__header,
+.index__footer,
+.sidebar__header,
+.sidebar__footer {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 5px 8px;
+}
+
+.sidebar__header {
+  color: rgb(229, 231, 235);
+  font-size: 24px;
+}
+
+.index__body,
+.sidebar__body {
   flex: 1 1 auto;
   border-top: 1px solid rgb(55, 65, 81);
   border-bottom: 1px solid rgb(55, 65, 81);
+}
+
+.sidebar__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar__files-container {
+  flex: 1 1 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+.sidebar__files {
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar__buttons-panel {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  position: relative;
+  padding: 8px;
+}
+
+.sidebar__buttons-panel:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 1px;
+  width: 80%;
+  background-color: rgb(55, 65, 81);
+}
+
+.sidebar__buttons-panel button {
+  background-color: rgb(37, 99, 235);
+  height: 30px;
+  width: 110px;
+  border-radius: 5px;
+  font-size: 18px;
+  color: white;
 }
