@@ -17,13 +17,6 @@ body {
   height: 40px;
 }
 
-/*.main__header {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  color: rgb(229, 231, 235);*/
-/*  font-size: 24px;*/
-/*}*/
-
 .main__body {
   display: flex;
   flex-direction: column;
@@ -59,7 +52,7 @@ body {
   color: rgb(221, 221, 221);
 }
 
-.main__files-container {
+.main__tasks-container {
   flex: 1 1 auto;
   width: 80%;
   padding: 10px;
