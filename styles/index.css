@@ -1,85 +1,90 @@
 body {
   display: flex;
-  gap: 20px;
   padding: 20px;
   background-color: rgb(17 24 39);
 }
 
-.index,
-.sidebar {
+.main {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1 1 auto;
   border-radius: 5px;
   background-color: rgb(31 41 55);
 }
 
-.index {
-  flex: 1 1 100%;
-}
-
-.sidebar {
-  flex: 1 0 400px;
-}
-
-.index__header,
-.index__footer,
-.sidebar__header,
-.sidebar__footer {
-  display: flex;
-  align-items: center;
+.main__header,
+.main__footer {
   height: 40px;
-  padding: 5px 8px;
 }
 
-.sidebar__header {
-  color: rgb(229, 231, 235);
-  font-size: 24px;
-}
+/*.main__header {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  color: rgb(229, 231, 235);*/
+/*  font-size: 24px;*/
+/*}*/
 
-.index__body,
-.sidebar__body {
+.main__body {
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
+  align-items: center;
   border-top: 1px solid rgb(55, 65, 81);
   border-bottom: 1px solid rgb(55, 65, 81);
 }
 
-.sidebar__body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sidebar__files-container {
-  flex: 1 1 100%;
-  width: 100%;
-  padding: 20px;
-}
-
-.sidebar__files {
-  height: 100%;
-  width: 100%;
-}
-
-.sidebar__buttons-panel {
+.main__navigation {
+  position: relative;
   display: flex;
   flex-direction: row;
+  padding: 8px;
+  width: 80%;
+}
+
+.main__navigation:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 1px;
   width: 100%;
-  justify-content: space-around;
+  background-color: rgb(55, 65, 81);
+}
+
+.main__search {
+  background-color: rgb(31 41 55);
+  border: 1px solid rgb(55, 65, 81);
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 18px;
+  color: rgb(221, 221, 221);
+}
+
+.main__files-container {
+  flex: 1 1 auto;
+  width: 80%;
+  padding: 10px;
+}
+
+.main__buttons-panel {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 10px;
+  width: 80%;
   position: relative;
   padding: 8px;
 }
 
-.sidebar__buttons-panel:before {
+.main__buttons-panel:before {
   content: '';
   position: absolute;
   top: 0;
   height: 1px;
-  width: 80%;
+  width: 100%;
   background-color: rgb(55, 65, 81);
 }
 
-.sidebar__buttons-panel button {
+.main__buttons-panel button {
   background-color: rgb(37, 99, 235);
   height: 30px;
   width: 110px;
