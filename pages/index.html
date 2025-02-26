@@ -7,19 +7,43 @@
   <link rel="stylesheet" href="/styles/index.css">
 </head>
 <body>
-<div class="main">
-  <header class="main__header"></header>
-  <div class="main__body">
-    <div class="main__navigation">
-      <input type="search" class="main__search" placeholder="Input task name">
+<div class="wrapper">
+  <header class="header"><p>TODO list</p></header>
+  <div class="content">
+    <div class="content__navigation">
+      <input class="content__search" type="search" placeholder="Input task name">
     </div>
-    <div class="main__tasks-container"></div>
-    <div class="main__buttons-panel">
-      <button class="main__add-task" type="button" disabled>Add task</button>
-      <button class="main__remove-task" type="button" disabled>Delete</button>
+    <div class="content__tasks">
+      <div class="content__task content__task_done">
+        <div class="content__task-text">
+          <div class="content__task-name">Task name</div>
+          <div class="content__task-description">
+            DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
+          </div>
+        </div>
+        <div class="content__task-expire"><p>Deadline:</p>
+          <p>
+            <time datetime="YYYY-MM-DD">2025-02-28</time>
+          </p>
+        </div>
+      </div>
+      <div class="content__task content__task_done">
+        <div class="content__task-text">
+          <div class="content__task-name">Task name</div>
+          <div class="content__task-description">
+            DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content__buttons-panel">
+      <button class="content__add-btn" type="button">Add task</button>
+      <button class="content__done-btn" type="button">Done</button>
+      <button class="content__remove-btn" type="button">Delete</button>
+      <button class="content__remove-all-btn" type="button">Delete all</button>
     </div>
   </div>
-  <footer class="main__footer"></footer>
+  <footer class="footer"></footer>
 </div>
 </body>
 <script type="module" src="../scripts/index.js"></script>
