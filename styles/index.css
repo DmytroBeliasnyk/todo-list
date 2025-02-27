@@ -5,6 +5,18 @@ body {
   color: rgb(221, 221, 221);
 }
 
+button, input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  background-color: rgb(37, 99, 235);
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -119,13 +131,8 @@ body {
 }
 
 .content__buttons-panel button {
-  background-color: rgb(37, 99, 235);
-  height: 30px;
-  width: 110px;
-  margin-right: 8px;
   border-radius: 5px;
-  font-size: 18px;
-  color: rgb(221, 221, 221);
+  margin-right: 8px;
 }
 
 .content__remove-all-btn {
@@ -135,4 +142,64 @@ body {
 
 .content__buttons-panel button:nth-child(3), button:last-child {
   margin-right: 0;
+}
+
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(17, 24, 39, 0.5);
+}
+
+.form-wrapper[hidden] {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+  padding: 20px;
+  background-color: rgb(31, 41, 55);
+  border: 1px solid rgb(55, 65, 81);
+  border-radius: 5px;
+}
+
+.form__inputs {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+}
+
+.form__inputs input, textarea {
+  background-color: rgb(31, 41, 55);
+  border: 1px solid rgb(55, 65, 81);
+  border-radius: 5px;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+  resize: none;
+}
+
+.form__buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.form__buttons button {
+  margin-left: 8px;
+}
+
+.form__buttons button:first-child {
+  margin-left: 0;
 }

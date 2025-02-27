@@ -45,6 +45,19 @@
   </div>
   <footer class="footer"></footer>
 </div>
+<div class="form-wrapper" hidden>
+  <form class="form" action="#">
+    <div class="form__inputs">
+      <input class="form__input" name="name" type="text" placeholder="Task name">
+      <input class="form__input" name="deadline" type="text" placeholder="YYYY-MM-DD">
+      <textarea class="form__textarea" name="description" cols="30" rows="10" placeholder="Description"></textarea>
+    </div>
+    <div class="form__buttons">
+      <button class="form__submit-btn" type="submit">Submit</button>
+      <button class="form__reset-btn" type="reset">Close</button>
+    </div>
+  </form>
+</div>
 </body>
 <script type="module" src="../scripts/index.js"></script>
 </html>
