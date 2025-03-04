@@ -187,6 +187,10 @@ button {
   resize: none;
 }
 
+.required, .invalid {
+  box-shadow: 0 0 3px red;
+}
+
 .form__buttons {
   display: flex;
   flex-direction: row;

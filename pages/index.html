@@ -13,31 +13,9 @@
     <div class="content__navigation">
       <input class="content__search" type="search" placeholder="Input task name">
     </div>
-    <div class="content__tasks">
-      <div class="content__task content__task_done">
-        <div class="content__task-text">
-          <div class="content__task-name">Task name</div>
-          <div class="content__task-description">
-            DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
-          </div>
-        </div>
-        <div class="content__task-expire"><p>Deadline:</p>
-          <p>
-            <time datetime="YYYY-MM-DD">2025-02-28</time>
-          </p>
-        </div>
-      </div>
-      <div class="content__task content__task_done">
-        <div class="content__task-text">
-          <div class="content__task-name">Task name</div>
-          <div class="content__task-description">
-            DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="content__tasks"></div>
     <div class="content__buttons-panel">
-      <button class="content__add-btn" type="button">Add task</button>
+      <button class="content__open-form-btn" type="button">Add task</button>
       <button class="content__done-btn" type="button">Done</button>
       <button class="content__remove-btn" type="button">Delete</button>
       <button class="content__remove-all-btn" type="button">Delete all</button>
@@ -46,15 +24,16 @@
   <footer class="footer"></footer>
 </div>
 <div class="form-wrapper" hidden>
-  <form class="form" action="#">
+  <form class="form">
     <div class="form__inputs">
       <input class="form__input" name="name" type="text" placeholder="Task name">
-      <input class="form__input" name="deadline" type="text" placeholder="YYYY-MM-DD">
-      <textarea class="form__textarea" name="description" cols="30" rows="10" placeholder="Description"></textarea>
+      <input class="form__input" name="deadline" type="date" placeholder="YYYY-MM-DD">
+      <textarea class="form__textarea" name="description" cols="30" rows="10"
+                placeholder="Description"></textarea>
     </div>
     <div class="form__buttons">
-      <button class="form__submit-btn" type="submit">Submit</button>
-      <button class="form__reset-btn" type="reset">Close</button>
+      <button class="form__submit-btn" type="button">Submit</button>
+      <button class="form__close-btn" type="reset" name="close">Close</button>
     </div>
   </form>
 </div>
