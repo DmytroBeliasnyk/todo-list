@@ -102,6 +102,14 @@ button {
   cursor: pointer;
 }
 
+.done {
+  background-color: rgba(17, 24, 39, 0.3);
+}
+
+.done .content__task-name, .done .content__task-description, .done .content__task-expire {
+  color: rgb(55, 65, 81);
+}
+
 .selected {
   background-color: rgb(37, 99, 235);
 }
