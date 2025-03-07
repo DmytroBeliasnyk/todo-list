@@ -102,7 +102,7 @@ button {
   cursor: pointer;
 }
 
-.selected{
+.selected {
   background-color: rgb(37, 99, 235);
 }
 
@@ -145,7 +145,6 @@ button {
 }
 
 .content__buttons-panel {
-  position: relative;
   display: flex;
   flex-direction: row;
   width: 80%;
@@ -158,12 +157,7 @@ button {
   margin-right: 8px;
 }
 
-.content__remove-all-btn {
-  position: absolute;
-  right: 0;
-}
-
-.content__buttons-panel button:nth-child(3), button:last-child {
+.content__buttons-panel, button:last-child {
   margin-right: 0;
 }
 
@@ -210,7 +204,7 @@ button {
   resize: none;
 }
 
-.form__textarea{
+.form__textarea {
   overflow: auto;
 }
 

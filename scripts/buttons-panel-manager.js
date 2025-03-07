@@ -6,7 +6,9 @@ export const buttonsPanelManager = {
   "content__done-btn": function () {
   },
   "content__remove-btn": function () {
-  },
-  "content__remove-all-btn": function () {
+    const selected = this.formWrapper.querySelectorAll(".selected")
+    for (const selectedElement of selected) {
+      selectedElement.remove()
+    }
   },
 }
