@@ -17,8 +17,41 @@ form.addEventListener("click", event => {
   formManager.event = event
   formManager[targetButton.className]()
 })
+
 const formInputDeadline = form.elements.deadline
 formInputDeadline.addEventListener("input", () => {
   const inputDate = new Date(formInputDeadline.value)
   formInputDeadline.classList.toggle("invalid", Date.now() - inputDate.getTime() > 0)
+})
+
+const taskContainer = document.querySelector(".content__tasks")
+taskContainer.addEventListener("click", event => {
+  const targetTask = event.target.closest(".content__task")
+  if (!targetTask) return
+
+  if (event.ctrlKey || event.metaKey) {
+    targetTask.classList.toggle("selected")
+    return
+  }
+
+  if (targetTask.classList.contains("selected")) {
+    targetTask.classList.remove("selected")
+    return
+  }
+
+  const selectedTasks = document.querySelectorAll(".selected")
+  if (selectedTasks.length) {
+    for (const task of selectedTasks) {
+      task.classList.remove("selected")
+    }
+  }
+
+  targetTask.classList.add("selected")
+})
+taskContainer.addEventListener("dblclick", event => {
+  const targetTask = event.target.closest(".content__task")
+  if (!targetTask) return
+
+  targetTask.classList.add("toopen")
+  formManager.openSelected()
 })

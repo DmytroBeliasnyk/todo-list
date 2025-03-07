@@ -5,8 +5,22 @@ export const formManager = {
   "form__submit-btn": function submitForm() {
     this.event.preventDefault()
 
-    const formData = new FormData(this.form)
+    const openedTask = this.tasks.querySelector(".toopen")
+    if (openedTask) {
+      const formElements = this.form.elements
 
+      openedTask.querySelector(".content__task-name").textContent = formElements.name.value
+      openedTask.querySelector(".task-deadline").textContent = formElements.deadline.value
+      openedTask.querySelector(".content__task-description").textContent = formElements.description.value
+
+      openedTask.classList.remove("toopen")
+      this.form.elements.close.dispatchEvent(
+        new MouseEvent("click", {bubbles: true}))
+
+      return
+    }
+
+    const formData = new FormData(this.form)
     const formInputName = this.form.elements.name
     if (!formInputName.value) {
       formInputName.classList.add("required")
@@ -28,7 +42,16 @@ export const formManager = {
 
     this.formWrapper.hidden = true
   },
+  openSelected() {
+    const selectedTask = this.tasks.querySelector(".toopen")
+    const selectedTaskObj = taskElementToObject(selectedTask)
 
+    this.form.elements.name.value = selectedTaskObj.taskName
+    this.form.elements.deadline.value = selectedTaskObj.deadline
+    this.form.elements.description.value = selectedTaskObj.taskDescription
+
+    this.formWrapper.hidden = false
+  },
 }
 
 function createNewTask(formData) {
@@ -42,10 +65,18 @@ function createNewTask(formData) {
   if (deadline) {
     newTask += `<div class="content__task-expire">
                   <p>Deadline:</p>
-                  <p><time datetime="YYYY-MM-DD">${formData.get("deadline")}</time></p>
+                  <p><time datetime="YYYY-MM-DD" class="task-deadline">${formData.get("deadline")}</time></p>
                 </div>`
   }
 
   newTask += "</div>"
   return newTask
+}
+
+function taskElementToObject(taskElement) {
+  return {
+    taskName: taskElement.querySelector(".content__task-name").textContent,
+    deadline: taskElement.querySelector(".task-deadline").textContent,
+    taskDescription: taskElement.querySelector(".content__task-description").textContent,
+  }
 }

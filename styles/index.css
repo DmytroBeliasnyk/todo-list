@@ -99,6 +99,11 @@ button {
   border-radius: 5px;
   padding: 5px 8px;
   margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.selected{
+  background-color: rgb(37, 99, 235);
 }
 
 .content__tasks .content__task:last-child {
