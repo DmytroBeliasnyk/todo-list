@@ -42,6 +42,12 @@ export const formManager = {
 
     this.formWrapper.hidden = true
   },
+  dateValidation() {
+    const inputDeadline = this.form.elements.deadline
+    const inputDate = new Date(inputDeadline.value)
+
+    inputDeadline.classList.toggle("invalid", Date.now() - inputDate.getTime() > 0)
+  },
   openSelected() {
     const selectedTask = this.tasks.querySelector(".toopen")
     const selectedTaskObj = taskElementToObject(selectedTask)

@@ -19,10 +19,7 @@ form.addEventListener("click", event => {
 })
 
 const formInputDeadline = form.elements.deadline
-formInputDeadline.addEventListener("input", () => {
-  const inputDate = new Date(formInputDeadline.value)
-  formInputDeadline.classList.toggle("invalid", Date.now() - inputDate.getTime() > 0)
-})
+formInputDeadline.addEventListener("input", formManager.dateValidation)
 
 const taskContainer = document.querySelector(".content__tasks")
 taskContainer.addEventListener("click", event => {
