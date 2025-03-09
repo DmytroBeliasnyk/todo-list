@@ -1,5 +1,14 @@
 import {buttonsPanelManager} from "./buttons-panel-manager.js"
-import {formManager} from "./form-manager.js";
+import {formManager} from "./form-manager.js"
+import {taskManager} from "./task-manager.js";
+
+/*
+
+    добавить всплывающее поля для невалидных данных
+    добавить локальное хранилище данных
+    добавить функции навигации
+
+*/
 
 const buttonsPanel = document.querySelector(".content__buttons-panel")
 buttonsPanel.addEventListener("click", event => {
@@ -26,37 +35,10 @@ taskContainer.addEventListener("switchButtons", () => {
   buttonsPanelManager.buttonsSwitch(!taskContainer.querySelectorAll(".selected").length)
 })
 taskContainer.addEventListener("click", event => {
-  const targetTask = event.target.closest(".content__task")
-  if (!targetTask) return
-
-  const onclick = () => {
-    if (event.ctrlKey || event.metaKey) {
-      targetTask.classList.toggle("selected")
-      return
-    }
-
-    const selectedTasks = document.querySelectorAll(".selected")
-    if (selectedTasks.length) {
-      if (selectedTasks.length === 1 && selectedTasks.item(0) === targetTask) {
-        targetTask.classList.remove("selected")
-        return
-      }
-
-      for (const task of selectedTasks) {
-        task.classList.remove("selected")
-      }
-    }
-
-    targetTask.classList.add("selected")
-  }
-
-  onclick()
+  taskManager.selectTask(event)
   taskContainer.dispatchEvent(new CustomEvent("switchButtons"))
 })
 taskContainer.addEventListener("dblclick", event => {
-  const targetTask = event.target.closest(".content__task")
-  if (!targetTask) return
-
-  targetTask.classList.add("toedit")
+  taskManager.taskToEdit(event)
   formManager.openToEdit()
 })
