@@ -53,6 +53,7 @@ export const formManager = {
     for (const selectedTask of this.tasks.querySelectorAll(".selected")) {
       selectedTask.classList.remove("selected")
     }
+    this.tasks.dispatchEvent(new CustomEvent("switchButtons"))
 
     const selectedTask = this.tasks.querySelector(".toedit")
     const selectedTaskObj = taskElementToObject(selectedTask)

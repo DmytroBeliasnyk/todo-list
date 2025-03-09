@@ -106,7 +106,9 @@ button {
   background-color: rgba(17, 24, 39, 0.3);
 }
 
-.done .content__task-name, .done .content__task-description, .done .content__task-expire {
+.done .content__task-name,
+.done .content__task-description,
+.done .content__task-expire {
   color: rgb(55, 65, 81);
 }
 
@@ -167,4 +169,9 @@ button {
 
 .content__buttons-panel, button:last-child {
   margin-right: 0;
+}
+
+.content__buttons-panel button[disabled] {
+  background-color: rgba(37, 99, 235, 0.3);
+  color: rgb(156, 163, 175);
 }
