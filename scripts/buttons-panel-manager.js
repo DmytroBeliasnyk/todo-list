@@ -2,23 +2,43 @@ export const buttonsPanelManager = {
   formWrapper: document.querySelector(".form-wrapper"),
   tasks: document.querySelector(".content__tasks"),
   "content__open-form-btn": function () {
-    for (const selectedTask of this.tasks.querySelectorAll(".selected")) {
-      selectedTask.classList.remove("selected")
-    }
-
+    taskManager.call(this, "content__open-form-btn")
     this.formWrapper.hidden = false
   },
   "content__done-btn": function () {
-    const selected = this.tasks.querySelectorAll(".selected")
-    for (const selectedElement of selected) {
-      selectedElement.classList.remove("selected")
-      selectedElement.classList.add("done")
-    }
+    taskManager.call(this, "content__done-btn")
   },
   "content__remove-btn": function () {
-    const selected = this.tasks.querySelectorAll(".selected")
-    for (const selectedElement of selected) {
-      selectedElement.remove()
-    }
+    taskManager.call(this, "content__remove-btn")
   },
+
+}
+
+function taskManager(buttonClass) {
+  let job
+  switch(buttonClass){
+    case "content__open-form-btn":
+      job = (task) => {
+        task.classList.remove("selected")
+      }
+
+      break
+    case "content__done-btn":
+      job = (task) => {
+        task.classList.remove("selected")
+        task.classList.add("done")
+      }
+
+      break
+    case "content__remove-btn":
+      job = (task) => {
+        task.remove()
+      }
+
+      break
+  }
+
+  for (const selectedTask of this.tasks.querySelectorAll(".selected")) {
+    job(selectedTask)
+  }
 }
