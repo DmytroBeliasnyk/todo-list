@@ -5,20 +5,7 @@ export const formManager = {
   "form__submit-btn": function submitForm() {
     this.event.preventDefault()
 
-    const openedTask = this.tasks.querySelector(".toopen")
-    if (openedTask) {
-      const formElements = this.form.elements
-
-      openedTask.querySelector(".content__task-name").textContent = formElements.name.value
-      openedTask.querySelector(".task-deadline").textContent = formElements.deadline.value
-      openedTask.querySelector(".content__task-description").textContent = formElements.description.value
-
-      openedTask.classList.remove("toopen")
-      this.form.elements.close.dispatchEvent(
-        new MouseEvent("click", {bubbles: true}))
-
-      return
-    }
+    if (this.form.elements.deadline.classList.contains("invalid")) return
 
     const formData = new FormData(this.form)
     const formInputName = this.form.elements.name
@@ -27,10 +14,24 @@ export const formManager = {
       formInputName.addEventListener("input", () => {
         formInputName.classList.remove("required")
       }, {once: true})
+
       return
     }
 
-    if (this.form.elements.deadline.classList.contains("invalid")) return
+    const openedTask = this.tasks.querySelector(".toedit")
+    if (openedTask) {
+      const formElements = this.form.elements
+
+      openedTask.querySelector(".content__task-name").textContent = formElements.name.value
+      openedTask.querySelector(".task-deadline").textContent = formElements.deadline.value
+      openedTask.querySelector(".content__task-description").textContent = formElements.description.value
+
+      openedTask.classList.remove("toedit")
+      this.form.elements.close.dispatchEvent(
+        new MouseEvent("click", {bubbles: true}))
+
+      return
+    }
 
     this.tasks.insertAdjacentHTML("afterbegin", createNewTask(formData))
     this.form.elements.close.dispatchEvent(
@@ -48,8 +49,12 @@ export const formManager = {
 
     inputDeadline.classList.toggle("invalid", Date.now() - inputDate.getTime() > 0)
   },
-  openSelected() {
-    const selectedTask = this.tasks.querySelector(".toopen")
+  openToEdit() {
+    for (const selectedTask of this.tasks.querySelectorAll(".selected")) {
+      selectedTask.classList.remove("selected")
+    }
+
+    const selectedTask = this.tasks.querySelector(".toedit")
     const selectedTaskObj = taskElementToObject(selectedTask)
 
     this.form.elements.name.value = selectedTaskObj.taskName
@@ -61,22 +66,18 @@ export const formManager = {
 }
 
 function createNewTask(formData) {
-  let newTask = `<div class="content__task">
-                          <div class="content__task-text">
-                            <div class="content__task-name">${formData.get("name")}</div>
-                            <div class="content__task-description">${formData.get("description")}</div>
-                          </div>`
-
-  let deadline = formData.get("deadline")
-  if (deadline) {
-    newTask += `<div class="content__task-expire">
-                  <p>Deadline:</p>
-                  <p><time datetime="YYYY-MM-DD" class="task-deadline">${formData.get("deadline")}</time></p>
-                </div>`
-  }
-
-  newTask += "</div>"
-  return newTask
+  return `<div class="content__task">
+            <div class="content__task-text">
+              <div class="content__task-name">${formData.get("name")}</div>
+              <div class="content__task-description">${formData.get("description")}</div>
+            </div>
+            <div class="content__task-expire">
+              <p>Deadline:</p>
+              <p>
+                <time datetime="YYYY-MM-DD" class="task-deadline">${formData.get("deadline")}</time>
+              </p>
+            </div>
+          </div>`
 }
 
 function taskElementToObject(taskElement) {

@@ -31,13 +31,13 @@ taskContainer.addEventListener("click", event => {
     return
   }
 
-  if (targetTask.classList.contains("selected")) {
-    targetTask.classList.remove("selected")
-    return
-  }
-
   const selectedTasks = document.querySelectorAll(".selected")
   if (selectedTasks.length) {
+    if (selectedTasks.length === 1 && selectedTasks.item(0) === targetTask) {
+      targetTask.classList.remove("selected")
+      return
+    }
+
     for (const task of selectedTasks) {
       task.classList.remove("selected")
     }
@@ -49,6 +49,6 @@ taskContainer.addEventListener("dblclick", event => {
   const targetTask = event.target.closest(".content__task")
   if (!targetTask) return
 
-  targetTask.classList.add("toopen")
-  formManager.openSelected()
+  targetTask.classList.add("toedit")
+  formManager.openToEdit()
 })
