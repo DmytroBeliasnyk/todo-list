@@ -3,11 +3,8 @@ import {formManager} from "./form-manager.js"
 import {taskManager} from "./task-manager.js";
 
 /*
-
-    добавить всплывающее поля для невалидных данных
     добавить локальное хранилище данных
     добавить функции навигации
-
 */
 
 const buttonsPanel = document.querySelector(".content__buttons-panel")
@@ -15,7 +12,7 @@ buttonsPanel.addEventListener("click", event => {
   const targetButton = event.target.closest("button")
   if (!targetButton) return
 
-  buttonsPanelManager[targetButton.className]()
+  buttonsPanelManager[targetButton.id]()
 })
 
 const form = document.querySelector(".form")
@@ -24,7 +21,7 @@ form.addEventListener("click", event => {
   if (!targetButton) return
 
   formManager.event = event
-  formManager[targetButton.className]()
+  formManager[targetButton.id]()
 })
 
 const taskContainer = document.querySelector(".content__tasks")
