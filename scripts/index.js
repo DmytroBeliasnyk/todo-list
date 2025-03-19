@@ -27,9 +27,6 @@ form.addEventListener("click", event => {
   formManager[targetButton.className]()
 })
 
-const formInputDeadline = form.elements.deadline
-formInputDeadline.addEventListener("input", formManager.dateValidation)
-
 const taskContainer = document.querySelector(".content__tasks")
 taskContainer.addEventListener("switchButtons", () => {
   buttonsPanelManager.buttonsSwitch(!taskContainer.querySelectorAll(".selected").length)

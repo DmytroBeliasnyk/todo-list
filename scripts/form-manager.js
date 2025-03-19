@@ -5,14 +5,16 @@ export const formManager = {
   "form__submit-btn": function submitForm() {
     this.event.preventDefault()
 
-    if (this.form.elements.deadline.classList.contains("invalid")) return
-
     const formData = new FormData(this.form)
     const formInputName = this.form.elements.name
     if (!formInputName.value) {
+      const formInputNameLabel = this.form.querySelector("#label-name")
+
+      formInputNameLabel.classList.add("form__label-required")
       formInputName.classList.add("required")
       formInputName.addEventListener("input", () => {
-        formInputName.classList.remove("required")
+        formInputNameLabel.classList.remove("required")
+        formInputNameLabel.classList.remove("form__label-required")
       }, {once: true})
 
       return
@@ -39,15 +41,7 @@ export const formManager = {
   },
   "form__close-btn": function closeForm() {
     this.form.elements.name.classList.remove("required")
-    this.form.elements.deadline.classList.remove("invalid")
-
     this.formWrapper.hidden = true
-  },
-  dateValidation() {
-    const inputDeadline = this.form.elements.deadline
-    const inputDate = new Date(inputDeadline.value)
-
-    inputDeadline.classList.toggle("invalid", Date.now() - inputDate.getTime() > 0)
   },
   openToEdit() {
     for (const selectedTask of this.tasks.querySelectorAll(".selected")) {

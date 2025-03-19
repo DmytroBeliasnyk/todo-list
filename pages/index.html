@@ -39,10 +39,15 @@
 <div class="form-wrapper" hidden>
   <form class="form">
     <div class="form__inputs">
-      <input class="form__input" name="name" type="text" placeholder="Task name">
-      <input class="form__input" name="deadline" type="date" placeholder="YYYY-MM-DD">
-      <textarea class="form__textarea" name="description" cols="30" rows="10"
-                placeholder="Description"></textarea>
+      <label class="form__label" id="label-name">
+        <input class="form__input" name="name" type="text" placeholder="Task name">
+      </label>
+      <label class="form__label">
+        <input class="form__input" name="deadline" type="date">
+      </label>
+      <label class="form__label">
+        <textarea class="form__input" name="description" cols="30" rows="10" placeholder="Description"></textarea>
+      </label>
     </div>
     <div class="form__buttons">
       <button class="form__submit-btn" type="button">Submit</button>
