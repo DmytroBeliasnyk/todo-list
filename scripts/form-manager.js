@@ -2,7 +2,7 @@ export const formManager = {
   formWrapper: document.querySelector(".form-wrapper"),
   form: document.querySelector(".form"),
   tasks: document.querySelector(".content__tasks"),
-  "form__submit-btn": function submitForm() {
+  "submit-btn": function submitForm() {
     this.event.preventDefault()
 
     const formData = new FormData(this.form)
@@ -35,11 +35,13 @@ export const formManager = {
       return
     }
 
-    this.tasks.insertAdjacentHTML("afterbegin", createNewTask(formData))
+    createNewTask(this.tasks, formData)
+
+    // this.tasks.insertAdjacentHTML("afterbegin", createNewTask(formData))
     this.form.elements.close.dispatchEvent(
       new MouseEvent("click", {bubbles: true}))
   },
-  "form__close-btn": function closeForm() {
+  "close-btn": function closeForm() {
     this.form.elements.name.classList.remove("required")
     this.formWrapper.hidden = true
   },
@@ -60,19 +62,8 @@ export const formManager = {
   },
 }
 
-function createNewTask(formData) {
-  return `<div class="content__task">
-            <div class="content__task-text">
-              <div class="content__task-name">${formData.get("name")}</div>
-              <div class="content__task-description">${formData.get("description")}</div>
-            </div>
-            <div class="content__task-expire">
-              <p>Deadline:</p>
-              <p>
-                <time datetime="YYYY-MM-DD" class="task-deadline">${formData.get("deadline")}</time>
-              </p>
-            </div>
-          </div>`
+function createNewTask(container, formData) {
+
 }
 
 function taskElementToObject(taskElement) {

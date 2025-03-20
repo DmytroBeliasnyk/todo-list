@@ -5,14 +5,14 @@ export const buttonsPanelManager = {
     removeButton: document.querySelector(".content__remove-btn"),
     doneButton: document.querySelector(".content__done-btn"),
   },
-  "content__open-form-btn": function () {
+  "add-btn": function () {
     taskManager.call(this, "content__open-form-btn")
     this.formWrapper.hidden = false
   },
-  "content__done-btn": function () {
+  "done-btn": function () {
     taskManager.call(this, "content__done-btn")
   },
-  "content__remove-btn": function () {
+  "remove-btn": function () {
     taskManager.call(this, "content__remove-btn")
   },
   buttonsSwitch(enable) {
