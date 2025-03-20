@@ -36,8 +36,6 @@ export const formManager = {
     }
 
     createNewTask(this.tasks, formData)
-
-    // this.tasks.insertAdjacentHTML("afterbegin", createNewTask(formData))
     this.form.elements.close.dispatchEvent(
       new MouseEvent("click", {bubbles: true}))
   },
@@ -63,7 +61,40 @@ export const formManager = {
 }
 
 function createNewTask(container, formData) {
+  const taskName = document.createElement("div")
+  taskName.className = "content__task-name"
+  taskName.textContent = formData.get("name")
 
+  const taskDescription = document.createElement("div")
+  taskDescription.className = "content__task-description"
+  taskDescription.textContent = formData.get("description")
+
+  const taskText = document.createElement("div")
+  taskText.className = "content__task-text"
+  taskText.appendChild(taskName)
+  taskText.appendChild(taskDescription)
+
+  const deadlineText = document.createElement("p")
+  deadlineText.textContent = "Deadline:"
+
+  const deadlineDate = document.createElement("time")
+  deadlineDate.className = "task-deadline"
+  deadlineDate.textContent = formData.get("deadline")
+
+  const deadlineDateContainer = document.createElement("p")
+  deadlineDateContainer.appendChild(deadlineDate)
+
+  const taskExpire = document.createElement("div")
+  taskExpire.className = "content__task-expire"
+  taskExpire.appendChild(deadlineText)
+  taskExpire.appendChild(deadlineDateContainer)
+
+  const newTask = document.createElement("div")
+  newTask.className = "content__task"
+  newTask.appendChild(taskText)
+  newTask.appendChild(taskExpire)
+
+  container.prepend(newTask)
 }
 
 function taskElementToObject(taskElement) {
