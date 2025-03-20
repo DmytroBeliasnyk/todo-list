@@ -7,7 +7,7 @@ export const formManager = {
 
     const formData = new FormData(this.form)
     const formInputName = this.form.elements.name
-    if (!formInputName.value) {
+    if (!formInputName.value.trim()) {
       const formInputNameLabel = this.form.querySelector("#label-name")
 
       formInputName.classList.add("required")
