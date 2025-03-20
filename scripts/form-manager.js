@@ -10,10 +10,10 @@ export const formManager = {
     if (!formInputName.value) {
       const formInputNameLabel = this.form.querySelector("#label-name")
 
-      formInputNameLabel.classList.add("form__label-required")
       formInputName.classList.add("required")
+      formInputNameLabel.classList.add("form__label-required")
       formInputName.addEventListener("input", () => {
-        formInputNameLabel.classList.remove("required")
+        formInputName.classList.remove("required")
         formInputNameLabel.classList.remove("form__label-required")
       }, {once: true})
 
@@ -41,6 +41,9 @@ export const formManager = {
   },
   "close-btn": function closeForm() {
     this.form.elements.name.classList.remove("required")
+    this.form.querySelector("#label-name")
+      .classList.remove("form__label-required")
+
     this.formWrapper.hidden = true
   },
   openToEdit() {
