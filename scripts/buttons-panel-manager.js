@@ -1,19 +1,22 @@
 export const buttonsPanelManager = {
   formWrapper: document.querySelector(".form-wrapper"),
+  form: document.querySelector(".form"),
   tasks: document.querySelector(".content__tasks"),
   buttons: {
     removeButton: document.querySelector(".content__remove-btn"),
     doneButton: document.querySelector(".content__done-btn"),
   },
   "add-btn": function () {
-    taskManager.call(this, "content__open-form-btn")
+    taskManager.call(this, "add-btn")
+
     this.formWrapper.hidden = false
+    this.form.name.focus()
   },
   "done-btn": function () {
-    taskManager.call(this, "content__done-btn")
+    taskManager.call(this, "done-btn")
   },
   "remove-btn": function () {
-    taskManager.call(this, "content__remove-btn")
+    taskManager.call(this, "remove-btn")
   },
   buttonsSwitch(enable) {
     this.buttons.removeButton.disabled = enable
@@ -24,20 +27,20 @@ export const buttonsPanelManager = {
 function taskManager(buttonClass) {
   let job
   switch (buttonClass) {
-    case "content__open-form-btn":
+    case "add-btn":
       job = (task) => {
         task.classList.remove("selected")
       }
 
       break
-    case "content__done-btn":
+    case "done-btn":
       job = (task) => {
         task.classList.remove("selected")
         task.classList.add("done")
       }
 
       break
-    case "content__remove-btn":
+    case "remove-btn":
       job = (task) => {
         task.remove()
       }

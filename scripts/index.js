@@ -23,6 +23,12 @@ form.addEventListener("click", event => {
   formManager.event = event
   formManager[targetButton.id]()
 })
+form.addEventListener("keydown", event => {
+  console.log(event.code)
+  if (event.code !== 'Escape') return
+
+  formManager["close-btn"]()
+})
 
 const taskContainer = document.querySelector(".content__tasks")
 taskContainer.addEventListener("switchButtons", () => {
