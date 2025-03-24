@@ -24,7 +24,6 @@ form.addEventListener("click", event => {
   formManager[targetButton.id]()
 })
 form.addEventListener("keydown", event => {
-  console.log(event.code)
   if (event.code !== 'Escape') return
 
   formManager["close-btn"]()

@@ -59,11 +59,24 @@ button {
   border-bottom: 1px solid rgb(55, 65, 81);
 }
 
+.search-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(55, 65, 81);
+}
+
 .content__search {
   background-color: rgb(31, 41, 55);
   border: 1px solid rgb(55, 65, 81);
   border-radius: 5px;
-  padding: 5px 8px;
+  padding: 5px 8px 5px 35px;
 }
 
 .content__tasks {
@@ -165,6 +178,7 @@ button {
 .content__buttons-panel button {
   border-radius: 5px;
   margin-right: 8px;
+  font-weight: 500;
 }
 
 .content__buttons-panel, button:last-child {
