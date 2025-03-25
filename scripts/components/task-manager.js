@@ -22,7 +22,7 @@ export const taskManager = {
 
     targetTask.classList.add("selected")
   },
-  taskToEdit() {
+  taskToEdit(event) {
     const targetTask = event.target.closest(".content__task")
     if (!targetTask) return
 

@@ -1,11 +1,6 @@
-import {buttonsPanelManager} from "./buttons-panel-manager.js"
-import {formManager} from "./form-manager.js"
-import {taskManager} from "./task-manager.js";
-
-/*
-    добавить локальное хранилище данных
-    добавить функции навигации
-*/
+import {buttonsPanelManager} from "./components/buttons-panel-manager.js"
+import {formManager} from "./components/form-manager.js"
+import {taskManager} from "./components/task-manager.js";
 
 const buttonsPanel = document.querySelector(".content__buttons-panel")
 buttonsPanel.addEventListener("click", event => {
