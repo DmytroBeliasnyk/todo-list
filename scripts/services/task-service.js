@@ -12,4 +12,8 @@ export class TaskService{
   saveTask(task) {
     this.storage.saveTask(task)
   }
+
+  updateTask(taskName, newTask){
+    this.storage.updateTask(taskName, newTask)
+  }
 }
