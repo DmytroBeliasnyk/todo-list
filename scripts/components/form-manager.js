@@ -6,8 +6,14 @@ export const formManager = {
     this.event.preventDefault()
 
     const formData = new FormData(this.form)
-    const formInputName = this.form.elements.name
-    if (!formInputName.value.trim()) {
+    const task = {
+      name: formData.get("name").trim(),
+      description: formData.get("description"),
+      deadline: formData.get("deadline"),
+    }
+
+    if (!task.name) {
+      const formInputName = this.form.elements.name
       const formInputNameLabel = this.form.querySelector("#label-name")
 
       formInputName.classList.add("required")
@@ -22,11 +28,17 @@ export const formManager = {
 
     const openedTask = this.tasks.querySelector(".toedit")
     if (openedTask) {
-      const formElements = this.form.elements
+      if (this.edited) {
+        const openedTaskName = openedTask.querySelector(".content__task-name")
+        if (openedTaskName.textContent !== task.name) {
+          if (checkUniqueName.call(this, task.name)) return
+        }
 
-      openedTask.querySelector(".content__task-name").textContent = formElements.name.value
-      openedTask.querySelector(".task-deadline").textContent = formElements.deadline.value
-      openedTask.querySelector(".content__task-description").textContent = formElements.description.value
+        this.taskService.saveTask(task)
+        openedTaskName.textContent = task.name
+        openedTask.querySelector(".content__task-description").textContent = task.description
+        openedTask.querySelector(".task-deadline").textContent = task.deadline
+      }
 
       openedTask.classList.remove("toedit")
       this.form.elements.close.dispatchEvent(
@@ -35,14 +47,25 @@ export const formManager = {
       return
     }
 
-    createNewTask(this.tasks, formData)
+    if (checkUniqueName.call(this, task.name)) return
+
+    this.taskService.saveTask(task)
+    this.tasks.prepend(taskToHtmlElement(task))
+
     this.form.elements.close.dispatchEvent(
       new MouseEvent("click", {bubbles: true}))
   },
   "close-btn": function closeForm() {
     this.form.elements.name.classList.remove("required")
+    this.form.elements.name.classList.remove("unique")
+
     this.form.querySelector("#label-name")
       .classList.remove("form__label-required")
+    this.form.querySelector("#label-name")
+      .classList.remove("form__label-unique")
+
+    this.form.removeEventListener("input", switchEdit)
+    this.edited = false
 
     this.formWrapper.hidden = true
   },
@@ -52,25 +75,52 @@ export const formManager = {
     }
     this.tasks.dispatchEvent(new CustomEvent("switchButtons"))
 
-    const selectedTask = this.tasks.querySelector(".toedit")
-    const selectedTaskObj = taskElementToObject(selectedTask)
+    const taskElement = this.tasks.querySelector(".toedit")
+    const selectedTask = {
+      name: taskElement.querySelector(".content__task-name").textContent,
+      description: taskElement.querySelector(".content__task-description").textContent,
+      deadline: taskElement.querySelector(".task-deadline").textContent,
+    }
 
-    this.form.elements.name.value = selectedTaskObj.taskName
-    this.form.elements.deadline.value = selectedTaskObj.deadline
-    this.form.elements.description.value = selectedTaskObj.taskDescription
+    this.form.elements.name.value = selectedTask.name
+    this.form.elements.description.value = selectedTask.description
+    this.form.elements.deadline.value = selectedTask.deadline
 
+    this.form.addEventListener("input", switchEdit)
     this.formWrapper.hidden = false
   },
 }
 
-function createNewTask(container, formData) {
+function switchEdit() {
+  formManager.edited = true
+}
+
+function checkUniqueName(taskName) {
+  if (this.taskService.getTask(taskName)) {
+    const formInputName = this.form.elements.name
+    const formInputNameLabel = this.form.querySelector("#label-name")
+
+    formInputName.classList.add("unique")
+    formInputNameLabel.classList.add("form__label-unique")
+    formInputName.addEventListener("input", () => {
+      formInputName.classList.remove("unique")
+      formInputNameLabel.classList.remove("form__label-unique")
+    }, {once: true})
+
+    return true
+  }
+
+  return false
+}
+
+function taskToHtmlElement(task) {
   const taskName = document.createElement("div")
   taskName.className = "content__task-name"
-  taskName.textContent = formData.get("name")
+  taskName.textContent = task.name
 
   const taskDescription = document.createElement("div")
   taskDescription.className = "content__task-description"
-  taskDescription.textContent = formData.get("description")
+  taskDescription.textContent = task.description
 
   const taskText = document.createElement("div")
   taskText.className = "content__task-text"
@@ -82,7 +132,7 @@ function createNewTask(container, formData) {
 
   const deadlineDate = document.createElement("time")
   deadlineDate.className = "task-deadline"
-  deadlineDate.textContent = formData.get("deadline")
+  deadlineDate.textContent = task.deadline
 
   const deadlineDateContainer = document.createElement("p")
   deadlineDateContainer.appendChild(deadlineDate)
@@ -92,18 +142,12 @@ function createNewTask(container, formData) {
   taskExpire.appendChild(deadlineText)
   taskExpire.appendChild(deadlineDateContainer)
 
-  const newTask = document.createElement("div")
-  newTask.className = "content__task"
-  newTask.appendChild(taskText)
-  newTask.appendChild(taskExpire)
+  const taskHtmlElement = document.createElement("div")
+  taskHtmlElement.className = "content__task"
+  if (task.done) taskHtmlElement.classList.add("done")
 
-  container.prepend(newTask)
-}
+  taskHtmlElement.appendChild(taskText)
+  taskHtmlElement.appendChild(taskExpire)
 
-function taskElementToObject(taskElement) {
-  return {
-    taskName: taskElement.querySelector(".content__task-name").textContent,
-    deadline: taskElement.querySelector(".task-deadline").textContent,
-    taskDescription: taskElement.querySelector(".content__task-description").textContent,
-  }
+  return taskHtmlElement
 }

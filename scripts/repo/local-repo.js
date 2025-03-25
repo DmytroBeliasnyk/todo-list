@@ -3,13 +3,10 @@ export const localRepo = {
   saveTask(newTask) {
     this.repo.setItem(newTask.name, JSON.stringify(newTask))
   },
-  updateTask(taskName, newTask){
-    if(taskName === newTask.name) {
-      this.repo.setItem(taskName, JSON.stringify(newTask))
-      return
-    }
-
-    this.repo.removeItem(taskName)
-    this.repo.setItem(newTask.name, JSON.stringify(newTask))
+  getTask(taskName){
+    return this.repo.getItem(taskName)
   },
+  removeTask(taskName){
+    this.repo.removeItem(taskName)
+  }
 }

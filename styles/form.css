@@ -57,6 +57,18 @@
   color: darkred;
 }
 
+.unique {
+  box-shadow: 0 0 3px darkred;
+}
+
+.form__label-unique:after {
+  content: "Task name must be unique";
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: darkred;
+}
+
 .form__inputs textarea {
   overflow: auto;
   resize: none;

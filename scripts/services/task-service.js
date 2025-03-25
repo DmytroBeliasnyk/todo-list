@@ -1,8 +1,8 @@
 import {localRepo} from "/scripts/repo/local-repo.js"
 
-export class TaskService{
+export class TaskService {
   constructor(taskRepo) {
-    if(!taskRepo){
+    if (!taskRepo) {
       taskRepo = localRepo
     }
 
@@ -13,7 +13,11 @@ export class TaskService{
     this.storage.saveTask(task)
   }
 
-  updateTask(taskName, newTask){
-    this.storage.updateTask(taskName, newTask)
+  getTask(taskName) {
+    return this.storage.getTask(taskName)
+  }
+
+  removeTask(taskName) {
+    this.storage.removeTask(taskName)
   }
 }
