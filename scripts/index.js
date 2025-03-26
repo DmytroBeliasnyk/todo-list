@@ -2,10 +2,12 @@ import {TaskService} from "./services/task-service.js"
 import {buttonsPanelManager} from "./components/buttons-panel-manager.js"
 import {formManager} from "./components/form-manager.js"
 import {taskManager} from "./components/task-manager.js";
+import {navigationManager} from "./components/navigation-manager.js";
 
 const taskService = new TaskService()
 formManager.taskService = taskService
 buttonsPanelManager.taskService = taskService
+navigationManager.taskService = taskService
 
 const taskContainer = document.querySelector(".content__tasks")
 const tasks = taskService.getAllTasks()
@@ -46,3 +48,6 @@ taskContainer.addEventListener("dblclick", event => {
   taskManager.taskToEdit(event)
   formManager.openToEdit()
 })
+
+const searchEngine = document.querySelector(".content__search")
+searchEngine.addEventListener("input", () => navigationManager.searchEngine())
