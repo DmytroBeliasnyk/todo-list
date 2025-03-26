@@ -24,9 +24,9 @@ export const buttonsPanelManager = {
   },
 }
 
-function taskManager(buttonClass) {
+function taskManager(buttonId) {
   let job
-  switch (buttonClass) {
+  switch (buttonId) {
     case "add-btn":
       job = (task) => {
         task.classList.remove("selected")
@@ -37,11 +37,17 @@ function taskManager(buttonClass) {
       job = (task) => {
         task.classList.remove("selected")
         task.classList.add("done")
+
+        const doneTask = this.taskService.toObject(task)
+        doneTask.done = true
+
+        this.taskService.updateTask(doneTask)
       }
 
       break
     case "remove-btn":
       job = (task) => {
+        this.taskService.removeTask(task.querySelector(".content__task-name").textContent)
         task.remove()
       }
 

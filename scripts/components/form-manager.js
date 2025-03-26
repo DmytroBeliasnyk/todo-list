@@ -50,7 +50,7 @@ export const formManager = {
     if (checkUniqueName.call(this, task.name)) return
 
     this.taskService.saveTask(task)
-    this.tasks.prepend(taskToHtmlElement(task))
+    this.tasks.prepend(this.taskService.toHtmlElement(task))
 
     this.form.elements.close.dispatchEvent(
       new MouseEvent("click", {bubbles: true}))
@@ -76,11 +76,7 @@ export const formManager = {
     this.tasks.dispatchEvent(new CustomEvent("switchButtons"))
 
     const taskElement = this.tasks.querySelector(".toedit")
-    const selectedTask = {
-      name: taskElement.querySelector(".content__task-name").textContent,
-      description: taskElement.querySelector(".content__task-description").textContent,
-      deadline: taskElement.querySelector(".task-deadline").textContent,
-    }
+    const selectedTask = this.taskService.toObject(taskElement)
 
     this.form.elements.name.value = selectedTask.name
     this.form.elements.description.value = selectedTask.description
@@ -111,43 +107,4 @@ function checkUniqueName(taskName) {
   }
 
   return false
-}
-
-function taskToHtmlElement(task) {
-  const taskName = document.createElement("div")
-  taskName.className = "content__task-name"
-  taskName.textContent = task.name
-
-  const taskDescription = document.createElement("div")
-  taskDescription.className = "content__task-description"
-  taskDescription.textContent = task.description
-
-  const taskText = document.createElement("div")
-  taskText.className = "content__task-text"
-  taskText.appendChild(taskName)
-  taskText.appendChild(taskDescription)
-
-  const deadlineText = document.createElement("p")
-  deadlineText.textContent = "Deadline:"
-
-  const deadlineDate = document.createElement("time")
-  deadlineDate.className = "task-deadline"
-  deadlineDate.textContent = task.deadline
-
-  const deadlineDateContainer = document.createElement("p")
-  deadlineDateContainer.appendChild(deadlineDate)
-
-  const taskExpire = document.createElement("div")
-  taskExpire.className = "content__task-expire"
-  taskExpire.appendChild(deadlineText)
-  taskExpire.appendChild(deadlineDateContainer)
-
-  const taskHtmlElement = document.createElement("div")
-  taskHtmlElement.className = "content__task"
-  if (task.done) taskHtmlElement.classList.add("done")
-
-  taskHtmlElement.appendChild(taskText)
-  taskHtmlElement.appendChild(taskExpire)
-
-  return taskHtmlElement
 }

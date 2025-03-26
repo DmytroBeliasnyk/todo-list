@@ -5,6 +5,13 @@ import {taskManager} from "./components/task-manager.js";
 
 const taskService = new TaskService()
 formManager.taskService = taskService
+buttonsPanelManager.taskService = taskService
+
+const taskContainer = document.querySelector(".content__tasks")
+const tasks = taskService.getAllTasks()
+for (const task of tasks) {
+  taskContainer.prepend(taskService.toHtmlElement(task))
+}
 
 const buttonsPanel = document.querySelector(".content__buttons-panel")
 buttonsPanel.addEventListener("click", event => {
@@ -28,7 +35,6 @@ form.addEventListener("keydown", event => {
   formManager["close-btn"]()
 })
 
-const taskContainer = document.querySelector(".content__tasks")
 taskContainer.addEventListener("switchButtons", () => {
   buttonsPanelManager.buttonsSwitch(!taskContainer.querySelectorAll(".selected").length)
 })
