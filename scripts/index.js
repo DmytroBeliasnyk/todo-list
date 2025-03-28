@@ -51,3 +51,11 @@ taskContainer.addEventListener("dblclick", event => {
 
 const searchEngine = document.querySelector(".content__search")
 searchEngine.addEventListener("input", () => navigationManager.searchEngine())
+
+const filters = document.querySelector(".content__filters")
+filters.addEventListener("click", event => {
+  const targetButton = event.target.closest("button")
+  if(!targetButton) return
+
+  targetButton.classList.toggle("enabled")
+})

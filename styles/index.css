@@ -89,31 +89,27 @@ button:disabled:hover {
   padding: 5px 8px 5px 35px;
 }
 
-.content__search:focus {
-  box-shadow: 0 0 2px rgb(37, 99, 235);
-}
-
 .content__search:focus + .search-icon {
   color: rgb(37, 99, 235);
 }
 
 .content__filters button {
-  position: relative;
   background-color: rgb(31, 41, 55);
   color: rgb(55, 65, 81);
   font-size: 12px;
 }
 
-.content__filters button:hover:not(:active) {
+.content__filters button.enabled {
+  background-color: rgb(37, 99, 235);
+  color: rgb(221, 221, 221);
+}
+
+.content__filters button:hover {
   box-shadow: none;
 }
 
-.content__filters button.enabled:hover:not(:active) {
-  box-shadow: 0 0 2px rgb(37, 99, 235);
-}
-
-.content__filters button.enabled {
-  background-color: rgb(37, 99, 235);
+.content__filters button:hover:not(.enabled) {
+  background-color: rgb(55, 65, 81);
   color: rgb(221, 221, 221);
 }
 
