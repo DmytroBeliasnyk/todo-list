@@ -5,62 +5,116 @@
   <title>TODO list</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/variables.css">
   <link rel="stylesheet" href="/styles/index.css">
   <link rel="stylesheet" href="/styles/form.css">
 </head>
 <body>
-<div class="wrapper">
-  <header class="header"><p>TODO list</p></header>
-  <div class="content">
-    <div class="content__navigation">
-      <div class="search-wrapper">
-        <input class="content__search" placeholder="Input task name">
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+<div class="container">
+  <div class="wrapper">
+    <header><h1>TODO list</h1></header>
+    <main>
+      <div class="navigation">
+        <div class="search-wrapper">
+          <label>
+            <input class="navigation__search" placeholder="Search task by name">
+            <div class="fa-solid fa-magnifying-glass search-icon"></div>
+          </label>
+        </div>
+        <div class="navigation__filters">
+          <div class="filter click-animation enabled">
+            <div class="fa-solid fa-arrow-up-a-z"></div>
+          </div>
+          <div class="filter click-animation">
+            <div class="fa-solid fa-square-check"></div>
+          </div>
+          <div class="filter click-animation">
+            <div class="fa-solid fa-calendar-days"></div>
+          </div>
+          <div class="filter click-animation">
+            <div class="fa-solid fa-calendar"></div>
+          </div>
+        </div>
       </div>
-      <div class="content__filters">
-        <button><i class="fa-solid fa-arrow-up-a-z"></i></button>
-        <button><i class="fa-solid fa-square-check"></i></button>
-        <button><i class="fa-solid fa-calendar-days"></i></button>
-        <button><i class="fa-solid fa-calendar"></i></button>
+      <div class="tasks">
+        <div class="task">
+          <div class="task__content-wrapper">
+            <div class="task__left-content">
+              <div class="task__name">Task 1</div>
+              <div class="task__description">Description 2</div>
+            </div>
+            <div class="task__right-content">
+              <div class="task__status">In progress</div>
+            </div>
+          </div>
+          <div class="task__edit button">
+            <div class="fa-solid fa-pen-to-square"></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task__content-wrapper">
+            <div class="task__left-content">
+              <div class="task__name">Task 2</div>
+              <div class="task__description">Description 2</div>
+            </div>
+            <div class="task__right-content">
+              <div class="task__status">In progress</div>
+            </div>
+          </div>
+          <div class="task__edit button">
+            <div class="fa-solid fa-pen-to-square"></div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="content__tasks"></div>
-    <div class="content__buttons-panel">
-      <button class="content__open-form-btn" id="add-btn" type="button">
-        <i class="fas fa-plus-circle"></i>
+    </main>
+    <footer>
+      <div class="open-form-btn button click-animation">
+        <div class="fas fa-plus-circle"></div>
         Add task
-      </button>
-      <button class="content__remove-btn" id="remove-btn" type="button" disabled>
-        <i class="fa-solid fa-trash"></i>
-        Delete
-      </button>
-      <button class="content__done-btn" id="done-btn" type="button" disabled>
-        <i class="fa-solid fa-square-check"></i>
-        Done
-      </button>
-    </div>
+      </div>
+    </footer>
   </div>
-  <footer class="footer"></footer>
 </div>
-<div class="form-wrapper" hidden>
-  <form class="form">
-    <div class="form__inputs">
-      <label class="form__label" id="label-name">
-        <input class="form__input" name="name" type="text" placeholder="Task name">
-      </label>
-      <label class="form__label">
-        <input class="form__input" name="deadline" type="date">
-      </label>
-      <label class="form__label">
-        <textarea class="form__input" name="description" cols="30" rows="10" placeholder="Description"></textarea>
-      </label>
-    </div>
-    <div class="form__buttons">
-      <button class="form__submit-btn" id="submit-btn" type="submit">Submit</button>
-      <button class="form__close-btn" id="close-btn" type="reset" name="close">Close</button>
-    </div>
-  </form>
+<div class="modal-container">
+  <div class="modal edit">
+    <div class="modal__title modal__title-add">Add task</div>
+    <div class="modal__title modal__title-edit">Edit task</div>
+    <form class="form">
+      <div class="form__inputs">
+        <label>
+          <input class="form__input"
+                 name="name"
+                 type="text"
+                 placeholder="Task name">
+        </label>
+        <label>
+            <textarea class="form__input"
+                      name="description"
+                      rows="5"
+                      cols="30"
+                      placeholder="Task description"
+            ></textarea>
+        </label>
+      </div>
+      <div class="form__actions">
+        <div class="form__control-buttons">
+          <button class="form__control-btn button click-animation" id="submit-btn" type="submit">Submit</button>
+          <button class="form__control-btn button click-animation" id="close-btn" type="reset">Close</button>
+        </div>
+        <div class="form__edit-buttons">
+          <button class="form__done-btn click-animation" type="button">
+            <div class="fa-solid fa-square-check"></div>
+            Done
+          </button>
+          <button class="form__remove-btn click-animation" type="button">
+            <div class="fa-solid fa-trash"></div>
+            Delete
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 </body>
-<script type="module" src="scripts/index.js"></script>
+<script type="module" src="js/index.js"></script>
 </html>

@@ -1,4 +1,10 @@
-.form-wrapper {
+button, input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.modal-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,67 +16,62 @@
   background-color: rgba(17, 24, 39, 0.5);
 }
 
-.form-wrapper[hidden] {
+.modal-container[hidden] {
+  display: none;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex: 0 1 auto;
+  padding: 20px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+}
+
+.modal__title {
+  text-align: left;
+  width: 100%;
+}
+
+.modal.add .modal__title-edit,
+.modal.add .form__edit-buttons {
+  display: none;
+}
+
+.modal.edit .modal__title-add {
   display: none;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 0 1 auto;
-  padding: 20px;
-  background-color: rgb(31, 41, 55);
-  border: 1px solid rgb(55, 65, 81);
-  border-radius: 5px;
+  gap: 12px;
 }
 
 .form__inputs {
   display: flex;
   flex-direction: column;
-  flex: 1 1 100%;
-}
-
-.form__label {
-  margin-bottom: 8px;
+  gap: 12px;
 }
 
 .form__input {
   display: block;
   width: 100%;
-  background-color: rgb(31, 41, 55);
-  border: 1px solid rgb(55, 65, 81);
+  background-color: #18202f54;
   border-radius: 5px;
   padding: 5px 8px;
 }
 
-.required {
-  box-shadow: 0 0 3px darkred;
-}
-
-.form__label-required:after {
-  content: "Required field";
-  display: block;
-  margin-top: 4px;
-  font-size: 14px;
-  color: darkred;
-}
-
-.unique {
-  box-shadow: 0 0 3px darkred;
-}
-
-.form__label-unique:after {
-  content: "Task name must be unique";
-  display: block;
-  margin-top: 4px;
-  font-size: 14px;
-  color: darkred;
+.form__input:focus {
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 .form__inputs textarea {
-  overflow: auto;
   resize: none;
 }
 
@@ -78,32 +79,54 @@
   width: 15px;
 }
 
-.form__inputs textarea::-webkit-scrollbar-track {
-  background-color: rgb(31, 41, 55);
-  margin: 5px 0;
-  border-radius: 8px;
-}
-
 .form__inputs textarea::-webkit-scrollbar-thumb {
-  background-color: rgb(37, 99, 235);
+  box-shadow: inset 0 0 20px var(--secondary-color);
+  border: 5px solid transparent;
   border-radius: 8px;
-  border: 5px solid rgb(31, 41, 55);
   min-height: 50px;
+  cursor: pointer;
 }
 
-.form__buttons {
+.form__actions {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: end;
-  flex: 1 1 auto;
-  width: 100%;
+  justify-content: space-between;
+  font-size: 12px;
 }
 
-.form__buttons button {
-  margin-left: 8px;
+.form__control-buttons,
+.form__edit-buttons {
+  display: flex;
+  gap: 8px;
 }
 
-.form__buttons button:first-child {
-  margin-left: 0;
+.form__control-btn {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.form__done-btn {
+  background-color: green;
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.form__done-btn:active {
+  background-color: darkgreen;
+  color: var(--animation-font-color);
+}
+
+.form__remove-btn {
+  background-color: red;
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.form__remove-btn:active {
+  background-color: darkred;
+  color: var(--animation-font-color);
 }
