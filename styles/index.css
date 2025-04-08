@@ -66,8 +66,7 @@ main {
 }
 
 .navigation__search {
-  background-color: transparent;
-  border: 1px solid var(--primary-color);
+  background-color: #18202f54;
   border-radius: 5px;
   padding: 5px 8px 5px 35px;
   font-family: inherit;
@@ -75,7 +74,11 @@ main {
   color: inherit;
 }
 
-.search:focus + .search-icon {
+.navigation__search:focus {
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.navigation__search:focus + .search-icon {
   color: var(--secondary-color);
 }
 
