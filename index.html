@@ -51,20 +51,6 @@
             <div class="fa-solid fa-pen-to-square"></div>
           </div>
         </div>
-        <div class="task">
-          <div class="task__content-wrapper">
-            <div class="task__left-content">
-              <div class="task__name">Task 2</div>
-              <div class="task__description">Description 2</div>
-            </div>
-            <div class="task__right-content">
-              <div class="task__status">In progress</div>
-            </div>
-          </div>
-          <div class="task__edit button">
-            <div class="fa-solid fa-pen-to-square"></div>
-          </div>
-        </div>
       </div>
     </main>
     <footer>
@@ -75,19 +61,21 @@
     </footer>
   </div>
 </div>
-<div class="modal-container" hidden>
-  <div class="modal add">
+<div class="modal-container">
+  <div class="modal">
     <div class="modal__title modal__title-add">Add task</div>
     <div class="modal__title modal__title-edit">Edit task</div>
-    <form class="form">
+    <form class="form" name="taskForm">
       <div class="form__inputs">
-        <label>
+        <label class="form__label" id="input-name-label">
           <input class="form__input"
+                 id="input-name"
                  name="name"
                  type="text"
                  placeholder="Task name">
+          <div class="form__error-message"></div>
         </label>
-        <label>
+        <label class="form__label">
             <textarea class="form__input"
                       name="description"
                       rows="5"
@@ -98,8 +86,8 @@
       </div>
       <div class="form__actions">
         <div class="form__control-buttons">
-          <button class="form__control-btn button click-animation" id="submit-btn" type="submit">Submit</button>
-          <button class="form__control-btn button click-animation" id="close-btn" type="reset">Close</button>
+          <button class="form__control-btn button click-animation" type="submit">Submit</button>
+          <button class="form__control-btn button click-animation" type="reset">Close</button>
         </div>
         <div class="form__edit-buttons">
           <button class="form__done-btn click-animation" type="button">

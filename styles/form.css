@@ -5,9 +5,7 @@ button, input, textarea {
 }
 
 .modal-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -16,8 +14,10 @@ button, input, textarea {
   background-color: rgba(17, 24, 39, 0.5);
 }
 
-.modal-container[hidden] {
-  display: none;
+.modal-container.active{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {
@@ -59,6 +59,12 @@ button, input, textarea {
   gap: 12px;
 }
 
+.form__label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .form__input {
   display: block;
   width: 100%;
@@ -69,6 +75,15 @@ button, input, textarea {
 
 .form__input:focus {
   border-bottom: 1px solid var(--secondary-color);
+}
+
+.form__error-message {
+  color: var(--error-color);
+  font-size: 14px;
+}
+
+#input-name-label.has-error #input-name {
+  border-bottom: 1px solid var(--error-color);
 }
 
 .form__inputs textarea {
