@@ -12,8 +12,7 @@ window.addEventListener("storage", () => {
 
 const search = document.querySelector(".navigation__search")
 search.addEventListener("input", e => {
-  const searchValue = e.target.value.toLowerCase()
-  console.log(searchValue)
+  renderService.renderAll(taskService.findByName(e.target.value.toLowerCase()))
 })
 
 /* implemented filters listeners */
