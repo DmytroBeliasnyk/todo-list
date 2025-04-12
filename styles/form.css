@@ -139,13 +139,13 @@ button, input, textarea {
 }
 
 .form__remove-btn {
-  background-color: red;
+  background-color: var(--remove-bg-color);
   border-radius: 5px;
   padding: 5px 8px;
   cursor: pointer;
 }
 
 .form__remove-btn:active {
-  background-color: darkred;
+  background-color: var(--remove-animation-bg-color);
   color: var(--animation-font-color);
 }

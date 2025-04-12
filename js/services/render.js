@@ -32,12 +32,20 @@ export default (taskContainer) => {
     const editButton = document.createElement("div")
     editButton.className = "task__edit button"
 
-    const icon = document.createElement("div")
-    icon.className = "fa-solid fa-pen-to-square"
+    const editIcon = document.createElement("div")
+    editIcon.className = "fa-solid fa-pen-to-square"
 
-    editButton.appendChild(icon)
+    editButton.appendChild(editIcon)
 
-    taskElement.append(wrapper, editButton)
+    const removeButton = document.createElement("div")
+    removeButton.className = "task__remove"
+
+    const removeIcon = document.createElement("div")
+    removeIcon.className = "fa-solid fa-trash"
+
+    removeButton.appendChild(removeIcon)
+
+    taskElement.append(wrapper, editButton, removeButton)
 
     return taskElement
   }
