@@ -1,17 +1,12 @@
 import {taskService} from "./services/task.js";
-import {formValidator} from "./services/form-validator.js";
-import {renderTask} from "./services/render.js";
-import {formService} from "./services/form.js";
+import RenderService from "./services/render.js";
+import FormService from "./services/form.js";
 
-const taskContainer = document.querySelector(".tasks")
-
-const tasks = taskService.getAll()
-if (tasks.length) {
-  console.log("render all tasks")
-  tasks
-    .map(task => renderTask(task))
-    .forEach(taskElement => taskContainer.append(taskElement))
-}
+const renderService = RenderService(document.querySelector(".tasks"))
+renderService.renderAll(taskService.getAll())
+window.addEventListener("storage", () => {
+  renderService.renderAll(taskService.getAll())
+})
 
 const search = document.querySelector(".navigation__search")
 search.addEventListener("input", e => {
@@ -25,7 +20,7 @@ const modal = document.querySelector(".modal")
 const modalContainer = modal.parentNode
 
 const taskForm = document.forms.taskForm
-const form = formService(taskForm)
+const formService = FormService(taskForm)
 
 const closeForm = () => {
   modalContainer.classList.remove("active")
@@ -36,19 +31,26 @@ const openFormButton = document.querySelector(".open-form-btn")
 openFormButton.addEventListener("click", () => {
   modalContainer.classList.add("active")
   modal.classList.add("add")
-
   taskForm.elements.name.focus()
 
-  form.init(
+  formService.init(
     task => {
-      const validName = formValidator.validateTaskName(task.name)
+      const validName = taskService.validateTaskName(task.name)
       if (validName.hasError) {
-        form.setError(validName.errorMessage)
+        formService.setError(validName.errorMessage)
         return
       }
 
+      let taskId
+      do {
+        taskId = crypto.randomUUID()
+      } while (!taskService.isIdUnique(taskId))
+
+      task.status = "In progress"
+      task.id = taskId
+
       taskService.add(task)
-      taskContainer.prepend(renderTask(task))
+      renderService.renderNewTask(task)
 
       closeForm()
       taskForm.reset()

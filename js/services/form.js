@@ -1,4 +1,4 @@
-export const formService = (form) => {
+export default (form) => {
   const _messageContainer = form.querySelector(".form__error-message")
   const _inputNameLabel = form.querySelector("#input-name-label")
 
