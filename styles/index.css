@@ -101,11 +101,6 @@ main {
   color: var(--primary-font-color);
 }
 
-.enabled:active {
-  background-color: var(--animation-color);
-  color: var(--animation-font-color);
-}
-
 .tasks {
   display: flex;
   flex-direction: column;

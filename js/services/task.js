@@ -12,6 +12,8 @@ export const taskService = (() => {
 
   return {
     add(task) {
+      task.status = "In progress"
+
       tasks.unshift(task)
       repo.setItem(key, JSON.stringify(tasks))
     },

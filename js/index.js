@@ -15,7 +15,46 @@ search.addEventListener("input", e => {
   renderService.renderAll(taskService.findByName(e.target.value.toLowerCase()))
 })
 
-/* implemented filters listeners */
+const filterSwitch = (filter) => {
+  const isEnabled = filter.classList.contains("enabled")
+
+  for (const filter of document.querySelectorAll(".enabled")) {
+    filter.classList.remove("enabled")
+  }
+
+  filter.classList.toggle("enabled", !isEnabled)
+  return isEnabled
+}
+
+const filterInProgress = document.querySelector(".filter-in-progress")
+filterInProgress.addEventListener("click", event => {
+  const filter = event.target.closest(".filter")
+
+  const tasks = taskService.getAll()
+  if (filterSwitch(filter)) {
+    renderService.renderAll(tasks)
+    return
+  }
+
+  renderService.renderAll(
+    tasks.filter(task => task.status === "In progress")
+  )
+})
+
+const filterDone = document.querySelector(".filter-done")
+filterDone.addEventListener("click", event => {
+  const filter = event.target.closest(".filter")
+
+  const tasks = taskService.getAll()
+  if (filterSwitch(filter)) {
+    renderService.renderAll(tasks)
+    return
+  }
+
+  renderService.renderAll(
+    tasks.filter(task => task.status === "Done")
+  )
+})
 
 const modal = document.querySelector(".modal")
 const modalContainer = modal.parentNode
