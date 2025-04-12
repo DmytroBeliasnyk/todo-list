@@ -28,8 +28,8 @@ export const taskService = (() => {
 
       repo.setItem(key, JSON.stringify(tasks))
     },
-    remove(task) {
-      const index = tasks.findIndex(findTask => findTask.name === task.name)
+    removeByName(taskName) {
+      const index = tasks.findIndex(findTask => findTask.name === taskName)
       tasks.splice(index, 1)
 
       repo.setItem(key, JSON.stringify(tasks))

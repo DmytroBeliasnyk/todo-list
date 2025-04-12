@@ -99,10 +99,20 @@ taskContainer.addEventListener("click", event => {
       taskForm.reset()
     },
     task => {
-      taskService.remove(task)
-      renderService.removeTask(task)
+      taskService.removeByName(task.name)
+      renderService.removeTaskByName(task.name)
 
       taskForm.reset()
     }
   )
+})
+taskContainer.addEventListener("click", event => {
+  const targetButton = event.target.closest(".task__remove")
+  if (!targetButton) return
+
+  const taskName = targetButton.closest(".task")
+    .querySelector(".task__name").textContent
+
+  taskService.removeByName(taskName)
+  renderService.removeTaskByName(taskName)
 })

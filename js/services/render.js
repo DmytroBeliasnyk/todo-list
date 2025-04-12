@@ -75,11 +75,11 @@ export default (taskContainer) => {
         taskStatus.classList.add("done")
       }
     },
-    removeTask(task) {
+    removeTaskByName(taskName) {
       const tasks = Array.from(taskContainer.querySelectorAll(".task"))
 
       tasks.find(findElement =>
-        findElement.querySelector(".task__name").textContent === task.name)
+        findElement.querySelector(".task__name").textContent === taskName)
         .remove()
     },
   }
