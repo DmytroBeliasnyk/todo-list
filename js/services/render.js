@@ -2,6 +2,9 @@ export default (taskContainer) => {
   const _createTaskElement = (task) => {
     const taskElement = document.createElement("div")
     taskElement.className = "task"
+    if (task.status === "Done") {
+      taskElement.classList.add("done")
+    }
 
     const leftContent = document.createElement("div")
     leftContent.className = "task__left-content"
@@ -65,7 +68,12 @@ export default (taskContainer) => {
         findElement.querySelector(".task__name").textContent === task.name)
 
       findTask.querySelector(".task__description").textContent = task.description
-      findTask.querySelector(".task__status").textContent = task.status ?? "In progress"
+      if (task.status === "Done") {
+        const taskStatus = findTask.querySelector(".task__status")
+
+        taskStatus.textContent = task.status
+        taskStatus.classList.add("done")
+      }
     },
     removeTask(task) {
       const tasks = Array.from(taskContainer.querySelectorAll(".task"))
