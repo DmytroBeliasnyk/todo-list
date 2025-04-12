@@ -4,12 +4,10 @@ export const taskService = (() => {
 
   let tasks = JSON.parse(repo.getItem(key) || "[]")
   let taskNamesSet = new Set(tasks.map(task => task.name))
-  let taskIdSet = new Set(tasks.map(task => task.id))
 
   window.addEventListener("storage", () => {
     tasks = JSON.parse(repo.getItem(key) || "[]")
     taskNamesSet = new Set(tasks.map(task => task.name))
-    taskIdSet = new Set(tasks.map(task => task.id))
   })
 
   return {
@@ -17,14 +15,24 @@ export const taskService = (() => {
       tasks.unshift(task)
       repo.setItem(key, JSON.stringify(tasks))
     },
-    get() {
+    getByName(taskName) {
+
     },
     getAll() {
       return tasks
     },
-    update() {
+    update(task) {
+      const oldTask = tasks.find(oldTask => oldTask.name === task.name)
+      oldTask.description = task.description
+      oldTask.status = task.status ?? "In progress"
+
+      repo.setItem(key, JSON.stringify(tasks))
     },
-    removeTask() {
+    remove(task) {
+      const index = tasks.findIndex(findTask => findTask.name === task.name)
+      tasks.splice(index, 1)
+
+      repo.setItem(key, JSON.stringify(tasks))
     },
     validateTaskName(taskName) {
       const res = {
@@ -48,12 +56,6 @@ export const taskService = (() => {
       }
 
       return res
-    },
-    isIdUnique(taskId) {
-      const isUnique = !taskIdSet.has(taskId)
-      if (isUnique) taskIdSet.add(taskId)
-
-      return isUnique
     },
   }
 })()

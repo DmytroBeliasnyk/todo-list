@@ -2,7 +2,9 @@ import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
 import FormService from "./services/form.js";
 
-const renderService = RenderService(document.querySelector(".tasks"))
+const taskContainer = document.querySelector(".tasks")
+
+const renderService = RenderService(taskContainer)
 renderService.renderAll(taskService.getAll())
 window.addEventListener("storage", () => {
   renderService.renderAll(taskService.getAll())
@@ -22,11 +24,6 @@ const modalContainer = modal.parentNode
 const taskForm = document.forms.taskForm
 const formService = FormService(taskForm)
 
-const closeForm = () => {
-  modalContainer.classList.remove("active")
-  modal.classList.remove("add")
-}
-
 const openFormButton = document.querySelector(".open-form-btn")
 openFormButton.addEventListener("click", () => {
   modalContainer.classList.add("active")
@@ -41,20 +38,71 @@ openFormButton.addEventListener("click", () => {
         return
       }
 
-      let taskId
-      do {
-        taskId = crypto.randomUUID()
-      } while (!taskService.isIdUnique(taskId))
-
-      task.status = "In progress"
-      task.id = taskId
-
       taskService.add(task)
-      renderService.renderNewTask(task)
+      renderService.renderTask(task)
 
-      closeForm()
       taskForm.reset()
     },
-    closeForm
+    () => {
+      modalContainer.classList.remove("active")
+      modal.classList.remove("add")
+    }
+  )
+})
+
+const formDoneButton = taskForm.querySelector(".form__done-btn")
+formDoneButton.addEventListener("click", () => {
+  taskForm.dispatchEvent(new CustomEvent("done"))
+})
+
+const formRemoveButton = taskForm.querySelector(".form__remove-btn")
+formRemoveButton.addEventListener("click", () => {
+  taskForm.dispatchEvent(new CustomEvent("remove"))
+})
+
+taskContainer.addEventListener("click", event => {
+  const targetButton = event.target.closest(".task__edit")
+  if (!targetButton) return
+
+  const targetTask = targetButton.closest(".task")
+  const taskName = taskForm.elements.name
+
+  taskName.value = targetTask.querySelector(".task__name").textContent
+  taskForm.elements.description.value = targetTask.querySelector(".task__description").textContent
+
+  taskName.disabled = true
+  taskName.classList.add("disabled")
+
+  modalContainer.classList.add("active")
+  modal.classList.add("edit")
+
+  formService.init(
+    task => {
+      taskService.update(task)
+      renderService.updateTask(task)
+
+      taskForm.reset()
+    },
+    () => {
+      modalContainer.classList.remove("active")
+      modal.classList.add("remove")
+
+      taskName.disabled = false
+      taskName.classList.remove("disabled")
+    },
+    task => {
+      task.status = "Done"
+      taskService.update(task)
+      renderService.updateTask(task)
+
+      targetTask.classList.add("done")
+      taskForm.reset()
+    },
+    task => {
+      taskService.remove(task)
+      renderService.removeTask(task)
+
+      taskForm.reset()
+    }
   )
 })

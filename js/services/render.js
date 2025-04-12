@@ -43,12 +43,28 @@ export default (taskContainer) => {
   }
 
   return {
-    renderNewTask(task) {
+    renderTask(task) {
       taskContainer.prepend(_createTaskElement(task))
     },
     renderAll(tasks) {
       tasks = tasks.map(task => _createTaskElement(task))
       taskContainer.replaceChildren(...tasks)
+    },
+    updateTask(task) {
+      const tasks = Array.from(taskContainer.querySelectorAll(".task"))
+
+      const findTask = tasks.find(findElement =>
+        findElement.querySelector(".task__name").textContent === task.name)
+
+      findTask.querySelector(".task__description").textContent = task.description
+      findTask.querySelector(".task__status").textContent = task.status ?? "In progress"
+    },
+    removeTask(task) {
+      const tasks = Array.from(taskContainer.querySelectorAll(".task"))
+
+      tasks.find(findElement =>
+        findElement.querySelector(".task__name").textContent === task.name)
+        .remove()
     },
   }
 }

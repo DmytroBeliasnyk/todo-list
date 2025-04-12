@@ -14,7 +14,7 @@ button, input, textarea {
   background-color: rgba(17, 24, 39, 0.5);
 }
 
-.modal-container.active{
+.modal-container.active {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,6 +75,10 @@ button, input, textarea {
 
 .form__input:focus {
   border-bottom: 1px solid var(--secondary-color);
+}
+
+.form__input.disabled {
+  cursor: not-allowed;
 }
 
 .form__error-message {
