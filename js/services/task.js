@@ -18,7 +18,7 @@ export const taskService = (() => {
       repo.setItem(key, JSON.stringify(tasks))
     },
     findByName(taskName) {
-      if (!taskName) return tasks
+      if (taskName === "") return tasks
 
       return tasks.filter(findTask => findTask.name.toLowerCase().includes(taskName))
     },

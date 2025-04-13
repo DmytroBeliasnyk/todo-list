@@ -57,6 +57,11 @@ export default (taskContainer) => {
     renderTask(task) {
       taskContainer.prepend(_createTaskElement(task))
     },
+    appendTasks(tasks) {
+      tasks
+        .map(task => _createTaskElement(task))
+        .forEach(taskElement => taskContainer.append(taskElement))
+    },
     renderAll(tasks) {
       tasks = tasks.map(task => _createTaskElement(task))
       taskContainer.replaceChildren(...tasks)

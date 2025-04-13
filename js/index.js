@@ -1,26 +1,48 @@
+import createClient from "./services/client.js";
 import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
 import FormService from "./services/form.js";
 import {debounce} from "./services/debounce.js";
+import {throttle} from "./services/throttle.js";
 
 const taskContainer = document.querySelector(".tasks")
-
 const renderService = RenderService(taskContainer)
-renderService.renderAll(taskService.getAll())
+let client = createClient(taskService.getAll())
+
+renderService.appendTasks(client.getFirstPage())
 window.addEventListener("storage", () => {
-  renderService.renderAll(taskService.getAll())
+  renderService.renderAll(
+    createClient(taskContainer, taskService.getAll()).getFirstPage()
+  )
 })
+
+function createThrottleScrollHandler(client) {
+  return throttle(() => {
+    const nextPage = client.getNextPage()
+    if (nextPage) {
+      renderService.appendTasks(nextPage)
+    }
+  }, 250)
+}
+
+let currentScrollHandler = createThrottleScrollHandler(client)
+taskContainer.addEventListener("scroll", currentScrollHandler)
 
 const search = document.querySelector(".navigation__search")
 const debouncedSearch = debounce((value) => {
-  renderService.renderAll(taskService.findByName(value))
+  client = createClient(taskService.findByName(value))
+  renderService.renderAll(client.getFirstPage())
+
+  taskContainer.removeEventListener("scroll", currentScrollHandler)
+
+  currentScrollHandler = createThrottleScrollHandler(client)
+  taskContainer.addEventListener("scroll", currentScrollHandler)
 }, 250)
 search.addEventListener("input", event => {
-  console.log(event.target.value.toLowerCase())
-  debouncedSearch(event.target.value.toLowerCase())
+  debouncedSearch(event.target.value.trim().toLowerCase())
 })
 
-const filterSwitch = (filter) => {
+const switchFilter = (filter) => {
   const isEnabled = filter.classList.contains("enabled")
 
   for (const filter of document.querySelectorAll(".enabled")) {
@@ -31,34 +53,40 @@ const filterSwitch = (filter) => {
   return isEnabled
 }
 
-const filterInProgress = document.querySelector(".filter-in-progress")
+const filterInProgress = document.querySelector("#filter-in-progress")
 filterInProgress.addEventListener("click", event => {
   const filter = event.target.closest(".filter")
-
   const tasks = taskService.getAll()
-  if (filterSwitch(filter)) {
-    renderService.renderAll(tasks)
-    return
-  }
+  taskContainer.removeEventListener("scroll", currentScrollHandler)
 
-  renderService.renderAll(
-    tasks.filter(task => task.status === "In progress")
-  )
+  const filteredTasks = switchFilter(filter)
+    ? tasks
+    : tasks.filter(task => task.status === "In progress")
+
+  client = createClient(filteredTasks)
+
+  renderService.renderAll(client.getFirstPage())
+
+  currentScrollHandler = createThrottleScrollHandler(client)
+  taskContainer.addEventListener("scroll", currentScrollHandler)
 })
 
-const filterDone = document.querySelector(".filter-done")
+const filterDone = document.querySelector("#filter-done")
 filterDone.addEventListener("click", event => {
   const filter = event.target.closest(".filter")
-
   const tasks = taskService.getAll()
-  if (filterSwitch(filter)) {
-    renderService.renderAll(tasks)
-    return
-  }
+  taskContainer.removeEventListener("scroll", currentScrollHandler)
 
-  renderService.renderAll(
-    tasks.filter(task => task.status === "Done")
-  )
+  const filteredTasks = switchFilter(filter)
+    ? tasks
+    : tasks.filter(task => task.status === "Done")
+
+  client = createClient(filteredTasks)
+
+  renderService.renderAll(client.getFirstPage())
+
+  currentScrollHandler = createThrottleScrollHandler(client)
+  taskContainer.addEventListener("scroll", currentScrollHandler)
 })
 
 const modal = document.querySelector(".modal")
