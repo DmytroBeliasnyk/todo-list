@@ -1,6 +1,7 @@
 import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
 import FormService from "./services/form.js";
+import {debounce} from "./services/debounce.js";
 
 const taskContainer = document.querySelector(".tasks")
 
@@ -11,8 +12,12 @@ window.addEventListener("storage", () => {
 })
 
 const search = document.querySelector(".navigation__search")
-search.addEventListener("input", e => {
-  renderService.renderAll(taskService.findByName(e.target.value.toLowerCase()))
+const debouncedSearch = debounce((value) => {
+  renderService.renderAll(taskService.findByName(value))
+}, 250)
+search.addEventListener("input", event => {
+  console.log(event.target.value.toLowerCase())
+  debouncedSearch(event.target.value.toLowerCase())
 })
 
 const filterSwitch = (filter) => {

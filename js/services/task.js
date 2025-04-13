@@ -20,7 +20,7 @@ export const taskService = (() => {
     findByName(taskName) {
       if (!taskName) return tasks
 
-      return tasks.filter(findTask => findTask.name.toLowerCase().startsWith(taskName))
+      return tasks.filter(findTask => findTask.name.toLowerCase().includes(taskName))
     },
     getAll() {
       return tasks
