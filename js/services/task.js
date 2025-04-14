@@ -17,11 +17,6 @@ export const taskService = (() => {
       tasks.unshift(task)
       repo.setItem(key, JSON.stringify(tasks))
     },
-    findByName(taskName) {
-      if (taskName === "") return tasks
-
-      return tasks.filter(findTask => findTask.name.toLowerCase().includes(taskName))
-    },
     getAll() {
       return tasks
     },

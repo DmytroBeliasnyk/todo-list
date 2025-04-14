@@ -1,9 +1,10 @@
 import createClient from "./services/client.js";
 import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
+import FilterService from "./services/filter.js"
 import FormService from "./services/form.js";
-import {debounce} from "./services/debounce.js";
-import {throttle} from "./services/throttle.js";
+import {debounce} from "./utils/debounce.js";
+import {throttle} from "./utils/throttle.js";
 
 const taskContainer = document.querySelector(".tasks")
 const renderService = RenderService(taskContainer)
@@ -28,9 +29,48 @@ function createThrottleScrollHandler(client) {
 let currentScrollHandler = createThrottleScrollHandler(client)
 taskContainer.addEventListener("scroll", currentScrollHandler)
 
+const filters = document.querySelectorAll(".filter")
 const search = document.querySelector(".navigation__search")
+
+const filterService = FilterService(filters)
+for (const filter of filters) {
+  filter.addEventListener("click", event => {
+    const filter = event.target.closest(".filter")
+
+    let tasks = taskService.getAll()
+
+    const searchInput = search.value.trim()
+    if (searchInput) {
+      tasks = filterService.filterByTaskName(tasks, searchInput)
+    }
+    if (!filterService.switchFilter(filter)) {
+      tasks = filterService.filter(tasks, filter.id)
+    }
+
+    client = createClient(tasks)
+    renderService.renderAll(client.getFirstPage())
+
+    taskContainer.removeEventListener("scroll", currentScrollHandler)
+
+    currentScrollHandler = createThrottleScrollHandler(client)
+    taskContainer.addEventListener("scroll", currentScrollHandler)
+  })
+}
+
 const debouncedSearch = debounce((value) => {
-  client = createClient(taskService.findByName(value))
+  let tasks = taskService.getAll()
+  if (value) {
+    tasks = filterService.filterByTaskName(tasks, value)
+  }
+
+  const enabledFilters = document.querySelectorAll(".enabled")
+  if (enabledFilters) {
+    for (const filter of enabledFilters) {
+      tasks = filterService.filter(tasks, filter.id)
+    }
+  }
+
+  client = createClient(tasks)
   renderService.renderAll(client.getFirstPage())
 
   taskContainer.removeEventListener("scroll", currentScrollHandler)
@@ -39,54 +79,7 @@ const debouncedSearch = debounce((value) => {
   taskContainer.addEventListener("scroll", currentScrollHandler)
 }, 250)
 search.addEventListener("input", event => {
-  debouncedSearch(event.target.value.trim().toLowerCase())
-})
-
-const switchFilter = (filter) => {
-  const isEnabled = filter.classList.contains("enabled")
-
-  for (const filter of document.querySelectorAll(".enabled")) {
-    filter.classList.remove("enabled")
-  }
-
-  filter.classList.toggle("enabled", !isEnabled)
-  return isEnabled
-}
-
-const filterInProgress = document.querySelector("#filter-in-progress")
-filterInProgress.addEventListener("click", event => {
-  const filter = event.target.closest(".filter")
-  const tasks = taskService.getAll()
-  taskContainer.removeEventListener("scroll", currentScrollHandler)
-
-  const filteredTasks = switchFilter(filter)
-    ? tasks
-    : tasks.filter(task => task.status === "In progress")
-
-  client = createClient(filteredTasks)
-
-  renderService.renderAll(client.getFirstPage())
-
-  currentScrollHandler = createThrottleScrollHandler(client)
-  taskContainer.addEventListener("scroll", currentScrollHandler)
-})
-
-const filterDone = document.querySelector("#filter-done")
-filterDone.addEventListener("click", event => {
-  const filter = event.target.closest(".filter")
-  const tasks = taskService.getAll()
-  taskContainer.removeEventListener("scroll", currentScrollHandler)
-
-  const filteredTasks = switchFilter(filter)
-    ? tasks
-    : tasks.filter(task => task.status === "Done")
-
-  client = createClient(filteredTasks)
-
-  renderService.renderAll(client.getFirstPage())
-
-  currentScrollHandler = createThrottleScrollHandler(client)
-  taskContainer.addEventListener("scroll", currentScrollHandler)
+  debouncedSearch(event.target.value.trim())
 })
 
 const modal = document.querySelector(".modal")
