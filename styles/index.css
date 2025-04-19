@@ -128,7 +128,7 @@ main {
   justify-content: space-between;
   gap: 8px;
   border-radius: 5px;
-  border: 1px solid var(--primary-color);
+  background-color: #18202f54;
 }
 
 .task:not(.done):hover .task__edit {
