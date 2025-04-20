@@ -18,7 +18,7 @@ export const taskService = (() => {
       repo.setItem(key, JSON.stringify(tasks))
     },
     getAll() {
-      return tasks
+      return [].concat(tasks)
     },
     update(task) {
       const oldTask = tasks.find(oldTask => oldTask.name === task.name)
