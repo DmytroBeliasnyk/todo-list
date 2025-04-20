@@ -9,10 +9,12 @@ const taskContainer = document.querySelector(".tasks")
 const tasksLoader = taskContainer.querySelector("#tasks-loader")
 const renderService = RenderService(taskContainer, tasksLoader)
 const loaderObserver = new IntersectionObserver(
-  () => renderService.renderPage(),
+  () => {
+    console.log("start rendering")
+    renderService.renderPage()
+  },
   {
     root: taskContainer,
-    rootMargin: "0px",
     threshold: 0.1,
   }
 )

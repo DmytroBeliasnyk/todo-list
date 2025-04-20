@@ -79,6 +79,11 @@ export default (taskContainer, tasksLoader) => {
         .slice(start, end)
         .map(task => _createTaskElement(task))
         .forEach(taskElement => tasksLoader.insertAdjacentElement("beforebegin", taskElement))
+
+      console.log(`render end, page: ${_currentPage - 1}`)
+      if (taskContainer.clientHeight + taskContainer.scrollTop >= taskContainer.scrollHeight) {
+        this.renderPage()
+      }
     },
     updateTask(task) {
       const tasks = Array.from(taskContainer.querySelectorAll(".task"))
