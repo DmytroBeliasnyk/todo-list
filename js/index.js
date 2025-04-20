@@ -1,4 +1,3 @@
-import createClient from "./services/client.js";
 import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
 import FilterService from "./services/filter.js"
@@ -7,80 +6,96 @@ import {debounce} from "./utils/debounce.js";
 import {throttle} from "./utils/throttle.js";
 
 const taskContainer = document.querySelector(".tasks")
-const renderService = RenderService(taskContainer)
-let client = createClient(taskService.getAll())
+const tasksLoader = taskContainer.querySelector("#tasks-loader")
+const renderService = RenderService(taskContainer, tasksLoader)
+const loaderObserver = new IntersectionObserver(
+  () => renderService.renderPage(),
+  {
+    root: taskContainer,
+    rootMargin: "0px",
+    threshold: 0.1,
+  }
+)
 
-renderService.appendTasks(client.getFirstPage())
+renderService.renderPage(taskService.getAll())
+loaderObserver.observe(tasksLoader)
+
 window.addEventListener("storage", () => {
-  renderService.renderAll(
-    createClient(taskContainer, taskService.getAll()).getFirstPage()
-  )
+  renderService.renderPage(taskService.getAll())
 })
 
-function createThrottleScrollHandler(client) {
-  return throttle(() => {
-    const nextPage = client.getNextPage()
-    if (nextPage) {
-      renderService.appendTasks(nextPage)
-    }
-  }, 250)
-}
 
-let currentScrollHandler = createThrottleScrollHandler(client)
-taskContainer.addEventListener("scroll", currentScrollHandler)
-
-const filters = document.querySelectorAll(".filter")
-const search = document.querySelector(".navigation__search")
-
-const filterService = FilterService(filters)
-for (const filter of filters) {
-  filter.addEventListener("click", event => {
-    const filter = event.target.closest(".filter")
-
-    let tasks = taskService.getAll()
-
-    const searchInput = search.value.trim()
-    if (searchInput) {
-      tasks = filterService.filterByTaskName(tasks, searchInput)
-    }
-    if (!filterService.switchFilter(filter)) {
-      tasks = filterService.filter(tasks, filter.id)
-    }
-
-    client = createClient(tasks)
-    renderService.renderAll(client.getFirstPage())
-
-    taskContainer.removeEventListener("scroll", currentScrollHandler)
-
-    currentScrollHandler = createThrottleScrollHandler(client)
-    taskContainer.addEventListener("scroll", currentScrollHandler)
-  })
-}
-
-const debouncedSearch = debounce((value) => {
-  let tasks = taskService.getAll()
-  if (value) {
-    tasks = filterService.filterByTaskName(tasks, value)
-  }
-
-  const enabledFilters = document.querySelectorAll(".enabled")
-  if (enabledFilters) {
-    for (const filter of enabledFilters) {
-      tasks = filterService.filter(tasks, filter.id)
-    }
-  }
-
-  client = createClient(tasks)
-  renderService.renderAll(client.getFirstPage())
-
-  taskContainer.removeEventListener("scroll", currentScrollHandler)
-
-  currentScrollHandler = createThrottleScrollHandler(client)
-  taskContainer.addEventListener("scroll", currentScrollHandler)
-}, 250)
-search.addEventListener("input", event => {
-  debouncedSearch(event.target.value.trim())
-})
+// const throttleScrolling = throttle(() => {
+//   console.log(taskContainer.clientHeight + taskContainer.scrollTop >= taskContainer.scrollHeight)
+//   if (taskContainer.clientHeight + taskContainer.scrollTop >= taskContainer.scrollHeight) {
+//     renderService.renderPage()
+//   }
+// }, 250)
+// taskContainer.addEventListener("scroll", throttleScrolling)
+// function createThrottleScrollHandler(client) {
+//   return throttle(() => {
+//     const nextPage = client.getNextPage()
+//     if (nextPage) {
+//       renderService.appendTasks(nextPage)
+//     }
+//   }, 250)
+// }
+//
+// let currentScrollHandler = createThrottleScrollHandler(client)
+// taskContainer.addEventListener("scroll", currentScrollHandler)
+//
+// const filters = document.querySelectorAll(".filter")
+// const search = document.querySelector(".navigation__search")
+//
+// const filterService = FilterService(filters)
+// for (const filter of filters) {
+//   filter.addEventListener("click", event => {
+//     const filter = event.target.closest(".filter")
+//
+//     let tasks = taskService.getAll()
+//
+//     const searchInput = search.value.trim()
+//     if (searchInput) {
+//       tasks = filterService.filterByTaskName(tasks, searchInput)
+//     }
+//     if (!filterService.switchFilter(filter)) {
+//       tasks = filterService.filter(tasks, filter.id)
+//     }
+//
+//     client = createClient(tasks)
+//     renderService.renderAll(client.getFirstPage())
+//
+//     taskContainer.removeEventListener("scroll", currentScrollHandler)
+//
+//     currentScrollHandler = createThrottleScrollHandler(client)
+//     taskContainer.addEventListener("scroll", currentScrollHandler)
+//   })
+// }
+//
+// const debouncedSearch = debounce((value) => {
+//   let tasks = taskService.getAll()
+//   if (value) {
+//     tasks = filterService.filterByTaskName(tasks, value)
+//   }
+//
+//   const enabledFilters = document.querySelectorAll(".enabled")
+//   if (enabledFilters) {
+//     for (const filter of enabledFilters) {
+//       tasks = filterService.filter(tasks, filter.id)
+//     }
+//   }
+//
+//   client = createClient(tasks)
+//   renderService.renderAll(client.getFirstPage())
+//
+//   taskContainer.removeEventListener("scroll", currentScrollHandler)
+//
+//   currentScrollHandler = createThrottleScrollHandler(client)
+//   taskContainer.addEventListener("scroll", currentScrollHandler)
+// }, 250)
+// search.addEventListener("input", event => {
+//   debouncedSearch(event.target.value.trim())
+// })
 
 const modal = document.querySelector(".modal")
 const modalContainer = modal.parentNode

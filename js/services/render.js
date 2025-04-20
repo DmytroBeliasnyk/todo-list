@@ -1,4 +1,4 @@
-export default (taskContainer) => {
+export default (taskContainer, tasksLoader) => {
   const _createTaskElement = (task) => {
     const taskElement = document.createElement("div")
     taskElement.className = "task"
@@ -53,18 +53,32 @@ export default (taskContainer) => {
     return taskElement
   }
 
+  const _tasksOnPage = 10
+  let _tasks = []
+  let _pageCount = 0
+  let _currentPage = 0
+
   return {
     renderTask(task) {
       taskContainer.prepend(_createTaskElement(task))
     },
-    appendTasks(tasks) {
-      tasks
+    renderPage(tasks = null) {
+      if (tasks) {
+        _tasks = tasks
+        _pageCount = Math.ceil(tasks.length / 10)
+        _currentPage = 0
+      }
+      if (_currentPage > _pageCount) return
+
+      const start = _currentPage * _tasksOnPage
+      const end = start + _tasksOnPage
+      _currentPage++
+
+
+      _tasks
+        .slice(start, end)
         .map(task => _createTaskElement(task))
-        .forEach(taskElement => taskContainer.append(taskElement))
-    },
-    renderAll(tasks) {
-      tasks = tasks.map(task => _createTaskElement(task))
-      taskContainer.replaceChildren(...tasks)
+        .forEach(taskElement => tasksLoader.insertAdjacentElement("beforebegin", taskElement))
     },
     updateTask(task) {
       const tasks = Array.from(taskContainer.querySelectorAll(".task"))

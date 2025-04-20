@@ -111,6 +111,10 @@ main {
   overflow: auto;
 }
 
+#tasks-loader {
+  min-height: 1px;
+}
+
 .tasks::-webkit-scrollbar {
   width: 15px;
 }
