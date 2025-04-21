@@ -62,7 +62,7 @@ export default (taskContainer, tasksLoader) => {
     renderTask(task) {
       taskContainer.prepend(_createTaskElement(task))
     },
-    renderPage(tasks = null) {
+    renderPage(tasks = null, replace = false) {
       if (tasks) {
         _tasks = tasks
         _pageCount = Math.ceil(tasks.length / 10)
@@ -74,6 +74,11 @@ export default (taskContainer, tasksLoader) => {
       const end = start + _tasksOnPage
       _currentPage++
 
+      if (replace) {
+        console.log("replace tasks")
+        taskContainer.innerHTML = ''
+        taskContainer.appendChild(tasksLoader)
+      }
 
       _tasks
         .slice(start, end)

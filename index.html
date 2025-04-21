@@ -17,15 +17,15 @@
       <div class="navigation">
         <div class="search-wrapper">
           <label>
-            <input class="navigation__search" placeholder="Search task by name">
+            <input class="navigation__search" id="search" placeholder="Search task by name">
             <div class="fa-solid fa-magnifying-glass search-icon"></div>
           </label>
         </div>
         <div class="navigation__filters">
-          <div class="filter click-animation" id="filter-in-progress">
+          <div class="filter click-animation" id="filter-in-progress" data-enabled-together>
             <div class="fa-solid fa-list"></div>
           </div>
-          <div class="filter click-animation" id="filter-done">
+          <div class="filter click-animation" id="filter-done" data-enabled-together>
             <div class="fa-solid fa-list-check"></div>
           </div>
         </div>
