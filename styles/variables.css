@@ -1,11 +1,10 @@
 :root{
-  --bg-color: #1F2937FF;
+  --primary-bg-color: #1F2937FF;
+  --secondary-bg-color: #18202f54;
   --primary-color: #374151FF;
   --secondary-color: #2563EBFF;
-  --primary-font-color: #FFFFFF;
-  --animation-color: #124edd;
+  --button-animation-color: #124edd;
+  --font-color: #FFFFFF;
   --animation-font-color: #cad2dd;
   --error-color: #EF4444;
-  --remove-bg-color: #FF0000FF;
-  --remove-animation-bg-color: #8B0000FF;
 }

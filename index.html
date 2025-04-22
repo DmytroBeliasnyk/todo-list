@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>TODO list</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/styles/reset.css">
   <link rel="stylesheet" href="/styles/variables.css">
   <link rel="stylesheet" href="/styles/index.css">
@@ -22,23 +22,16 @@
           </label>
         </div>
         <div class="navigation__filters">
-          <div class="filter click-animation" id="filter-in-progress" data-enabled-together>
-            <div class="fa-solid fa-list"></div>
-          </div>
-          <div class="filter click-animation" id="filter-done" data-enabled-together>
-            <div class="fa-solid fa-list-check"></div>
-          </div>
+          <div class="filter button click-animation" id="filter-in-progress" data-enabled-together></div>
+          <div class="filter button click-animation" id="filter-done" data-enabled-together></div>
         </div>
       </div>
-      <div class="tasks">
+      <div class="tasks scrolling">
         <div id="tasks-loader"></div>
       </div>
     </main>
     <footer>
-      <div class="open-form-btn button click-animation">
-        <div class="fas fa-plus-circle"></div>
-        Add task
-      </div>
+      <div class="open-form button click-animation">Add task</div>
     </footer>
   </div>
 </div>
@@ -57,7 +50,7 @@
           <div class="form__error-message"></div>
         </label>
         <label class="form__label">
-            <textarea class="form__input"
+            <textarea class="form__input scrolling"
                       name="description"
                       rows="5"
                       cols="30"
@@ -66,20 +59,8 @@
         </label>
       </div>
       <div class="form__actions">
-        <div class="form__control-buttons">
-          <button class="form__control-btn button click-animation" type="submit">Submit</button>
-          <button class="form__control-btn button click-animation" type="reset">Close</button>
-        </div>
-        <div class="form__edit-buttons">
-          <button class="form__done-btn click-animation" type="button">
-            <div class="fa-solid fa-square-check"></div>
-            Done
-          </button>
-          <button class="form__remove-btn click-animation" type="button">
-            <div class="fa-solid fa-trash"></div>
-            Delete
-          </button>
-        </div>
+        <button class="form__submit button click-animation" type="submit">Submit</button>
+        <button class="form__close button click-animation" type="reset">Close</button>
       </div>
     </form>
   </div>
