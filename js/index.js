@@ -87,11 +87,17 @@ taskContainer.addEventListener("update-description", event => {
   taskService.update(task)
 })
 taskContainer.addEventListener("done-task", event => {
+  const taskElement = event.detail.taskElement
   const task = event.detail.task
   task.status = "Done"
 
   taskService.update(task)
-  renderService.updateTaskStatus(event.detail.taskElement)
+
+  if (document.querySelector("#filter-in-progress").classList.contains("enabled")) {
+    taskElement.remove()
+  } else {
+    renderService.updateTaskStatus(taskElement)
+  }
 })
 taskContainer.addEventListener("remove-task", event => {
   taskService.remove(event.detail.task)
