@@ -1,14 +1,22 @@
 export default (taskContainer, tasksLoader) => {
   const _addShowMenuListener = (showMenuButton, menu) => {
-    showMenuButton.addEventListener("click", event => {
-      const isOpen = showMenuButton.classList.toggle("show")
+    showMenuButton.addEventListener("click", () => {
+      const isOpen = showMenuButton.classList.contains("show")
 
-      let menuScrollHeight = menu.scrollHeight
       if (!isOpen) {
-        menuScrollHeight = 0
+        const anotherMenu = document.querySelector(".open")
+        if (anotherMenu) {
+          document.querySelector(".show").classList.remove("show")
+          anotherMenu.classList.remove("open")
+
+          anotherMenu.style.height = "0px"
+        }
       }
 
-      menu.style.height = menuScrollHeight + "px"
+      menu.style.height = (isOpen ? 0 : menu.scrollHeight) + "px"
+
+      menu.classList.toggle("open")
+      showMenuButton.classList.toggle("show")
     })
   }
   const _addCustomEventListener = (element, eventType, eventName, detail) => {
