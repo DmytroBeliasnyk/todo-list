@@ -207,35 +207,15 @@ main {
   padding: 5px 8px;
   border-radius: 5px;
   border: 1px solid var(--primary-color);
+  background-color: transparent;
   word-wrap: break-word;
   overflow: auto;
+  resize: none;
 }
 
 .task__buttons {
   display: flex;
-  justify-content: space-between;
-}
-
-.task__control-btn-wrapper {
-  display: flex;
   gap: 12px;
-}
-
-.task__edit {
-  font-size: 14px;
-  background-color: var(--secondary-color);
-}
-
-.task__edit::before {
-  content: "\f044";
-  margin-right: 8px;
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
-
-.task__edit:active {
-  background-color: var(--button-animation-color);
-  color: var(--animation-font-color);
 }
 
 .task__done {
@@ -274,6 +254,12 @@ main {
 
 .task.done {
   background-color: rgba(17, 24, 39, 0.3);
+}
+
+.task.done .task__name,
+.task.done .task__description,
+.task.done .task__status {
+  color: #b6b6b6;
 }
 
 .task.done .task__done {
