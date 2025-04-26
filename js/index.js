@@ -4,22 +4,29 @@ import {filterService} from "./services/filter.js"
 import FormService from "./services/form.js";
 import {debounce} from "./utils/debounce.js";
 
-const taskContainer = document.querySelector(".tasks")
-const tasksLoader = taskContainer.querySelector("#tasks-loader")
-const renderService = RenderService(taskContainer, tasksLoader)
+const renderService = RenderService({
+  taskContainer: document.querySelector(".tasks__container"),
+  callbacks: {
+    edit: (task) => taskService.update(task),
+    done: (task) => taskService.update(task),
+    remove: (task) => taskService.remove(task),
+  },
+})
+renderService.renderPage(taskService.getAll())
+
 const loaderObserver = new IntersectionObserver(
-  () => {
-    console.log("observe")
-    renderService.renderPage()
+  (entries) => {
+    if (entries[0].isIntersecting) {
+      console.log("observe")
+      renderService.renderPage()
+    }
   },
   {
-    root: taskContainer,
+    root: document.querySelector(".tasks"),
     threshold: 0.1,
   }
 )
-
-renderService.renderPage(taskService.getAll())
-loaderObserver.observe(tasksLoader)
+loaderObserver.observe(document.querySelector("#tasks__loader"))
 
 window.addEventListener("storage", () => {
   renderService.renderPage(taskService.getAll())
@@ -52,8 +59,8 @@ const modalContainer = modal.parentNode
 const taskForm = document.forms.taskForm
 const formService = FormService(taskForm)
 
-const openFormButton = document.querySelector(".open-form")
-openFormButton.addEventListener("click", () => {
+const openTaskFormButton = document.querySelector(".open-task-form")
+openTaskFormButton.addEventListener("click", () => {
   modalContainer.classList.add("active")
   modal.classList.add("add")
   taskForm.elements.name.focus()
@@ -76,30 +83,4 @@ openFormButton.addEventListener("click", () => {
       modal.classList.remove("add")
     }
   )
-})
-
-taskContainer.addEventListener("update-description", event => {
-  const taskElement = event.detail.taskElement
-  const task = event.detail.task
-
-  task.description = taskElement.querySelector(".task__description").value
-
-  taskService.update(task)
-})
-taskContainer.addEventListener("done-task", event => {
-  const taskElement = event.detail.taskElement
-  const task = event.detail.task
-  task.status = "Done"
-
-  taskService.update(task)
-
-  if (document.querySelector("#filter-in-progress").classList.contains("enabled")) {
-    taskElement.remove()
-  } else {
-    renderService.updateTaskStatus(taskElement)
-  }
-})
-taskContainer.addEventListener("remove-task", event => {
-  taskService.remove(event.detail.task)
-  renderService.removeTask(event.detail.taskElement)
 })
