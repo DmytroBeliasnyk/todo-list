@@ -18,7 +18,7 @@ const loaderObserver = new IntersectionObserver(
   (entries) => {
     if (entries[0].isIntersecting) {
       console.log("observe")
-      renderService.renderPage()
+      renderService.renderNextPage()
     }
   },
   {
@@ -74,7 +74,7 @@ openTaskFormButton.addEventListener("click", () => {
       }
 
       taskService.add(task)
-      renderService.renderTask(task)
+      renderService.addTask(task)
 
       taskForm.reset()
     },

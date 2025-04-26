@@ -8,25 +8,31 @@ export default (options) => {
   let _currentPage = 0
 
   return {
-    renderTask(task) {
+    addTask(task) {
       _taskContainer.prepend(createTaskElement(task, _callbacks))
     },
-    renderPage(tasks = null, replace = false) {
-      if (tasks) {
-        _tasks = tasks
-        _pageCount = Math.ceil(tasks.length / 10)
-        _currentPage = 0
-      }
+    renderPage(tasks) {
+      _tasks = tasks
+      _pageCount = Math.ceil(tasks.length / 10)
+      _currentPage = 0
+
+      const start = _currentPage * _tasksOnPage
+      const end = start + _tasksOnPage
+
+      _taskContainer.replaceChildren(...
+        _tasks
+          .slice(start, end)
+          .map(task => createTaskElement(task, _callbacks))
+      )
+
+      console.log(`render end, page: ${_currentPage}`)
+    },
+    renderNextPage() {
+      _currentPage++
       if (_currentPage > _pageCount) return
 
       const start = _currentPage * _tasksOnPage
       const end = start + _tasksOnPage
-      _currentPage++
-
-      if (replace) {
-        console.log("replace tasks")
-        _taskContainer.innerHTML = ''
-      }
 
       _taskContainer.append(...
         _tasks
@@ -34,7 +40,7 @@ export default (options) => {
           .map(task => createTaskElement(task, _callbacks))
       )
 
-      console.log(`render end, page: ${_currentPage - 1}`)
+      console.log(`render end, page: ${_currentPage}`)
     },
   }
 }
