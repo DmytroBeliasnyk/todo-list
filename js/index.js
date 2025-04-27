@@ -8,11 +8,19 @@ import FormService from "./services/form.js";
 const renderService = RenderService({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {
-    edit: (task) => taskService.update(task),
+    edit: (task, renderCallback) => openTaskFormToEdit(task, renderCallback),
     done: (task) => taskService.update(task),
     remove: (task) => taskService.remove(task),
   },
 })
+// for (let i = 1; i <= 100; i++) {
+//   let description = ''
+//   if (i % 2 === 0) {
+//     description = "description" + i
+//   }
+//
+//   taskService.add({name: "task" + i, description: description})
+// }
 renderService.renderPage(taskService.getAll())
 
 const loaderObserver = new IntersectionObserver(
@@ -106,3 +114,29 @@ openTaskFormButton.addEventListener("click", () => {
     }
   )
 })
+
+function openTaskFormToEdit(task, renderCallback) {
+  modalContainer.classList.add("active")
+  modal.classList.add("edit")
+
+  const formInputName = taskForm.elements.name
+  taskForm.elements.name.value = task.name
+  formInputName.disabled = true
+
+  taskForm.elements.description.value = task.description
+
+  formService.init(
+    task => {
+      taskService.update(task)
+      renderCallback(task)
+
+      taskForm.reset()
+    },
+    () => {
+      formInputName.disabled = false
+
+      modalContainer.classList.remove("active")
+      modal.classList.remove("edit")
+    }
+  )
+}
