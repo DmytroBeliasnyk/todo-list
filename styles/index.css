@@ -139,11 +139,16 @@ main {
 .tasks {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   flex: 1 1 0;
   width: 100%;
   padding: 0 2px;
   overflow: auto;
+}
+
+.tasks__container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 #tasks__loader {
@@ -194,10 +199,14 @@ main {
 .task__menu-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   height: 0;
   overflow: hidden;
   transition: height 0.8s ease;
+}
+
+.task__menu-wrapper.open {
+  height: 140px;
 }
 
 .task__description {
@@ -210,12 +219,46 @@ main {
   background-color: transparent;
   word-wrap: break-word;
   overflow: auto;
-  resize: none;
 }
 
 .task__buttons {
   display: flex;
-  gap: 12px;
+  gap: 16px;
+}
+
+.task__actions-wrapper {
+  display: none;
+  gap: 8px;
+  background-color: transparent;
+}
+
+.task__actions-wrapper.show {
+  display: flex;
+}
+
+.task__open-actions-btn::before {
+  content: "\f142";
+  font-family: "Font Awesome 6 Free", serif;
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.task__edit {
+  font-size: 14px;
+  background-color: var(--secondary-color);
+}
+
+.task__edit::before {
+  content: "\f044";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.task__edit:active {
+  background-color: var(--button-animation-color);
+  color: var(--animation-font-color);
 }
 
 .task__done {
