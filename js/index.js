@@ -1,8 +1,9 @@
 import {taskService} from "./services/task.js";
 import RenderService from "./services/render.js";
-import {filterService} from "./services/filter.js"
-import FormService from "./services/form.js";
 import {debounce} from "./utils/debounce.js";
+import {filterService} from "./services/filter.js"
+import {filters} from "./utils/filters.js";
+import FormService from "./services/form.js";
 
 const renderService = RenderService({
   taskContainer: document.querySelector(".tasks__container"),
@@ -35,21 +36,42 @@ window.addEventListener("storage", () => {
 document.querySelector(".navigation__search")
   .addEventListener("input", event => {
     debounce((target) => {
+      filterService.setFilter(
+        target.id,
+        tasks => filters.get(target.id)(tasks, target.value.trim())
+      )
+
       renderService.renderPage(
-        filterService.search(taskService.getAll(), target),
-        true
+        filterService.applyFilters(taskService.getAll())
       )
     }, 250)(event.target)
   })
 
 document.querySelector(".navigation__filters")
   .addEventListener("click", event => {
-    const target = event.target.closest(".filter")
-    if (!target) return
+    const targetFilter = event.target.closest(".filter")
+    if (!targetFilter) return
+
+    if (targetFilter.classList.contains("enabled")) {
+      targetFilter.classList.remove("enabled")
+      filterService.removeFilter(targetFilter.id)
+    } else {
+      for (const enabledFilter of document.querySelectorAll(".enabled")) {
+        if (!enabledFilter.dataset.enabledTogether && !targetFilter.dataset.enabledTogether) {
+          enabledFilter.classList.remove("enabled")
+          filterService.removeFilter(enabledFilter.id)
+        }
+      }
+
+      targetFilter.classList.add("enabled")
+      filterService.setFilter(
+        targetFilter.id,
+        tasks => filters.get(targetFilter.id)(tasks)
+      )
+    }
 
     renderService.renderPage(
-      filterService.filter(taskService.getAll(), target),
-      true
+      filterService.applyFilters(taskService.getAll())
     )
   })
 
