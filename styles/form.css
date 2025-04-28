@@ -76,10 +76,6 @@ button, input, textarea {
   border-bottom: 1px solid var(--secondary-color);
 }
 
-.form__input[disabled] {
-  cursor: not-allowed;
-}
-
 .form__error-message {
   color: var(--error-color);
   font-size: 14px;

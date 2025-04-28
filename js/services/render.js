@@ -117,13 +117,16 @@ function createTaskElement(task, callbacks) {
     taskElement.classList.add("done")
   } else {
     taskDoneButton.addEventListener("click", () => {
-      taskActionsWrapper.classList.remove("show")
-
-      taskElement.classList.add("done")
-      taskStatus.textContent = "Done"
-
       task.status = "Done"
-      callbacks.done(task)
+      callbacks.done(
+        task,
+        () => {
+          taskActionsWrapper.classList.remove("show")
+
+          taskElement.classList.add("done")
+          taskStatus.textContent = "Done"
+        }
+      )
     }, {once: true})
   }
 
@@ -147,11 +150,16 @@ function createTaskElement(task, callbacks) {
   taskEditButton.addEventListener("click", () => {
     callbacks.edit(
       task,
-      task => taskDescription.textContent = task.description)
+      task => {
+        taskName.textContent = task.name
+        taskDescription.textContent = task.description
+      })
   })
   taskRemoveButton.addEventListener("click", () => {
-    taskElement.remove()
-    callbacks.remove(task)
+    callbacks.remove(
+      task,
+      () => taskElement.remove()
+    )
   })
 
   return taskElement

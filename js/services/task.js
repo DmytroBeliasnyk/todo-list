@@ -3,11 +3,11 @@ export const taskService = (() => {
   const repo = localStorage
 
   let tasks = JSON.parse(repo.getItem(key) || "[]")
-  let taskNamesSet = new Set(tasks.map(task => task.name))
+  let taskIdsSet = new Set(tasks.map(task => task.id))
 
   window.addEventListener("storage", () => {
     tasks = JSON.parse(repo.getItem(key) || "[]")
-    taskNamesSet = new Set(tasks.map(task => task.name))
+    taskIdsSet = new Set(tasks.map(task => task.id))
   })
 
   return {
@@ -21,40 +21,25 @@ export const taskService = (() => {
       return [].concat(tasks)
     },
     update(task) {
-      const oldTask = tasks.find(oldTask => oldTask.name === task.name)
+      const oldTask = tasks.find(oldTask => oldTask.id === task.id)
+
+      oldTask.name = task.name
       oldTask.description = task.description
-      oldTask.status = task.status ?? "In progress"
+      oldTask.status = task.status
 
       repo.setItem(key, JSON.stringify(tasks))
     },
     remove(task) {
-      const index = tasks.findIndex(findTask => findTask.name === task.name)
+      const index = tasks.findIndex(findTask => findTask.id === task.id)
       tasks.splice(index, 1)
 
       repo.setItem(key, JSON.stringify(tasks))
     },
-    validateTaskName(taskName) {
-      const res = {
-        hasError: false,
-        errorMessage: '',
-      }
+    validateId(id) {
+      const isUnique = !taskIdsSet.has(id)
+      if (isUnique) taskIdsSet.add(id)
 
-      taskName = taskName.trim()
-      if (!taskName) {
-        res.hasError = true
-        res.errorMessage = "Field \"name\" can't be empty."
-
-        return res
-      }
-
-      if (taskNamesSet.has(taskName)) {
-        res.hasError = true
-        res.errorMessage = "Task name must be unique"
-      } else {
-        taskNamesSet.add(taskName)
-      }
-
-      return res
+      return isUnique
     },
   }
 })()

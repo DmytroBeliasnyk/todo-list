@@ -9,8 +9,14 @@ const renderService = RenderService({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {
     edit: (task, renderCallback) => openTaskFormToEdit(task, renderCallback),
-    done: (task) => taskService.update(task),
-    remove: (task) => taskService.remove(task),
+    done: (task, renderCallback) => {
+      taskService.update(task)
+      renderCallback()
+    },
+    remove: (task, renderCallback) => {
+      taskService.remove(task)
+      renderCallback()
+    },
   },
 })
 // for (let i = 1; i <= 100; i++) {
@@ -19,7 +25,12 @@ const renderService = RenderService({
 //     description = "description" + i
 //   }
 //
-//   taskService.add({name: "task" + i, description: description})
+//   let id
+//   do {
+//     id = crypto.randomUUID()
+//   } while (!taskService.validateId(id))
+//
+//   taskService.add({name: "task" + i, description: description, id: id,})
 // }
 renderService.renderPage(taskService.getAll())
 
@@ -97,11 +108,16 @@ openTaskFormButton.addEventListener("click", () => {
 
   formService.init(
     task => {
-      const validName = taskService.validateTaskName(task.name)
-      if (validName.hasError) {
-        formService.setError(validName.errorMessage)
+      if (!task.name.trim()) {
+        formService.setError("Field \"name\" can't be empty.")
         return
       }
+
+      let id
+      do {
+        id = crypto.randomUUID()
+      } while (!taskService.validateId(id))
+      task.id = id
 
       taskService.add(task)
       renderService.addTask(task)
@@ -119,22 +135,24 @@ function openTaskFormToEdit(task, renderCallback) {
   modalContainer.classList.add("active")
   modal.classList.add("edit")
 
-  const formInputName = taskForm.elements.name
   taskForm.elements.name.value = task.name
-  formInputName.disabled = true
-
   taskForm.elements.description.value = task.description
+  const taskId = task.id
 
   formService.init(
     task => {
+      if (!task.name.trim()) {
+        formService.setError("Field \"name\" can't be empty.")
+        return
+      }
+      task.id = taskId
+
       taskService.update(task)
       renderCallback(task)
 
       taskForm.reset()
     },
     () => {
-      formInputName.disabled = false
-
       modalContainer.classList.remove("active")
       modal.classList.remove("edit")
     }
