@@ -1,11 +1,13 @@
+import {createPages} from "../utils/pagination.js";
+
 export default (options) => {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 
-  const _tasksOnPage = 10
+  const _pages = createPages(10)
+  let _pagesGenerator = null
+
   let _tasks = []
-  let _pageCount = 0
-  let _currentPage = 0
 
   return {
     addTask(task) {
@@ -13,34 +15,21 @@ export default (options) => {
     },
     renderPage(tasks) {
       _tasks = tasks
-      _pageCount = Math.ceil(tasks.length / 10)
-      _currentPage = 0
+      _pages.setNewPages(0, tasks.length)
+      _pagesGenerator = _pages.pageGenerator()
 
-      const start = _currentPage * _tasksOnPage
-      const end = start + _tasksOnPage
-
-      _taskContainer.replaceChildren(...
-        _tasks
-          .slice(start, end)
-          .map(task => createTaskElement(task, _callbacks))
-      )
-
-      console.log(`render end, page: ${_currentPage}`)
+      _taskContainer.innerHTML = ""
+      this.renderNextPage()
     },
     renderNextPage() {
-      _currentPage++
-      if (_currentPage > _pageCount) return
-
-      const start = _currentPage * _tasksOnPage
-      const end = start + _tasksOnPage
+      const nextPage = _pagesGenerator.next()
+      if (nextPage.done) return
 
       _taskContainer.append(...
         _tasks
-          .slice(start, end)
+          .slice(nextPage.value.start, nextPage.value.end)
           .map(task => createTaskElement(task, _callbacks))
       )
-
-      console.log(`render end, page: ${_currentPage}`)
     },
   }
 }
