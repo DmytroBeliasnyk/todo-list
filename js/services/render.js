@@ -11,7 +11,7 @@ export default (options) => {
 
   return {
     addTask(task) {
-      _taskContainer.prepend(createTaskElement(task, _callbacks))
+      _taskContainer.prepend(createTaskElement(task, _taskContainer, _callbacks))
     },
     renderPage(tasks) {
       _tasks = tasks
@@ -28,13 +28,13 @@ export default (options) => {
       _taskContainer.append(...
         _tasks
           .slice(nextPage.value.start, nextPage.value.end)
-          .map(task => createTaskElement(task, _callbacks))
+          .map(task => createTaskElement(task, _taskContainer, _callbacks))
       )
     },
   }
 }
 
-function createTaskElement(task, callbacks) {
+function createTaskElement(task, taskContainer, callbacks) {
   const taskContentWrapper = document.createElement("div")
   taskContentWrapper.className = "task__content-wrapper"
 
@@ -68,13 +68,15 @@ function createTaskElement(task, callbacks) {
   taskDescription.className = "task__description scrolling"
   taskDescription.textContent = task.description
 
-  taskMenuWrapper.appendChild(taskDescription)
+  if (task.description) {
+    taskMenuWrapper.appendChild(taskDescription)
+  }
 
   const taskButtons = document.createElement("div")
   taskButtons.className = "task__buttons"
 
   const taskEditButton = document.createElement("div")
-  taskEditButton.className = "task__edit button click-animation"
+  taskEditButton.className = "task__open-form-edit-task button click-animation"
   taskEditButton.textContent = "Edit task"
 
   const taskDoneButton = document.createElement("div")
@@ -125,23 +127,38 @@ function createTaskElement(task, callbacks) {
     const isOpen = taskShowMenuButton.classList.contains("show")
 
     if (!isOpen) {
-      const anotherMenu = document.querySelector(".open")
+      const anotherMenu = taskContainer.querySelector(".open")
       if (anotherMenu) {
-        document.querySelector(".show").classList.remove("show")
+        taskContainer.querySelector(".show").classList.remove("show")
         anotherMenu.classList.remove("open")
+        anotherMenu.classList.remove("has-description")
       }
     }
 
     taskMenuWrapper.classList.toggle("open")
+    if (task.description) {
+      taskMenuWrapper.classList.toggle("has-description")
+    }
+
     taskShowMenuButton.classList.toggle("show")
+
     taskActionsWrapper.classList.remove("show")
   })
-  taskEditButton.addEventListener("click", () => {
+  taskEditButton.addEventListener("click", event => {
     callbacks.edit(
       task,
       task => {
         taskName.textContent = task.name
-        taskDescription.textContent = task.description
+
+        const description = task.description.trim()
+        taskDescription.textContent = description
+        if (description) {
+          taskMenuWrapper.prepend(taskDescription)
+          taskMenuWrapper.classList.add("has-description")
+        } else {
+          taskMenuWrapper.classList.remove("has-description")
+          taskDescription.remove()
+        }
       })
   })
   taskRemoveButton.addEventListener("click", () => {
