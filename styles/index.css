@@ -194,7 +194,7 @@ main {
   content: "\f054";
 }
 
-.task__show-menu-btn.show::before {
+.task__show-menu-btn.show-menu::before {
   content: "\f078";
 }
 
@@ -250,7 +250,7 @@ main {
   background-color: transparent;
 }
 
-.task__actions-wrapper.show {
+.task__actions-wrapper.show-actions {
   display: flex;
 }
 

@@ -101,7 +101,7 @@ function createTaskElement(task, taskContainer, callbacks) {
   const taskOpenActionsButton = document.createElement("div")
   taskOpenActionsButton.className = "task__open-actions-btn"
   taskOpenActionsButton.addEventListener("click", () => {
-    taskActionsWrapper.classList.toggle("show")
+    taskActionsWrapper.classList.toggle("show-actions")
   })
 
   taskButtons.append(taskEditButton, taskOpenActionsButton, taskActionsWrapper)
@@ -130,12 +130,12 @@ function createTaskElement(task, taskContainer, callbacks) {
   taskElement.append(taskContentWrapper, taskMenuWrapper)
 
   taskShowMenuButton.addEventListener("click", () => {
-    const isOpen = taskShowMenuButton.classList.contains("show")
+    const isOpen = taskShowMenuButton.classList.contains("show-menu")
 
     if (!isOpen) {
       const anotherMenu = taskContainer.querySelector(".open")
       if (anotherMenu) {
-        taskContainer.querySelector(".show").classList.remove("show")
+        taskContainer.querySelector(".show-menu").classList.remove("show-menu")
         anotherMenu.classList.remove("open")
         anotherMenu.classList.remove("has-description")
       }
@@ -146,9 +146,9 @@ function createTaskElement(task, taskContainer, callbacks) {
       taskMenuWrapper.classList.add("has-description")
     }
 
-    taskShowMenuButton.classList.toggle("show")
+    taskShowMenuButton.classList.toggle("show-menu")
 
-    taskActionsWrapper.classList.remove("show")
+    taskActionsWrapper.classList.remove("show-actions")
   })
   taskEditButton.addEventListener("click", () => {
     callbacks.edit(
