@@ -201,29 +201,42 @@ main {
 .task__menu-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   height: 0;
   overflow: hidden;
   transition: height 0.8s ease;
 }
 
-.task__menu-wrapper.open.has-description {
-  height: 140px;
+.task__menu-wrapper.has-description {
+  gap: 16px;
 }
 
 .task__menu-wrapper.open {
   height: 24px;
 }
 
+.task__menu-wrapper.open.has-description {
+  height: 140px;
+}
+
 .task__description {
   width: 100%;
-  min-height: 100px;
-  max-height: 100px;
-  padding: 5px 8px;
+  height: 0;
+  transition: height 0.8s ease;
   border-radius: 5px;
   background-color: var(--secondary-bg-color);
   word-wrap: break-word;
   overflow: auto;
+}
+
+.description-wrapper{
+  width: 100%;
+  height: 100%;
+  padding: 5px 8px;
+}
+
+.task__description.has-description {
+  height: 100px;
+  min-height: 100px;
 }
 
 .task__buttons {

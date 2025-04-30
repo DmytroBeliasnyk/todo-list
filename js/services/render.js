@@ -66,11 +66,17 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const taskDescription = document.createElement("div")
   taskDescription.className = "task__description scrolling"
+  if (task.description) {
+    taskDescription.classList.add("has-description")
+  }
+
+  const descriptionWrapper = document.createElement("div")
+  descriptionWrapper.className = "description-wrapper"
   taskDescription.textContent = task.description
 
-  if (task.description) {
-    taskMenuWrapper.appendChild(taskDescription)
-  }
+  taskDescription.appendChild(descriptionWrapper)
+
+  taskMenuWrapper.appendChild(taskDescription)
 
   const taskButtons = document.createElement("div")
   taskButtons.className = "task__buttons"
@@ -137,27 +143,30 @@ function createTaskElement(task, taskContainer, callbacks) {
 
     taskMenuWrapper.classList.toggle("open")
     if (task.description) {
-      taskMenuWrapper.classList.toggle("has-description")
+      taskMenuWrapper.classList.add("has-description")
     }
 
     taskShowMenuButton.classList.toggle("show")
 
     taskActionsWrapper.classList.remove("show")
   })
-  taskEditButton.addEventListener("click", event => {
+  taskEditButton.addEventListener("click", () => {
     callbacks.edit(
       task,
       task => {
         taskName.textContent = task.name
 
         const description = task.description.trim()
-        taskDescription.textContent = description
         if (description) {
-          taskMenuWrapper.prepend(taskDescription)
+          descriptionWrapper.textContent = description
           taskMenuWrapper.classList.add("has-description")
+          taskDescription.classList.add("has-description")
         } else {
+          setTimeout(() => {
+            descriptionWrapper.textContent = description
+          }, 350)
           taskMenuWrapper.classList.remove("has-description")
-          taskDescription.remove()
+          taskDescription.classList.remove("has-description")
         }
       })
   })
