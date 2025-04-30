@@ -137,7 +137,6 @@ function createTaskElement(task, taskContainer, callbacks) {
       if (anotherMenu) {
         taskContainer.querySelector(".show-menu").classList.remove("show-menu")
         anotherMenu.classList.remove("open")
-        anotherMenu.classList.remove("has-description")
       }
     }
 
