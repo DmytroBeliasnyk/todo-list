@@ -35,11 +35,5 @@ export const taskService = (() => {
 
       repo.setItem(key, JSON.stringify(tasks))
     },
-    validateId(id) {
-      const isUnique = !taskIdsSet.has(id)
-      if (isUnique) taskIdsSet.add(id)
-
-      return isUnique
-    },
   }
 })()

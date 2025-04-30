@@ -72,7 +72,7 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const descriptionWrapper = document.createElement("div")
   descriptionWrapper.className = "description-wrapper"
-  taskDescription.textContent = task.description
+  descriptionWrapper.textContent = task.description
 
   taskDescription.appendChild(descriptionWrapper)
 
@@ -118,7 +118,7 @@ function createTaskElement(task, taskContainer, callbacks) {
       callbacks.done(
         task,
         () => {
-          taskActionsWrapper.classList.remove("show")
+          taskActionsWrapper.classList.remove("show-actions")
 
           taskElement.classList.add("done")
           taskStatus.textContent = "Done"
