@@ -334,18 +334,18 @@ main {
   cursor: default;
 }
 
-.open-task-form {
+.open-task-form-add-task {
   background-color: var(--secondary-color);
 }
 
-.open-task-form::before {
+.open-task-form-add-task::before {
   content: "\f055";
   margin-right: 8px;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
 }
 
-.open-task-form:active {
+.open-task-form-add-task:active {
   background-color: var(--button-animation-color);
   color: var(--animation-font-color);
 }
