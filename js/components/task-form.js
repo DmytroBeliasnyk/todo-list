@@ -12,12 +12,12 @@ export function openTaskForm(options) {
   taskForm.elements.name.focus()
 
   let formOnSubmit = null
-  if (options.addCallback && typeof options.addCallback === "function") {
-    formOnSubmit = options.addCallback
+  if (options.formAddCallback && typeof options.formAddCallback === "function") {
+    formOnSubmit = options.formAddCallback
   }
 
-  if (options.editCallback && typeof options.editCallback === "function") {
-    formOnSubmit = options.editCallback
+  if (options.formEditCallback && typeof options.formEditCallback === "function") {
+    formOnSubmit = options.formEditCallback
     taskForm.elements.name.value = options.task.name
     taskForm.elements.description.value = options.task.description
   }

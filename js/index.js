@@ -9,7 +9,7 @@ const renderService = RenderService({
     edit: (task, renderCallback) => openTaskForm({
       action: "edit",
       task: task,
-      editCallback: (editedTask) => {
+      formEditCallback: (editedTask) => {
         editedTask.id = task.id
         editedTask.status = task.status
 
@@ -52,7 +52,7 @@ document.querySelector(".open-task-form-add-task")
   .addEventListener("click", () => {
     openTaskForm({
       action: "add",
-      addCallback: (task) => {
+      formAddCallback: (task) => {
         task.id = crypto.randomUUID()
 
         taskService.add(task)
