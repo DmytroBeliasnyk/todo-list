@@ -1,15 +1,17 @@
+import {constants} from "../constants.js";
+
 export const filters = new Map([
-  ["search", (tasks, searchValue) => {
+  [constants.filters.ids.searchInput, (tasks, searchValue) => {
     if (!searchValue) return tasks
 
     return tasks.filter(
       task => task.name.toLowerCase().includes(searchValue.toLowerCase())
     )
   }],
-  ["filter-in-progress", tasks => tasks.filter(
-    task => task.status === "In progress"
+  [constants.filters.ids.inProgress, tasks => tasks.filter(
+    task => task.status === constants.tasks.status.inProgress
   )],
-  ["filter-done", tasks => tasks.filter(
-    task => task.status === "Done",
+  [constants.filters.ids.done, tasks => tasks.filter(
+    task => task.status === constants.tasks.status.done,
   )],
 ])
