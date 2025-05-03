@@ -19,6 +19,7 @@ export const constants = {
     status: {
       inProgress: "In progress",
       done: "Done",
-    }
+    },
+    storageKey: "tasks",
   },
 }

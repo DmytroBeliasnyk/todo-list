@@ -1,18 +1,18 @@
+import {constants} from "../../constants.js";
+
 export function taskStorageInit() {
-  const key = "tasks"
+  const key = constants.tasks.storageKey
   const repo = localStorage
 
   let tasks = JSON.parse(repo.getItem(key) || "[]")
-  let taskIdsSet = new Set(tasks.map(task => task.id))
 
   window.addEventListener("storage", () => {
     tasks = JSON.parse(repo.getItem(key) || "[]")
-    taskIdsSet = new Set(tasks.map(task => task.id))
   })
 
   return {
     add(task) {
-      task.status = "In progress"
+      task.status = constants.tasks.status.inProgress
 
       tasks.unshift(task)
       repo.setItem(key, JSON.stringify(tasks))
