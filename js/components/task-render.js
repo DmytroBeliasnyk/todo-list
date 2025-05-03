@@ -1,6 +1,6 @@
 import {createPages} from "../utils/pagination.js";
 
-export default (options) => {
+export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 

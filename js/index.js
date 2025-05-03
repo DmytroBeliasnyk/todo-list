@@ -1,9 +1,14 @@
-import {taskService} from "./services/task.js";
-import RenderService from "./services/render.js";
+import {taskStorageInit} from "./components/task-storage.js";
+import {taskRenderInit} from "./components/task-render.js";
 import {openTaskForm} from "./components/task-form.js";
-import {navigationInit} from "./components/task-navigation.js";
+import {taskFiltersInit} from "./components/task-filters.js";
 
-const renderService = RenderService({
+const taskStorage = taskStorageInit()
+taskFiltersInit(
+  taskStorage.getAll,
+  (tasks) => tasksRender.renderPage(tasks)
+)
+const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {
     edit: (task, renderCallback) => openTaskForm({
@@ -13,28 +18,25 @@ const renderService = RenderService({
         editedTask.id = task.id
         editedTask.status = task.status
 
-        taskService.update(editedTask)
+        taskStorage.update(editedTask)
         renderCallback(editedTask)
       },
     }),
     done: (task, renderCallback) => {
-      taskService.update(task)
+      taskStorage.update(task)
       renderCallback()
     },
     remove: (task, renderCallback) => {
-      taskService.remove(task)
+      taskStorage.remove(task)
       renderCallback()
     },
   },
 })
-renderService.renderPage(taskService.getAll())
-window.addEventListener("storage", () => {
-  renderService.renderPage(taskService.getAll())
-})
+tasksRender.renderPage(taskStorage.getAll())
 
 const loaderObserver = new IntersectionObserver(
   (entries) => {
-    if (entries[0].isIntersecting) renderService.renderNextPage()
+    if (entries[0].isIntersecting) tasksRender.renderNextPage()
   },
   {
     root: document.querySelector(".tasks"),
@@ -43,10 +45,9 @@ const loaderObserver = new IntersectionObserver(
 )
 loaderObserver.observe(document.querySelector("#tasks__loader"))
 
-navigationInit(
-  taskService.getAll,
-  (tasks) => renderService.renderPage(tasks)
-)
+window.addEventListener("storage", () => {
+  tasksRender.renderPage(taskStorage.getAll())
+})
 
 document.querySelector(".open-task-form-add-task")
   .addEventListener("click", () => {
@@ -55,8 +56,8 @@ document.querySelector(".open-task-form-add-task")
       formAddCallback: (task) => {
         task.id = crypto.randomUUID()
 
-        taskService.add(task)
-        renderService.addTask(task)
+        taskStorage.add(task)
+        tasksRender.addTask(task)
       },
     })
   })

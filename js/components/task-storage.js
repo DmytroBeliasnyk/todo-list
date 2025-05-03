@@ -1,4 +1,4 @@
-export const taskService = (() => {
+export function taskStorageInit() {
   const key = "tasks"
   const repo = localStorage
 
@@ -36,4 +36,4 @@ export const taskService = (() => {
       repo.setItem(key, JSON.stringify(tasks))
     },
   }
-})()
+}

@@ -2,7 +2,7 @@ import {filterService} from "../services/filter.js";
 import {filters} from "../utils/filters.js";
 import {debounce} from "../utils/debounce.js";
 
-export function navigationInit(getTasks, renderCallback) {
+export function taskFiltersInit(getTasks, renderCallback) {
   const render = () => renderCallback(
     filterService.applyFilters(
       getTasks()
