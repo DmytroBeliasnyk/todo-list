@@ -1,10 +1,25 @@
-import FormService from "../services/form.js";
+import FormService from "../../services/form.js";
+import {constants} from "../../constants.js";
 
 const modal = document.querySelector("#task-form-modal")
 const modalContainer = modal.parentNode
 
 const taskForm = document.forms.taskForm
 const formService = FormService(taskForm)
+
+export function taskFormInit(formAddCallback) {
+  document.querySelector(".open-task-form-add-task")
+    .addEventListener("click", () => {
+      openTaskForm({
+        action: constants.form.actions.addTask,
+        formAddCallback: (task) => {
+          task.id = crypto.randomUUID()
+
+          formAddCallback(task)
+        },
+      })
+    })
+}
 
 export function openTaskForm(options) {
   modalContainer.classList.add("active")
@@ -26,7 +41,7 @@ export function openTaskForm(options) {
     task => {
       const taskName = task.name.trim()
       if (!taskName) {
-        formService.setError("Field \"name\" can't be empty.")
+        formService.setError(constants.form.messages.formEmptyName)
         return
       }
 
