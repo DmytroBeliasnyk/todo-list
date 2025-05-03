@@ -1,4 +1,5 @@
-import {createPages} from "../utils/pagination.js";
+import {createPages} from "../../utils/pagination.js";
+import {constants} from "../../constants.js";
 
 export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
@@ -15,7 +16,7 @@ export function taskRenderInit(options) {
     },
     renderPage(tasks) {
       _tasks = tasks
-      _pages.setNewPages(0, tasks.length)
+      _pages.setNewPages(tasks.length)
       _pagesGenerator = _pages.pageGenerator()
 
       _taskContainer.innerHTML = ""
@@ -110,11 +111,11 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const taskElement = document.createElement("div")
   taskElement.className = "task"
-  if (task.status === "Done") {
+  if (task.status === constants.tasks.status.done) {
     taskElement.classList.add("done")
   } else {
     taskDoneButton.addEventListener("click", () => {
-      task.status = "Done"
+      task.status = constants.tasks.status.done
       callbacks.done(
         task,
         () => {

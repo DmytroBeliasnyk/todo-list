@@ -13,8 +13,8 @@ export function createPages(elementsOnPage) {
         yield {start, end}
       }
     },
-    setNewPages(currentPage, elementsCount) {
-      _currentPage = currentPage
+    setNewPages(elementsCount) {
+      _currentPage = 0
       _pageCount = Math.ceil(elementsCount / _elementsOnPage)
     },
   }
