@@ -1,6 +1,6 @@
 import {filterService} from "../../services/filter.js";
 import {debounce} from "../../utils/debounce.js";
-import {constants} from "../../constants";
+import {constants} from "../../utils/constants.js";
 
 const filters = new Map([
   [constants.filters.ids.searchInput, (tasks, searchValue) => {

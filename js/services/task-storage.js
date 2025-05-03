@@ -1,6 +1,6 @@
-import {constants} from "../../constants.js";
+import {constants} from "../utils/constants.js";
 
-export function taskStorageInit() {
+export const taskStorage = (() => {
   const key = constants.tasks.storageKey
   const repo = localStorage
 
@@ -36,4 +36,4 @@ export function taskStorageInit() {
       repo.setItem(key, JSON.stringify(tasks))
     },
   }
-}
+})()

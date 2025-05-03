@@ -1,11 +1,11 @@
 import FormService from "../../services/form.js";
-import {constants} from "../../constants.js";
+import {constants} from "../../utils/constants.js";
 
 const modal = document.querySelector("#task-form-modal")
 const modalContainer = modal.parentNode
 
-const taskForm = document.forms.taskForm
-const formService = FormService(taskForm)
+const form = document.forms.taskForm
+const formService = FormService(form)
 
 export function taskFormInit(formAddCallback) {
   document.querySelector(".open-task-form-add-task")
@@ -24,7 +24,7 @@ export function taskFormInit(formAddCallback) {
 export function openTaskForm(options) {
   modalContainer.classList.add("active")
   modal.classList.add(options.action)
-  taskForm.elements.name.focus()
+  form.elements.name.focus()
 
   let formOnSubmit = null
   if (options.formAddCallback && typeof options.formAddCallback === "function") {
@@ -33,8 +33,8 @@ export function openTaskForm(options) {
 
   if (options.formEditCallback && typeof options.formEditCallback === "function") {
     formOnSubmit = options.formEditCallback
-    taskForm.elements.name.value = options.task.name
-    taskForm.elements.description.value = options.task.description
+    form.elements.name.value = options.task.name
+    form.elements.description.value = options.task.description
   }
 
   formService.init(
@@ -48,7 +48,7 @@ export function openTaskForm(options) {
       task.name = taskName
       formOnSubmit(task)
 
-      taskForm.reset()
+      form.reset()
     },
     () => {
       modalContainer.classList.remove("active")

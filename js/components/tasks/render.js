@@ -1,5 +1,5 @@
 import {createPages} from "../../utils/pagination.js";
-import {constants} from "../../constants.js";
+import {constants} from "../../utils/constants.js";
 
 export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
