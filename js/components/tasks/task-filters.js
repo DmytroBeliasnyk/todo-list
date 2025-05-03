@@ -1,6 +1,22 @@
-import {filterService} from "../services/filter.js";
-import {filters} from "../utils/filters.js";
-import {debounce} from "../utils/debounce.js";
+import {filterService} from "../../services/filter.js";
+import {debounce} from "../../utils/debounce.js";
+import {constants} from "../../constants";
+
+const filters = new Map([
+  [constants.filters.ids.searchInput, (tasks, searchValue) => {
+    if (!searchValue) return tasks
+
+    return tasks.filter(
+      task => task.name.toLowerCase().includes(searchValue.toLowerCase())
+    )
+  }],
+  [constants.filters.ids.inProgress, tasks => tasks.filter(
+    task => task.status === constants.tasks.status.inProgress
+  )],
+  [constants.filters.ids.done, tasks => tasks.filter(
+    task => task.status === constants.tasks.status.done,
+  )],
+])
 
 export function taskFiltersInit(getTasks, renderCallback) {
   const render = () => renderCallback(
@@ -31,7 +47,6 @@ export function taskFiltersInit(getTasks, renderCallback) {
         filterService.removeFilter(targetFilter.id)
       } else {
         for (const enabledFilter of event.currentTarget.querySelectorAll(".enabled")) {
-          console.log(enabledFilter.dataset, targetFilter.dataset)
           if (
             enabledFilter.dataset.hasOwnProperty('enabledTogether') &&
             targetFilter.dataset.hasOwnProperty('enabledTogether')
