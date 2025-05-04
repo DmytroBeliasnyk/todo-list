@@ -48,8 +48,8 @@ export function taskFiltersInit(getTasks, renderCallback) {
       } else {
         for (const enabledFilter of event.currentTarget.querySelectorAll(".enabled")) {
           if (
-            enabledFilter.dataset.hasOwnProperty('enabledTogether') &&
-            targetFilter.dataset.hasOwnProperty('enabledTogether')
+            !enabledFilter.dataset.hasOwnProperty('enabledTogether') &&
+            !targetFilter.dataset.hasOwnProperty('enabledTogether')
           ) {
             enabledFilter.classList.remove("enabled")
             filterService.removeFilter(enabledFilter.id)
