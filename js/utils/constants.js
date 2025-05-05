@@ -8,19 +8,15 @@ export const form = {
   },
 }
 
-export const filters = {
-  ids: {
-    searchInput: "search",
-    inProgress: "filter-in-progress",
-    done: "filter-done",
-  },
+export const filtersIds = {
+  searchInput: "search",
+  inProgress: "filter-in-progress",
+  done: "filter-done",
 }
 
-export const tasks = {
-  status: {
-    inProgress: "In progress",
-    done: "Done",
-  },
+export const tasksStatuses = {
+  inProgress: "In progress",
+  done: "Done",
 }
 
 export const taskStorageKey = "tasks"

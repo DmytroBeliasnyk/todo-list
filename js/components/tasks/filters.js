@@ -1,20 +1,20 @@
 import {filterService} from "../../services/filter.js";
 import {debounce} from "../../utils/debounce.js";
-import {constants} from "../../utils/constants.js";
+import {filtersIds, tasksStatuses} from "../../utils/constants.js";
 
 const filters = new Map([
-  [constants.filters.ids.searchInput, (tasks, searchValue) => {
+  [filtersIds.searchInput, (tasks, searchValue) => {
     if (!searchValue) return tasks
 
     return tasks.filter(
       task => task.name.toLowerCase().includes(searchValue.toLowerCase())
     )
   }],
-  [constants.filters.ids.inProgress, tasks => tasks.filter(
-    task => task.status === constants.tasks.status.inProgress
+  [filtersIds.inProgress, tasks => tasks.filter(
+    task => task.status === tasksStatuses.inProgress
   )],
-  [constants.filters.ids.done, tasks => tasks.filter(
-    task => task.status === constants.tasks.status.done,
+  [filtersIds.done, tasks => tasks.filter(
+    task => task.status === tasksStatuses.done,
   )],
 ])
 
