@@ -1,36 +1,32 @@
 import {createPages} from "../../utils/pagination.js";
-import {constants} from "../../utils/constants.js";
+import {tasksStatuses} from "../../utils/constants.js";
 
 export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 
   const _pages = createPages(10)
-  let _pagesGenerator = null
-
-  let _tasks = []
 
   return {
     addTask(task) {
       _taskContainer.prepend(createTaskElement(task, _taskContainer, _callbacks))
     },
     renderPage(tasks) {
-      _tasks = tasks
-      _pages.setNewPages(tasks.length)
-      _pagesGenerator = _pages.pageGenerator()
+      const pageGenerator = _pages.new(tasks)()
 
       _taskContainer.innerHTML = ""
-      this.renderNextPage()
-    },
-    renderNextPage() {
-      const nextPage = _pagesGenerator.next()
-      if (nextPage.done) return
 
-      _taskContainer.append(...
-        _tasks
-          .slice(nextPage.value.start, nextPage.value.end)
-          .map(task => createTaskElement(task, _taskContainer, _callbacks))
-      )
+      function renderNext() {
+        const nextPage = pageGenerator.next()
+        if (nextPage.done) return
+
+        _taskContainer.append(...
+          nextPage.value.map(task => createTaskElement(task, _taskContainer, _callbacks))
+        )
+      }
+      renderNext()
+
+      return renderNext
     },
   }
 }
@@ -73,6 +69,7 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const descriptionWrapper = document.createElement("div")
   descriptionWrapper.className = "description-wrapper"
+  // TODO: id description wasn't added,  description = undefined
   descriptionWrapper.textContent = task.description
 
   taskDescription.appendChild(descriptionWrapper)
@@ -111,11 +108,11 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const taskElement = document.createElement("div")
   taskElement.className = "task"
-  if (task.status === constants.tasks.status.done) {
+  if (task.status === tasksStatuses.done) {
     taskElement.classList.add("done")
   } else {
     taskDoneButton.addEventListener("click", () => {
-      task.status = constants.tasks.status.done
+      task.status = tasksStatuses.done
       callbacks.done(
         task,
         () => {

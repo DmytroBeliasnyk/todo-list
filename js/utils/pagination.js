@@ -3,18 +3,19 @@ export function createPages(countOnPage) {
   let _count = 0
 
   return {
-    * nextPage() {
-      while (_current <= _count) {
-        const start = _current * countOnPage
-        const end = start + countOnPage
-
-        _current++
-        yield {start, end}
-      }
-    },
-    newPages(elementsCount) {
+    new(elements) {
       _current = 0
-      _count = Math.ceil(elementsCount / countOnPage)
+      _count = Math.ceil(elements.length / countOnPage)
+
+      return function* () {
+        while (_current <= _count) {
+          const start = _current * countOnPage
+          const end = start + countOnPage
+
+          _current++
+          yield elements.slice(start, end)
+        }
+      }
     },
   }
 }
