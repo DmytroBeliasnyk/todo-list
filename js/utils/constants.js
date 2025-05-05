@@ -1,4 +1,4 @@
-export const form = {
+export const formConstants = {
   messages: {
     formEmptyName: "Field \"name\" can't be empty.",
   },

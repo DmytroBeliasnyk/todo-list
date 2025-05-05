@@ -1,5 +1,5 @@
 import FormService from "../../services/form.js";
-import {form} from "../../utils/constants.js";
+import {formConstants} from "../../utils/constants.js";
 
 const modal = document.querySelector("#task-form-modal")
 const modalContainer = modal.parentNode
@@ -11,7 +11,7 @@ export function taskFormInit(formAddCallback) {
   document.querySelector(".open-task-form-add-task")
     .addEventListener("click", () => {
       openTaskForm({
-        action: form.actions.addTask,
+        action: formConstants.actions.addTask,
         formSubmitCallback: (task) => {
           task.id = crypto.randomUUID()
 
@@ -35,7 +35,7 @@ export function openTaskForm(options) {
     task => {
       const taskName = task.name.trim()
       if (!taskName) {
-        formService.setError(form.messages.formEmptyName)
+        formService.setError(formConstants.messages.formEmptyName)
         return
       }
 
