@@ -24,6 +24,7 @@ export function taskRenderInit(options) {
           nextPage.value.map(task => createTaskElement(task, _taskContainer, _callbacks))
         )
       }
+
       renderNext()
 
       return renderNext
@@ -32,103 +33,69 @@ export function taskRenderInit(options) {
 }
 
 function createTaskElement(task, taskContainer, callbacks) {
-  const taskContentWrapper = document.createElement("div")
-  taskContentWrapper.className = "task__content-wrapper"
+  const leftColumn = createDivElement("task__left-column")
+  const name = createDivElement("task__name", {textContent: task.name})
+  const showMenuButton = createDivElement("task__show-menu-btn")
+  leftColumn.append(name, showMenuButton)
 
-  const taskLeftColumn = document.createElement("div")
-  taskLeftColumn.className = "task__left-column"
+  const rightColumn = createDivElement("task__right-column")
+  const status = createDivElement("task__status", {textContent: task.status})
+  rightColumn.appendChild(status)
 
-  const taskName = document.createElement("div")
-  taskName.className = "task__name"
-  taskName.textContent = task.name
+  const contentWrapper = createDivElement("task__content-wrapper")
+  contentWrapper.append(leftColumn, rightColumn)
 
-  const taskShowMenuButton = document.createElement("div")
-  taskShowMenuButton.className = "task__show-menu-btn"
+  const description = createDivElement("task__description scrolling"
+    + (task.description ? " has-description" : ""))
+  const descriptionWrapper = createDivElement("description-wrapper",
+    {textContent: task.description ?? ""})
+  description.appendChild(descriptionWrapper)
 
-  taskLeftColumn.append(taskName, taskShowMenuButton)
+  const doneButton = createDivElement("task__done button click-animation",
+    {
+      textContent: "Done",
+      once: true,
+      eventHandler: () => {
+        if (task.status === tasksStatuses.done) return
 
-  const taskRightColumn = document.createElement("div")
-  taskRightColumn.className = "task__right-column"
+        task.status = tasksStatuses.done
+        callbacks.done(
+          task,
+          () => {
+            actionsWrapper.classList.remove("show-actions")
 
-  const taskStatus = document.createElement("div")
-  taskStatus.className = "task__status"
-  taskStatus.textContent = task.status
+            taskElement.classList.add("done")
+            status.textContent = "Done"
+          }
+        )
+      }
+    })
+  const removeButton = createDivElement("task__remove button click-animation",
+    {textContent: "Delete"})
+  const actionsWrapper = createDivElement("task__actions-wrapper")
+  actionsWrapper.append(doneButton, removeButton)
 
-  taskRightColumn.appendChild(taskStatus)
+  const buttons = createDivElement("task__buttons")
+  const editButton = createDivElement("task__open-form-edit-task button click-animation",
+    {textContent: "Edit task"})
+  const openActionsButton = createDivElement("task__open-actions-btn",
+    {
+      eventHandler: () => {
+        actionsWrapper.classList.toggle("show-actions")
+      }
+    }
+  )
+  buttons.append(editButton, openActionsButton, actionsWrapper)
 
-  taskContentWrapper.append(taskLeftColumn, taskRightColumn)
+  const menuWrapper = createDivElement("task__menu-wrapper")
+  menuWrapper.append(description, buttons)
 
-  const taskMenuWrapper = document.createElement("div")
-  taskMenuWrapper.className = "task__menu-wrapper"
+  const taskElement = createDivElement(
+    "task" + (task.status === tasksStatuses.done ? " done" : ""))
+  taskElement.append(contentWrapper, menuWrapper)
 
-  const taskDescription = document.createElement("div")
-  taskDescription.className = "task__description scrolling"
-  if (task.description) {
-    taskDescription.classList.add("has-description")
-  }
-
-  const descriptionWrapper = document.createElement("div")
-  descriptionWrapper.className = "description-wrapper"
-  // TODO: id description wasn't added,  description = undefined
-  descriptionWrapper.textContent = task.description
-
-  taskDescription.appendChild(descriptionWrapper)
-
-  taskMenuWrapper.appendChild(taskDescription)
-
-  const taskButtons = document.createElement("div")
-  taskButtons.className = "task__buttons"
-
-  const taskEditButton = document.createElement("div")
-  taskEditButton.className = "task__open-form-edit-task button click-animation"
-  taskEditButton.textContent = "Edit task"
-
-  const taskDoneButton = document.createElement("div")
-  taskDoneButton.className = "task__done button click-animation"
-  taskDoneButton.textContent = "Done"
-
-  const taskRemoveButton = document.createElement("div")
-  taskRemoveButton.className = "task__remove button click-animation"
-  taskRemoveButton.textContent = "Delete"
-
-  const taskActionsWrapper = document.createElement("div")
-  taskActionsWrapper.className = "task__actions-wrapper"
-
-  taskActionsWrapper.append(taskDoneButton, taskRemoveButton)
-
-  const taskOpenActionsButton = document.createElement("div")
-  taskOpenActionsButton.className = "task__open-actions-btn"
-  taskOpenActionsButton.addEventListener("click", () => {
-    taskActionsWrapper.classList.toggle("show-actions")
-  })
-
-  taskButtons.append(taskEditButton, taskOpenActionsButton, taskActionsWrapper)
-
-  taskMenuWrapper.appendChild(taskButtons)
-
-  const taskElement = document.createElement("div")
-  taskElement.className = "task"
-  if (task.status === tasksStatuses.done) {
-    taskElement.classList.add("done")
-  } else {
-    taskDoneButton.addEventListener("click", () => {
-      task.status = tasksStatuses.done
-      callbacks.done(
-        task,
-        () => {
-          taskActionsWrapper.classList.remove("show-actions")
-
-          taskElement.classList.add("done")
-          taskStatus.textContent = "Done"
-        }
-      )
-    }, {once: true})
-  }
-
-  taskElement.append(taskContentWrapper, taskMenuWrapper)
-
-  taskShowMenuButton.addEventListener("click", () => {
-    const isOpen = taskShowMenuButton.classList.contains("show-menu")
+  showMenuButton.addEventListener("click", () => {
+    const isOpen = showMenuButton.classList.contains("show-menu")
 
     if (!isOpen) {
       const anotherMenu = taskContainer.querySelector(".open")
@@ -138,36 +105,36 @@ function createTaskElement(task, taskContainer, callbacks) {
       }
     }
 
-    taskMenuWrapper.classList.toggle("open")
+    menuWrapper.classList.toggle("open")
     if (task.description) {
-      taskMenuWrapper.classList.add("has-description")
+      menuWrapper.classList.add("has-description")
     }
 
-    taskShowMenuButton.classList.toggle("show-menu")
+    showMenuButton.classList.toggle("show-menu")
 
-    taskActionsWrapper.classList.remove("show-actions")
+    actionsWrapper.classList.remove("show-actions")
   })
-  taskEditButton.addEventListener("click", () => {
+  editButton.addEventListener("click", () => {
     callbacks.edit(
       task,
       task => {
-        taskName.textContent = task.name
+        name.textContent = task.name
 
-        const description = task.description.trim()
-        if (description) {
-          descriptionWrapper.textContent = description
-          taskMenuWrapper.classList.add("has-description")
-          taskDescription.classList.add("has-description")
+        const taskDescription = task.description.trim()
+        if (taskDescription) {
+          descriptionWrapper.textContent = taskDescription
+          menuWrapper.classList.add("has-description")
+          description.classList.add("has-description")
         } else {
           setTimeout(() => {
-            descriptionWrapper.textContent = description
+            descriptionWrapper.textContent = taskDescription
           }, 350)
-          taskMenuWrapper.classList.remove("has-description")
-          taskDescription.classList.remove("has-description")
+          menuWrapper.classList.remove("has-description")
+          description.classList.remove("has-description")
         }
       })
   })
-  taskRemoveButton.addEventListener("click", () => {
+  removeButton.addEventListener("click", () => {
     callbacks.remove(
       task,
       () => taskElement.remove()
@@ -175,4 +142,23 @@ function createTaskElement(task, taskContainer, callbacks) {
   })
 
   return taskElement
+}
+
+function createDivElement(className, options = null) {
+  const element = document.createElement("div")
+  element.className = className
+
+  if (options) {
+    if (options.textContent) {
+      element.textContent = options.textContent
+    }
+
+    if (options.eventHandler && typeof options.eventHandler === "function") {
+      element.addEventListener("click", () => {
+        options.eventHandler()
+      }, {once: options.once})
+    }
+  }
+
+  return element
 }
