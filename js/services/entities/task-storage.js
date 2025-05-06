@@ -1,7 +1,7 @@
-import {taskStorageKey, tasksStatuses} from "../../utils/constants.js";
+import {TASK_STATUS, TASK_STORAGE_KEY} from "../../utils/constants.js";
 
 export const taskStorage = (() => {
-  const key = taskStorageKey
+  const key = TASK_STORAGE_KEY
   const repo = localStorage
 
   let tasks = JSON.parse(repo.getItem(key) || "[]")
@@ -12,7 +12,7 @@ export const taskStorage = (() => {
 
   return {
     add(task) {
-      task.status = tasksStatuses.inProgress
+      task.status = TASK_STATUS.IN_PROGRESS
 
       tasks.unshift(task)
       repo.setItem(key, JSON.stringify(tasks))

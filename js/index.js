@@ -2,13 +2,13 @@ import {taskStorage} from "./services/entities/task-storage.js";
 import {taskRenderInit} from "./components/tasks/render.js";
 import {openTaskForm, taskFormInit} from "./components/tasks/form.js";
 import {taskFiltersInit} from "./components/tasks/filters.js";
-import {formConstants} from "./utils/constants.js";
+import {FORM_CONSTANTS} from "./utils/constants.js";
 
 const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {
     edit: (task, renderCallback) => openTaskForm({
-      action: formConstants.actions.editTask,
+      action: FORM_CONSTANTS.ACTIONS.EDIT_TASK,
       task: task,
       formSubmitCallback: (editedTask) => {
         editedTask.id = task.id

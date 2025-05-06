@@ -1,11 +1,11 @@
 import {createPages} from "../../utils/pagination.js";
-import {tasksStatuses} from "../../utils/constants.js";
+import {TASK_STATUS} from "../../utils/constants.js";
 
 export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 
-  document.addEventListener("click", event => {
+  document.addEventListener("click", () => {
     _taskContainer.querySelector(".open")
       ?.classList.remove("open")
   })
@@ -70,11 +70,11 @@ function createTaskElement(task, taskContainer, callbacks) {
       textContent: "Done",
       once: true,
       clickHandler: () => {
-        if (task.status === tasksStatuses.done) return
+        if (task.status === TASK_STATUS.DONE) return
 
         actionsWrapper.classList.remove("open")
 
-        task.status = tasksStatuses.done
+        task.status = TASK_STATUS.DONE
         callbacks.done(
           task,
           () => {
@@ -112,7 +112,7 @@ function createTaskElement(task, taskContainer, callbacks) {
   contentWrapper.append(leftColumn, rightColumn)
 
   const taskElement = createDivElement(
-    "task" + (task.status === tasksStatuses.done ? " done" : ""),
+    "task" + (task.status === TASK_STATUS.DONE ? " done" : ""),
     {
       clickHandler: () => {
         callbacks.edit(

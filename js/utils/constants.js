@@ -1,23 +1,22 @@
-// TODO: change constants names to snake case
-export const formConstants = {
-  messages: {
-    formEmptyName: "Field \"name\" can't be empty.",
+export const FORM_CONSTANTS = {
+  MESSAGES: {
+    FORM_EMPTY_NAME: "Field \"name\" can't be empty.",
   },
-  actions: {
-    addTask: "add",
-    editTask: "edit",
+  ACTIONS: {
+    ADD_TASK: "add",
+    EDIT_TASK: "edit",
   },
 }
 
-export const filtersIds = {
-  searchInput: "search",
-  inProgress: "filter-in-progress",
-  done: "filter-done",
+export const FILTERS_IDs = {
+  SEARCH_INPUT: "search",
+  IN_PROGRESS: "filter-in-progress",
+  DONE: "filter-done",
 }
 
-export const tasksStatuses = {
-  inProgress: "In progress",
-  done: "Done",
+export const TASK_STATUS = {
+  IN_PROGRESS: "In progress",
+  DONE: "Done",
 }
 
-export const taskStorageKey = "tasks"
+export const TASK_STORAGE_KEY = "tasks"
