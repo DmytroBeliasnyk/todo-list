@@ -38,7 +38,7 @@ button, input, textarea {
   width: 100%;
 }
 
-.modal.add .modal__title-edit{
+.modal.add .modal__title-edit {
   display: none;
 }
 
@@ -91,17 +91,105 @@ button, input, textarea {
 
 .form__actions {
   display: flex;
-  align-items: center;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.form__control-buttons {
+  display: flex;
   gap: 12px;
+}
+
+.form__edit-buttons-wrapper {
+  position: relative;
+}
+
+.form__open-edit-buttons-btn {
+  display: none;
+  padding-bottom: 5px;
+  font-size: 10px;
+  color: var(--animation-font-color);
+  cursor: pointer;
+}
+
+.modal.edit .form__open-edit-buttons-btn {
+  display: block;
+}
+
+.form__open-edit-buttons-btn:after {
+  content: "\f054";
+  font-family: "Font Awesome 6 Free", serif;
+  font-size: 8px;
+  font-weight: 900;
+  margin-left: 8px;
+}
+
+.form__open-edit-buttons-btn.open:after {
+  content: "\f078";
+}
+
+.form__edit-buttons {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+
+  position: absolute;
+  top: 15px;
+  left: -10px;
+  z-index: 1;
+
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-bg-color);
+}
+
+.form__edit-buttons.show {
+  display: flex;
 }
 
 .form__submit,
 .form__close {
+  font-size: 14px;
   background-color: var(--secondary-color);
 }
 
 .form__close:active,
 .form__submit:active {
   background-color: var(--button-animation-color);
+  color: var(--animation-font-color);
+}
+
+.form__task-done {
+  font-size: 14px;
+  background-color: #008000FF;
+}
+
+.form__task-done::before {
+  content: "\f14a";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.form__task-done:active {
+  background-color: #006400FF;
+  color: var(--animation-font-color);
+}
+
+.form__task-remove {
+  font-size: 14px;
+  background-color: #FF0000FF;
+}
+
+.form__task-remove::before {
+  content: "\f1f8";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.form__task-remove:active {
+  background-color: #8B0000FF;
   color: var(--animation-font-color);
 }

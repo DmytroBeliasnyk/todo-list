@@ -34,13 +34,13 @@ export function taskRenderInit(options) {
 
 function createTaskElement(task, taskContainer, callbacks) {
   const leftColumn = createDivElement("task__left-column")
-  const name = createDivElement("task__name", {textContent: task.name})
+  const name = createDivElement("task__name", task.name)
   const descriptionIcon = createDivElement("task__description-icon" +
     (task.description ? " has-description" : ""))
   leftColumn.append(name, descriptionIcon)
 
   const rightColumn = createDivElement("task__right-column")
-  const status = createDivElement("task__status", {textContent: task.status})
+  const status = createDivElement("task__status", task.status)
   rightColumn.appendChild(status)
 
   const contentWrapper = createDivElement("task__content-wrapper")
@@ -50,23 +50,24 @@ function createTaskElement(task, taskContainer, callbacks) {
     "task" + (task.status === tasksStatuses.done ? " done" : ""))
   taskElement.appendChild(contentWrapper)
 
+  taskElement.addEventListener("click", () => {
+    callbacks.edit(
+      task,
+      task => {
+        name.textContent = task.name
+        descriptionIcon.classList.toggle("has-description", task.description.trim())
+      })
+  })
+
   return taskElement
 }
 
-function createDivElement(className, options = null) {
+function createDivElement(className, textContent = null) {
   const element = document.createElement("div")
   element.className = className
 
-  if (options) {
-    if (options.textContent) {
-      element.textContent = options.textContent
-    }
-
-    if (options.eventHandler && typeof options.eventHandler === "function") {
-      element.addEventListener("click", () => {
-        options.eventHandler()
-      }, {once: options.once})
-    }
+  if (textContent) {
+    element.textContent = textContent
   }
 
   return element
