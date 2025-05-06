@@ -51,24 +51,3 @@ loaderObserver.observe(document.querySelector("#tasks__loader"))
 window.addEventListener("storage", () => {
   renderNextPage = tasksRender.renderPage(taskStorage.getAll())
 })
-
-document.querySelector(".form__open-edit-buttons-btn")
-  .addEventListener("click", () => {
-    document.querySelector(".form__edit-buttons")
-      .classList.toggle("show")
-
-    document.querySelector(".form__open-edit-buttons-btn")
-      .classList.toggle("open")
-  })
-
-document.querySelector(".modal-container")
-  .addEventListener("click", event => {
-    if (event.target.closest(".form__open-edit-buttons-btn")) return
-
-    const editButtons = document.querySelector(".form__edit-buttons")
-    if (editButtons.classList.contains("show")) {
-      editButtons.classList.remove("show")
-      document.querySelector(".form__open-edit-buttons-btn")
-        .classList.remove("open")
-    }
-  })

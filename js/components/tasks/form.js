@@ -5,6 +5,9 @@ const modal = document.querySelector("#task-form-modal")
 const modalContainer = modal.parentNode
 
 const form = document.forms.taskForm
+const editButtons = form.querySelector(".form__edit-buttons")
+const openEditButtonsButton = editButtons.previousElementSibling
+
 const formService = FormService(form)
 
 export function taskFormInit(formAddCallback) {
@@ -19,6 +22,24 @@ export function taskFormInit(formAddCallback) {
         },
       })
     })
+
+  openEditButtonsButton.addEventListener("click", () => {
+    editButtons.classList.toggle("show")
+    openEditButtonsButton.classList.toggle("open")
+  })
+
+  modalContainer.addEventListener("click", event => {
+    if (event.target.closest(".form__open-edit-buttons-btn")) return
+
+    editButtons.classList.toggle("show", false)
+    openEditButtonsButton.classList.toggle("open", false)
+  })
+
+  modalContainer.addEventListener("click", event => {
+    if (event.target.closest(".modal")) return
+
+    form.reset()
+  })
 }
 
 export function openTaskForm(options) {
