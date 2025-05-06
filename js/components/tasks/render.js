@@ -35,8 +35,9 @@ export function taskRenderInit(options) {
 function createTaskElement(task, taskContainer, callbacks) {
   const leftColumn = createDivElement("task__left-column")
   const name = createDivElement("task__name", {textContent: task.name})
-  const showMenuButton = createDivElement("task__show-menu-btn")
-  leftColumn.append(name, showMenuButton)
+  const descriptionIcon = createDivElement("task__description-icon" +
+    (task.description ? " has-description" : ""))
+  leftColumn.append(name, descriptionIcon)
 
   const rightColumn = createDivElement("task__right-column")
   const status = createDivElement("task__status", {textContent: task.status})
@@ -45,101 +46,9 @@ function createTaskElement(task, taskContainer, callbacks) {
   const contentWrapper = createDivElement("task__content-wrapper")
   contentWrapper.append(leftColumn, rightColumn)
 
-  const description = createDivElement("task__description scrolling"
-    + (task.description ? " has-description" : ""))
-  const descriptionWrapper = createDivElement("description-wrapper",
-    {textContent: task.description ?? ""})
-  description.appendChild(descriptionWrapper)
-
-  const doneButton = createDivElement("task__done button click-animation",
-    {
-      textContent: "Done",
-      once: true,
-      eventHandler: () => {
-        if (task.status === tasksStatuses.done) return
-
-        task.status = tasksStatuses.done
-        callbacks.done(
-          task,
-          () => {
-            actionsWrapper.classList.remove("show-actions")
-
-            taskElement.classList.add("done")
-            status.textContent = "Done"
-          }
-        )
-      }
-    })
-  const removeButton = createDivElement("task__remove button click-animation",
-    {textContent: "Delete"})
-  const actionsWrapper = createDivElement("task__actions-wrapper")
-  actionsWrapper.append(doneButton, removeButton)
-
-  const buttons = createDivElement("task__buttons")
-  const editButton = createDivElement("task__open-form-edit-task button click-animation",
-    {textContent: "Edit task"})
-  const openActionsButton = createDivElement("task__open-actions-btn",
-    {
-      eventHandler: () => {
-        actionsWrapper.classList.toggle("show-actions")
-      }
-    }
-  )
-  buttons.append(editButton, openActionsButton, actionsWrapper)
-
-  const menuWrapper = createDivElement("task__menu-wrapper")
-  menuWrapper.append(description, buttons)
-
   const taskElement = createDivElement(
     "task" + (task.status === tasksStatuses.done ? " done" : ""))
-  taskElement.append(contentWrapper, menuWrapper)
-
-  showMenuButton.addEventListener("click", () => {
-    const isOpen = showMenuButton.classList.contains("show-menu")
-
-    if (!isOpen) {
-      const anotherMenu = taskContainer.querySelector(".open")
-      if (anotherMenu) {
-        taskContainer.querySelector(".show-menu").classList.remove("show-menu")
-        anotherMenu.classList.remove("open")
-      }
-    }
-
-    menuWrapper.classList.toggle("open")
-    if (task.description) {
-      menuWrapper.classList.add("has-description")
-    }
-
-    showMenuButton.classList.toggle("show-menu")
-
-    actionsWrapper.classList.remove("show-actions")
-  })
-  editButton.addEventListener("click", () => {
-    callbacks.edit(
-      task,
-      task => {
-        name.textContent = task.name
-
-        const taskDescription = task.description.trim()
-        if (taskDescription) {
-          descriptionWrapper.textContent = taskDescription
-          menuWrapper.classList.add("has-description")
-          description.classList.add("has-description")
-        } else {
-          setTimeout(() => {
-            descriptionWrapper.textContent = taskDescription
-          }, 350)
-          menuWrapper.classList.remove("has-description")
-          description.classList.remove("has-description")
-        }
-      })
-  })
-  removeButton.addEventListener("click", () => {
-    callbacks.remove(
-      task,
-      () => taskElement.remove()
-    )
-  })
+  taskElement.appendChild(contentWrapper)
 
   return taskElement
 }
