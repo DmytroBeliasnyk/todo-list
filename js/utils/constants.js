@@ -1,3 +1,4 @@
+// TODO: change constants names to snake case
 export const formConstants = {
   messages: {
     formEmptyName: "Field \"name\" can't be empty.",

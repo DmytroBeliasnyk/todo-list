@@ -5,6 +5,11 @@ export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 
+  document.addEventListener("click", event => {
+    _taskContainer.querySelector(".open")
+      ?.classList.remove("open")
+  })
+
   const _pages = createPages(10)
 
   return {
@@ -33,41 +38,109 @@ export function taskRenderInit(options) {
 }
 
 function createTaskElement(task, taskContainer, callbacks) {
-  const leftColumn = createDivElement("task__left-column")
-  const name = createDivElement("task__name", task.name)
+  const name = createDivElement("task__name", {textContent: task.name})
   const descriptionIcon = createDivElement("task__description-icon" +
     (task.description ? " has-description" : ""))
+  const leftColumn = createDivElement("task__left-column")
   leftColumn.append(name, descriptionIcon)
 
+  const status = createDivElement("task__status", {textContent: task.status})
+  const openActionsButton = createDivElement("task__open-actions-btn",
+    {
+      clickHandler: event => {
+        event.stopPropagation()
+
+        if (actionsWrapper.classList.contains("open")) {
+          actionsWrapper.classList.remove("open")
+        } else {
+          const anotherOpenedActions = taskContainer.querySelector(".open")
+          if (anotherOpenedActions) {
+            anotherOpenedActions.classList.remove("open")
+          }
+
+          actionsWrapper.classList.add("open")
+          if (taskContainer.parentNode.clientHeight < actionsWrapper.getBoundingClientRect().bottom) {
+            actionsWrapper.style.top = "-" + actionsWrapper.clientHeight + "px"
+          }
+        }
+      }
+    })
+  const doneButton = createDivElement("task__done button click-animation",
+    {
+      textContent: "Done",
+      once: true,
+      clickHandler: () => {
+        if (task.status === tasksStatuses.done) return
+
+        actionsWrapper.classList.remove("open")
+
+        task.status = tasksStatuses.done
+        callbacks.done(
+          task,
+          () => {
+            taskElement.classList.add("done")
+          }
+        )
+      }
+    })
+  const removeButton = createDivElement("task__remove button click-animation",
+    {
+      textContent: "Delete",
+      clickHandler: () => {
+        callbacks.remove(
+          task,
+          () => {
+            taskElement.remove()
+          }
+        )
+      }
+    })
+
+  const actionsWrapper = createDivElement("task__actions-wrapper",
+    {
+      clickHandler: event => {
+        event.stopPropagation()
+      }
+    }
+  )
+  actionsWrapper.append(doneButton, removeButton)
+
   const rightColumn = createDivElement("task__right-column")
-  const status = createDivElement("task__status", task.status)
-  rightColumn.appendChild(status)
+  rightColumn.append(status, openActionsButton, actionsWrapper)
 
   const contentWrapper = createDivElement("task__content-wrapper")
   contentWrapper.append(leftColumn, rightColumn)
 
   const taskElement = createDivElement(
-    "task" + (task.status === tasksStatuses.done ? " done" : ""))
+    "task" + (task.status === tasksStatuses.done ? " done" : ""),
+    {
+      clickHandler: () => {
+        callbacks.edit(
+          task,
+          task => {
+            name.textContent = task.name
+            descriptionIcon.classList.toggle("has-description", task.description.trim())
+          })
+      }
+    }
+  )
   taskElement.appendChild(contentWrapper)
-
-  taskElement.addEventListener("click", () => {
-    callbacks.edit(
-      task,
-      task => {
-        name.textContent = task.name
-        descriptionIcon.classList.toggle("has-description", task.description.trim())
-      })
-  })
 
   return taskElement
 }
 
-function createDivElement(className, textContent = null) {
+function createDivElement(className, options = null) {
   const element = document.createElement("div")
   element.className = className
 
-  if (textContent) {
-    element.textContent = textContent
+  if (options) {
+    if (options.textContent) {
+      element.textContent = options.textContent
+    }
+
+    if (options.clickHandler) {
+      element.addEventListener("click", options.clickHandler, {once: options.once})
+    }
   }
 
   return element

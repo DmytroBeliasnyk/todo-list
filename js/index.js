@@ -18,15 +18,24 @@ const tasksRender = taskRenderInit({
         renderCallback(editedTask)
       },
     }),
+    done: (task, renderCallback) => {
+      taskStorage.update(task)
+      renderCallback()
+    },
+    remove: (task, renderCallback) => {
+      taskStorage.remove(task)
+      renderCallback()
+    }
   },
 })
 let renderNextPage = tasksRender.renderPage(taskStorage.getAll())
 
-taskFormInit(
-  task => {
+taskFormInit({
+  addCallback: task => {
     taskStorage.add(task)
     tasksRender.addTask(task)
-  })
+  },
+})
 
 taskFiltersInit(
   taskStorage.getAll,

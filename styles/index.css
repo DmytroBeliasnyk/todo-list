@@ -173,6 +173,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .task__left-column {
@@ -183,7 +184,76 @@ main {
 
 .task__right-column {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: 24px;
+}
+
+.task__open-actions-btn::before {
+  content: "\f142";
+  font-family: "Font Awesome 6 Free", serif;
+  font-size: 24px;
+  font-weight: 900;
+  padding: 5px 10px;
+  margin: -5px -10px;
+}
+
+.task__actions-wrapper {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+
+  position: absolute;
+  top: 15px;
+  left: 550px;
+  z-index: 1;
+
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-bg-color);
+}
+
+.task__actions-wrapper.open {
+  display: flex;
+}
+
+.task__done {
+  font-size: 14px;
+  background-color: #008000FF;
+}
+
+.task__done::before {
+  content: "\f14a";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.task__done:active {
+  background-color: #006400FF;
+  color: var(--animation-font-color);
+}
+
+.task.done .task__done {
+  background-color: #006400FF;
+  color: var(--animation-font-color);
+}
+
+.task__remove {
+  font-size: 14px;
+  background-color: #FF0000FF;
+}
+
+.task__remove::before {
+  content: "\f1f8";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.task__remove:active {
+  background-color: #8B0000FF;
+  color: var(--animation-font-color);
 }
 
 .task__description-icon.has-description:before {
