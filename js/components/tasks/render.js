@@ -6,8 +6,10 @@ export function taskRenderInit(options) {
   const _callbacks = options.callbacks
 
   document.addEventListener("click", () => {
-    _taskContainer.querySelector(".open")
-      ?.classList.remove("open")
+    _taskContainer.querySelectorAll(".open")
+      .forEach(element => {
+        element.classList.remove("open")
+      })
   })
 
   const _pages = createPages(10)
@@ -51,21 +53,23 @@ function createTaskElement(task, taskContainer, callbacks) {
       clickHandler: event => {
         event.stopPropagation()
 
-        if (actionsWrapper.classList.contains("open")) {
-          actionsWrapper.classList.remove("open")
-        } else {
-          const anotherOpenedActions = taskContainer.querySelector(".open")
-          if (anotherOpenedActions) {
-            anotherOpenedActions.classList.remove("open")
-          }
-
-          actionsWrapper.classList.add("open")
-          if (taskContainer.parentNode.clientHeight < actionsWrapper.getBoundingClientRect().bottom) {
-            actionsWrapper.style.top = "-" + actionsWrapper.clientHeight + "px"
-          }
+        if (!openActionsButton.classList.contains("open")) {
+          taskContainer.querySelectorAll(".open")
+            .forEach(element => {
+              element.classList.remove("open")
+            })
         }
+
+        actionsWrapper.classList.toggle("open")
+        openActionsButton.classList.toggle("open")
       }
     })
+  const rightColumn = createDivElement("task__right-column")
+  rightColumn.append(status, openActionsButton)
+
+  const contentWrapper = createDivElement("task__content-wrapper")
+  contentWrapper.append(leftColumn, rightColumn)
+
   const doneButton = createDivElement("task__done button click-animation",
     {
       once: true,
@@ -73,6 +77,7 @@ function createTaskElement(task, taskContainer, callbacks) {
         if (task.status === TASK_STATUS.DONE) return
 
         actionsWrapper.classList.remove("open")
+        openActionsButton.classList.remove("open")
 
         task.status = TASK_STATUS.DONE
         callbacks.done(
@@ -94,7 +99,6 @@ function createTaskElement(task, taskContainer, callbacks) {
         )
       }
     })
-
   const actionsWrapper = createDivElement("task__actions-wrapper",
     {
       clickHandler: event => {
@@ -103,12 +107,6 @@ function createTaskElement(task, taskContainer, callbacks) {
     }
   )
   actionsWrapper.append(doneButton, removeButton)
-
-  const rightColumn = createDivElement("task__right-column")
-  rightColumn.append(status, openActionsButton, actionsWrapper)
-
-  const contentWrapper = createDivElement("task__content-wrapper")
-  contentWrapper.append(leftColumn, rightColumn)
 
   const taskElement = createDivElement(
     "task" + (task.status === TASK_STATUS.DONE ? " done" : ""),
@@ -123,7 +121,7 @@ function createTaskElement(task, taskContainer, callbacks) {
       }
     }
   )
-  taskElement.appendChild(contentWrapper)
+  taskElement.append(contentWrapper, actionsWrapper)
 
   return taskElement
 }

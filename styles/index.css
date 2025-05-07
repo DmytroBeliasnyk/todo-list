@@ -174,28 +174,26 @@ main {
 
 .task {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border-radius: 5px;
   background-color: var(--secondary-bg-color);
-  padding: 5px 8px;
   cursor: pointer;
 }
 
 .task.done {
   background-color: rgba(17, 24, 39, 0.3);
-  color: #b6b6b6;
-}
-
-.task:hover {
-  border-bottom: 1px solid var(--secondary-color);
+  color: #cad2dd;
 }
 
 .task__content-wrapper {
   display: flex;
+  flex: 1 1 auto;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 8px;
   position: relative;
+}
+
+.task__content-wrapper:hover {
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 .task__left-column {
@@ -211,12 +209,18 @@ main {
 }
 
 .task__open-actions-btn::before {
-  content: "\f142";
+  content: "\f053";
   font-family: "Font Awesome 6 Free", serif;
-  font-size: 24px;
+  font-size: 12px;
   font-weight: 900;
   padding: 5px 10px;
   margin: -5px -10px;
+}
+
+.task__open-actions-btn.open::before {
+  content: "\f054";
+  padding-right: 0;
+  margin-right: 8px;
 }
 
 .task__open-actions-btn:hover::after {
@@ -236,27 +240,20 @@ main {
 }
 
 .task__actions-wrapper {
-  display: none;
+  display: flex;
   flex-direction: column;
-  gap: 12px;
-
-  position: absolute;
-  top: 4px;
-  left: 576px;
-  z-index: 1;
-
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid var(--primary-color);
-  background-color: var(--primary-bg-color);
+  width: 0;
+  transition: width 0.2s ease;
+  overflow: hidden;
 }
 
 .task__actions-wrapper.open {
-  display: flex;
+  width: 29px;
 }
 
 .task__done {
-  font-size: 14px;
+  border-radius: 0;
+  font-size: 15px;
   background-color: #008000FF;
 }
 
@@ -276,7 +273,8 @@ main {
 }
 
 .task__remove {
-  font-size: 14px;
+  border-radius: 0;
+  font-size: 15px;
   color: #FFFFFF;
   background-color: #FF0000FF;
 }
