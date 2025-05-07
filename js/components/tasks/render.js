@@ -1,5 +1,5 @@
 import {createPages} from "../../utils/pagination.js";
-import {TASK_STATUS} from "../../utils/constants.js";
+import {TASK_STATUS, TOOLTIPS} from "../../utils/constants.js";
 
 export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
@@ -40,13 +40,14 @@ export function taskRenderInit(options) {
 function createTaskElement(task, taskContainer, callbacks) {
   const name = createDivElement("task__name", {textContent: task.name})
   const descriptionIcon = createDivElement("task__description-icon" +
-    (task.description ? " has-description" : ""))
+    (task.description ? " has-description" : ""), {tooltip: TOOLTIPS.HAS_DESCRIPTION})
   const leftColumn = createDivElement("task__left-column")
   leftColumn.append(name, descriptionIcon)
 
   const status = createDivElement("task__status", {textContent: task.status})
   const openActionsButton = createDivElement("task__open-actions-btn",
     {
+      tooltip: TOOLTIPS.TASK_ACTIONS,
       clickHandler: event => {
         event.stopPropagation()
 
@@ -67,7 +68,6 @@ function createTaskElement(task, taskContainer, callbacks) {
     })
   const doneButton = createDivElement("task__done button click-animation",
     {
-      textContent: "Done",
       once: true,
       clickHandler: () => {
         if (task.status === TASK_STATUS.DONE) return
@@ -85,7 +85,6 @@ function createTaskElement(task, taskContainer, callbacks) {
     })
   const removeButton = createDivElement("task__remove button click-animation",
     {
-      textContent: "Delete",
       clickHandler: () => {
         callbacks.remove(
           task,
@@ -136,6 +135,10 @@ function createDivElement(className, options = null) {
   if (options) {
     if (options.textContent) {
       element.textContent = options.textContent
+    }
+
+    if (options.tooltip) {
+      element.dataset.tooltip = options.tooltip
     }
 
     if (options.clickHandler) {

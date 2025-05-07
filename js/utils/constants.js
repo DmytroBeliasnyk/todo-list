@@ -20,3 +20,8 @@ export const TASK_STATUS = {
 }
 
 export const TASK_STORAGE_KEY = "tasks"
+
+export const TOOLTIPS = {
+  HAS_DESCRIPTION: "This task has description",
+  TASK_ACTIONS: "Task actions",
+}

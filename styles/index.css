@@ -111,12 +111,29 @@ main {
 }
 
 .filter {
+  position: relative;
   background-color: transparent;
   border-radius: 5px;
   padding: 5px;
   color: var(--primary-color);
   font-size: 20px;
   cursor: pointer;
+}
+
+.filter:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: 30px;
+  left: -27px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: var(--primary-color);
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
 }
 
 #filter-in-progress::before {
@@ -165,6 +182,11 @@ main {
   cursor: pointer;
 }
 
+.task.done {
+  background-color: rgba(17, 24, 39, 0.3);
+  color: #b6b6b6;
+}
+
 .task:hover {
   border-bottom: 1px solid var(--secondary-color);
 }
@@ -197,14 +219,30 @@ main {
   margin: -5px -10px;
 }
 
+.task__open-actions-btn:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: 36px;
+  left: 590px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: var(--primary-color);
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
+}
+
 .task__actions-wrapper {
   display: none;
   flex-direction: column;
   gap: 12px;
 
   position: absolute;
-  top: 15px;
-  left: 550px;
+  top: 4px;
+  left: 576px;
   z-index: 1;
 
   padding: 5px;
@@ -224,7 +262,6 @@ main {
 
 .task__done::before {
   content: "\f14a";
-  margin-right: 8px;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
 }
@@ -236,17 +273,16 @@ main {
 
 .task.done .task__done {
   background-color: #006400FF;
-  color: var(--animation-font-color);
 }
 
 .task__remove {
   font-size: 14px;
+  color: #FFFFFF;
   background-color: #FF0000FF;
 }
 
 .task__remove::before {
   content: "\f1f8";
-  margin-right: 8px;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
 }
@@ -263,14 +299,20 @@ main {
   font-size: 12px;
 }
 
-.task.done {
-  background-color: rgba(17, 24, 39, 0.3);
-}
+.task__description-icon:hover::after {
+  content: attr(data-tooltip);
 
-.task.done .task__name,
-.task.done .task__description,
-.task.done .task__status {
-  color: #b6b6b6;
+  position: absolute;
+  top: 43px;
+  left: -10px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: var(--primary-color);
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
 }
 
 .open-task-form-add-task {
