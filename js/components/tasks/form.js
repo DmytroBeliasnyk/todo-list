@@ -7,6 +7,18 @@ const modalContainer = modal.parentNode
 const form = document.forms.taskForm
 const formService = FormService(form)
 
+modalContainer.addEventListener("click", event => {
+  if (event.target.className === "modal-container") {
+    form.reset()
+  }
+})
+
+modalContainer.addEventListener("keyup", event => {
+  if (event.code === "Escape") {
+    form.reset()
+  }
+})
+
 export function taskFormInit(options) {
   document.querySelector(".open-task-form-add-task")
     .addEventListener("click", () => {
@@ -19,12 +31,6 @@ export function taskFormInit(options) {
         },
       })
     })
-
-  modalContainer.addEventListener("click", event => {
-    if (event.target.closest(".modal")) return
-
-    form.reset()
-  })
 }
 
 export function openTaskForm(options) {
