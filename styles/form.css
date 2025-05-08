@@ -38,6 +38,11 @@ button, input, textarea {
   width: 100%;
 }
 
+.modal__title-actions {
+  text-align: center;
+  max-width: 280px;
+}
+
 .modal.add .modal__title-edit {
   display: none;
 }
@@ -76,7 +81,6 @@ button, input, textarea {
   display: block;
   width: 100%;
   background-color: var(--secondary-bg-color);
-  border-radius: 5px;
   padding: 5px 8px;
 }
 
@@ -99,7 +103,7 @@ button, input, textarea {
 
 .form__actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .form__submit,
