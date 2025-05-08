@@ -1,10 +1,13 @@
 export const FORM_CONSTANTS = {
   MESSAGES: {
-    FORM_EMPTY_NAME: "Field \"name\" can't be empty.",
+    EMPTY_NAME: "Field \"name\" can't be empty.",
+    NOT_EQUAL_NAME: "Not equal name.",
   },
   ACTIONS: {
     ADD_TASK: "add",
     EDIT_TASK: "edit",
+    DONE_TASK: "done",
+    REMOVE_TASK: "remove",
   },
 }
 

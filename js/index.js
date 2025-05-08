@@ -3,6 +3,7 @@ import {taskRenderInit} from "./components/tasks/render.js";
 import {openTaskForm, taskFormInit} from "./components/tasks/form.js";
 import {taskFiltersInit} from "./components/tasks/filters.js";
 import {FORM_CONSTANTS} from "./utils/constants.js";
+import {openTaskActionsForm} from "./components/tasks/actions-form.js";
 
 const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
@@ -19,12 +20,30 @@ const tasksRender = taskRenderInit({
       },
     }),
     done: (task, renderCallback) => {
-      taskStorage.update(task)
-      renderCallback()
+      openTaskActionsForm({
+        action: FORM_CONSTANTS.ACTIONS.DONE_TASK,
+        formSubmitCallback: taskName => {
+          if (taskName !== task.name) {
+            throw new Error()
+          }
+
+          taskStorage.update(task)
+          renderCallback()
+        },
+      })
     },
     remove: (task, renderCallback) => {
-      taskStorage.remove(task)
-      renderCallback()
+      openTaskActionsForm({
+        action: FORM_CONSTANTS.ACTIONS.REMOVE_TASK,
+        formSubmitCallback: taskName => {
+          if (taskName !== task.name) {
+            throw new Error()
+          }
+
+          taskStorage.update(task)
+          renderCallback()
+        },
+      })
     }
   },
 })

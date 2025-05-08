@@ -46,6 +46,14 @@ button, input, textarea {
   display: none;
 }
 
+.modal.done .modal__title-remove {
+  display: none;
+}
+
+.modal.remove .modal__title-done {
+  display: none;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -81,7 +89,7 @@ button, input, textarea {
   font-size: 14px;
 }
 
-#input-name-label.has-error #input-name {
+.input-name-label.has-error .input-name {
   border-bottom: 1px solid var(--error-color);
 }
 

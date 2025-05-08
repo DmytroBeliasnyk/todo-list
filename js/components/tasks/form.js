@@ -41,7 +41,7 @@ export function openTaskForm(options) {
     task => {
       const taskName = task.name.trim()
       if (!taskName) {
-        formService.setError(FORM_CONSTANTS.MESSAGES.FORM_EMPTY_NAME)
+        formService.setError(FORM_CONSTANTS.MESSAGES.EMPTY_NAME)
         return
       }
 

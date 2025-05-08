@@ -1,6 +1,6 @@
 export default (form) => {
   const _messageContainer = form.querySelector(".form__error-message")
-  const _inputNameLabel = form.querySelector("#input-name-label")
+  const _inputNameLabel = form.querySelector(".input-name-label")
 
   let _callbackSubmit = null
   let _callbackReset = null

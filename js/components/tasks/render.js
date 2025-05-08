@@ -72,7 +72,6 @@ function createTaskElement(task, taskContainer, callbacks) {
 
   const doneButton = createDivElement("task__done button click-animation",
     {
-      once: true,
       clickHandler: () => {
         if (task.status === TASK_STATUS.DONE) return
 
@@ -140,7 +139,7 @@ function createDivElement(className, options = null) {
     }
 
     if (options.clickHandler) {
-      element.addEventListener("click", options.clickHandler, {once: options.once})
+      element.addEventListener("click", options.clickHandler)
     }
   }
 
