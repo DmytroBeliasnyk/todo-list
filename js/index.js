@@ -1,10 +1,11 @@
-import {taskStorage} from "./services/entities/task-storage.js";
+import {taskStorageInit} from "./services/entities/task-storage.js";
 import {taskRenderInit} from "./components/tasks/render.js";
 import {openTaskForm, taskFormInit} from "./components/tasks/form.js";
 import {taskFiltersInit} from "./components/tasks/filters.js";
 import {FORM_CONSTANTS} from "./utils/constants.js";
 import {openTaskActionsForm} from "./components/tasks/actions-form.js";
 
+const taskStorage = taskStorageInit()
 const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {

@@ -1,9 +1,6 @@
 import {TASK_STATUS, TASK_STORAGE_KEY} from "../../utils/constants.js";
 
-export const taskStorage = (() => {
-  const key = TASK_STORAGE_KEY
-  const repo = localStorage
-
+export function taskStorageInit(repo = localStorage, key = TASK_STORAGE_KEY) {
   let tasks = JSON.parse(repo.getItem(key) || "[]")
 
   window.addEventListener("storage", () => {
@@ -36,4 +33,4 @@ export const taskStorage = (() => {
       repo.setItem(key, JSON.stringify(tasks))
     },
   }
-})()
+}
