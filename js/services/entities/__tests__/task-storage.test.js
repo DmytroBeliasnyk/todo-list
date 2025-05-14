@@ -163,6 +163,7 @@ describe("remove", () => {
     test.each([
       ["no id", {name: "name"}],
       ["no existent id", {name: "name", id: -1}],
+      ["undefined task", undefined]
     ])("%s", (_, inputTask) => {
       expect(() => taskStorage.remove(inputTask)).toThrowError()
       expect(mockStorage.setItem).not.toHaveBeenCalled()

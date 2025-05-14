@@ -16,8 +16,12 @@ const tasksRender = taskRenderInit({
         editedTask.id = task.id
         editedTask.status = task.status
 
-        taskStorage.update(editedTask)
-        renderCallback(editedTask)
+        try {
+          taskStorage.update(editedTask)
+          renderCallback(editedTask)
+        } catch (error) {
+          console.error(error)
+        }
       },
     }),
     done: (task, renderCallback) => {
@@ -28,9 +32,13 @@ const tasksRender = taskRenderInit({
             throw new Error()
           }
 
-          task.status = TASK_STATUS.DONE
-          taskStorage.update(task)
-          renderCallback()
+          try {
+            task.status = TASK_STATUS.DONE
+            taskStorage.update(task)
+            renderCallback()
+          } catch (error) {
+            console.error(error)
+          }
         },
       })
     },
@@ -42,8 +50,12 @@ const tasksRender = taskRenderInit({
             throw new Error()
           }
 
-          taskStorage.remove(task)
-          renderCallback()
+          try {
+            taskStorage.remove(task)
+            renderCallback()
+          } catch (error) {
+            console.error(error)
+          }
         },
       })
     }
@@ -53,8 +65,12 @@ let renderNextPage = tasksRender.renderPage(taskStorage.getAll())
 
 taskFormInit({
   addCallback: task => {
-    taskStorage.add(task)
-    tasksRender.addTask(task)
+    try {
+      taskStorage.add(task)
+      tasksRender.addTask(task)
+    } catch (error) {
+      console.error(error)
+    }
   },
 })
 
