@@ -189,7 +189,6 @@ main {
   justify-content: space-between;
   align-items: center;
   padding: 5px 8px;
-  position: relative;
 }
 
 .task__content-wrapper:hover {
@@ -206,6 +205,10 @@ main {
   display: flex;
   align-items: center;
   gap: 24px;
+}
+
+.task__open-actions-btn {
+  position: relative;
 }
 
 .task__open-actions-btn::before {
@@ -227,8 +230,8 @@ main {
   content: attr(data-tooltip);
 
   position: absolute;
-  top: 36px;
-  left: 590px;
+  top: 20px;
+  left: -40px;
   z-index: 1;
 
   display: inline-block;
