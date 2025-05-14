@@ -42,7 +42,7 @@ const tasksRender = taskRenderInit({
             throw new Error()
           }
 
-          taskStorage.update(task)
+          taskStorage.remove(task)
           renderCallback()
         },
       })
