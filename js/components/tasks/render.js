@@ -78,11 +78,11 @@ function createTaskElement(task, taskContainer, callbacks) {
         actionsWrapper.classList.remove("open")
         openActionsButton.classList.remove("open")
 
-        task.status = TASK_STATUS.DONE
         callbacks.done(
           task,
           () => {
             taskElement.classList.add("done")
+            status.textContent = TASK_STATUS.DONE
           }
         )
       }
