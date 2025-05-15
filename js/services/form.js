@@ -1,3 +1,5 @@
+import {FORM_CONSTANTS} from "../utils/constants.js";
+
 export default (form) => {
   const _messageContainer = form.querySelector(".form__error-message")
   const _inputNameLabel = form.querySelector(".input-name-label")
@@ -7,8 +9,6 @@ export default (form) => {
 
   form.addEventListener("submit", e => {
     e.preventDefault()
-
-    form.elements.name.disabled = false
     if (_callbackSubmit) _callbackSubmit(Object.fromEntries(new FormData(form)))
   })
   form.addEventListener("reset", () => {
@@ -28,15 +28,18 @@ export default (form) => {
     },
     setError(errorMessage) {
       _inputNameLabel.classList.add("has-error")
-      _messageContainer.innerText = errorMessage
+      _messageContainer.textContent = errorMessage ?? FORM_CONSTANTS.MESSAGES.UNKNOWN_ERROR
 
       const inputName = form.elements.name
-      inputName.addEventListener("input", () => this.clearError(), {once: true})
+      inputName.addEventListener(
+        "input", () => this.clearError(),
+        {once: true}
+      )
       inputName.focus()
     },
     clearError() {
       _inputNameLabel.classList.remove("has-error")
-      _messageContainer.innerText = ''
+      _messageContainer.textContent = ''
     },
   }
 }

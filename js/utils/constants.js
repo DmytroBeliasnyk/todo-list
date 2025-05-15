@@ -2,6 +2,7 @@ export const FORM_CONSTANTS = {
   MESSAGES: {
     EMPTY_NAME: "Field \"name\" can't be empty.",
     NOT_EQUAL_NAME: "Not equal name.",
+    UNKNOWN_ERROR: "Invalid task name",
   },
   ACTIONS: {
     ADD_TASK: "add",
