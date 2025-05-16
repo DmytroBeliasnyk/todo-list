@@ -3,7 +3,7 @@
  */
 import {describe, jest} from "@jest/globals"
 import FormService from "../form.js";
-import {FORM_CONSTANTS} from "../../utils/constants.js";
+import {FORM_MESSAGES} from "../../utils/constants.js";
 
 const inputName = document.createElement("input")
 inputName.name = "name"
@@ -109,7 +109,7 @@ test.each([
 ("set error: %s message", (_, message) => {
   const spyListener = jest.spyOn(inputName, "addEventListener")
   const spyFocus = jest.spyOn(inputName, "focus")
-  const expectedMessage = message ?? FORM_CONSTANTS.MESSAGES.UNKNOWN_ERROR
+  const expectedMessage = message ?? FORM_MESSAGES.UNKNOWN_ERROR
 
   formService.setError(message)
 

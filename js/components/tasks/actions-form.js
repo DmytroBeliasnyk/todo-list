@@ -1,5 +1,5 @@
 import FormService from "../../services/form.js";
-import {FORM_CONSTANTS} from "../../utils/constants.js";
+import {FORM_MESSAGES} from "../../utils/constants.js";
 
 const modal = document.querySelector("#task-actions-form-modal")
 const modalContainer = modal.parentNode
@@ -29,7 +29,7 @@ export function openTaskActionsForm(options) {
     formData => {
       const name = formData.name
       if (!name.trim()) {
-        formService.setError(FORM_CONSTANTS.MESSAGES.EMPTY_NAME)
+        formService.setError(FORM_MESSAGES.EMPTY_NAME)
         return
       }
 
@@ -37,7 +37,7 @@ export function openTaskActionsForm(options) {
         options.formSubmitCallback(name)
         form.reset()
       } catch (error) {
-        formService.setError(FORM_CONSTANTS.MESSAGES.NOT_EQUAL_NAME)
+        formService.setError(FORM_MESSAGES.NOT_EQUAL_NAME)
       }
     }, () => {
       modalContainer.classList.remove("active")

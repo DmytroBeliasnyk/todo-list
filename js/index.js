@@ -2,7 +2,7 @@ import {taskStorageInit} from "./services/entities/task-storage.js";
 import {taskRenderInit} from "./components/tasks/render.js";
 import {openTaskForm, taskFormInit} from "./components/tasks/form.js";
 import {taskFiltersInit} from "./components/tasks/filters.js";
-import {FORM_CONSTANTS, TASK_STATUS} from "./utils/constants.js";
+import {FORM_ACTIONS, TASK_STATUS} from "./utils/constants.js";
 import {openTaskActionsForm} from "./components/tasks/actions-form.js";
 
 const taskStorage = taskStorageInit()
@@ -10,7 +10,7 @@ const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
   callbacks: {
     edit: (task, renderCallback) => openTaskForm({
-      action: FORM_CONSTANTS.ACTIONS.EDIT_TASK,
+      action: FORM_ACTIONS.EDIT_TASK,
       task: task,
       formSubmitCallback: (editedTask) => {
         editedTask.id = task.id
@@ -26,7 +26,7 @@ const tasksRender = taskRenderInit({
     }),
     done: (task, renderCallback) => {
       openTaskActionsForm({
-        action: FORM_CONSTANTS.ACTIONS.DONE_TASK,
+        action: FORM_ACTIONS.DONE_TASK,
         formSubmitCallback: taskName => {
           if (taskName !== task.name) {
             throw new Error()
@@ -44,7 +44,7 @@ const tasksRender = taskRenderInit({
     },
     remove: (task, renderCallback) => {
       openTaskActionsForm({
-        action: FORM_CONSTANTS.ACTIONS.REMOVE_TASK,
+        action: FORM_ACTIONS.REMOVE_TASK,
         formSubmitCallback: taskName => {
           if (taskName !== task.name) {
             throw new Error()
