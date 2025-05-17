@@ -8,7 +8,7 @@ export function createPages(countOnPage) {
       _count = Math.ceil(elements.length / countOnPage)
 
       return function* () {
-        while (_current <= _count) {
+        while (_current < _count) {
           const start = _current * countOnPage
           const end = start + countOnPage
 
