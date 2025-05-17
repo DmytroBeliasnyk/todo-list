@@ -1,4 +1,4 @@
-import {FORM_CONSTANTS} from "../utils/constants.js";
+import {FORM_MESSAGES} from "../utils/constants.js";
 
 export default (form) => {
   const _messageContainer = form.querySelector(".form__error-message")
@@ -28,7 +28,7 @@ export default (form) => {
     },
     setError(errorMessage) {
       _inputNameLabel.classList.add("has-error")
-      _messageContainer.textContent = errorMessage ?? FORM_CONSTANTS.MESSAGES.UNKNOWN_ERROR
+      _messageContainer.textContent = errorMessage ?? FORM_MESSAGES.UNKNOWN_ERROR
 
       const inputName = form.elements.name
       inputName.addEventListener(

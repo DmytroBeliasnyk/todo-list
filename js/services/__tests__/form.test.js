@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import {describe, jest} from "@jest/globals"
+import {jest} from "@jest/globals"
 import FormService from "../form.js";
 import {FORM_MESSAGES} from "../../utils/constants.js";
 
