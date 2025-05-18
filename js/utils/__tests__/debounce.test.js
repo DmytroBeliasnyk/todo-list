@@ -11,7 +11,7 @@ beforeEach(() => {
   debounceFn = debounce(fn, 500)
 })
 
-test.only("debounce: one call", done => {
+test("debounce: one call", done => {
   debounceFn(done)
 })
 

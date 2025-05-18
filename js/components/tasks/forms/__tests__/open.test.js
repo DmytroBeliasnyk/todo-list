@@ -39,7 +39,6 @@ test.each([
   const {open} = await import("../open.js")
   const spyInputNameFocus = jest.spyOn(inputName, "focus")
 
-  console.log(modalContainer.classList.contains("active"))
   open(modalContainer, modal, form, options.action, options.task)
 
   expect(modalContainer.classList.contains("active")).toBeTruthy()
