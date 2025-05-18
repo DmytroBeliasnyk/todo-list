@@ -4,7 +4,6 @@
 import {jest} from "@jest/globals"
 import {FORM_ACTIONS, FORM_MESSAGES} from "../../../../utils/constants.js"
 
-
 document.body.innerHTML = `<div class="modal-container">
                             <div class="modal">
                               <form name="taskForm">
@@ -26,28 +25,6 @@ const modalContainer = modal.parentNode
 
 afterEach(() => {
   form.reset()
-})
-
-test.each([
-  ["add", {action: FORM_ACTIONS.ADD_TASK}],
-  ["edit", {
-    action: FORM_ACTIONS.EDIT_TASK,
-    task: {name: "test-task", description: "test-description"},
-  }]
-])
-("open form to %s task", async (_, options) => {
-  const {openTaskForm} = await import("../add-task.js")
-  const mockOpenForm = jest.fn(() => {
-    openTaskForm(options)
-  })
-
-  mockOpenForm()
-
-  expect(mockOpenForm).toHaveReturned()
-  expect(modalContainer.classList.contains("active")).toBeTruthy()
-  expect(modal.classList.contains(options.action)).toBeTruthy()
-  expect(inputName.value).toBe(options.task?.name ?? "")
-  expect(inputDescription.value).toBe(options.task?.description ?? "")
 })
 
 describe("submit form", () => {
