@@ -1,13 +1,12 @@
 import {FORM_MESSAGES} from "../../../utils/constants.js";
 import {init} from "./init.js";
+import {open} from "./open.js";
 
 const form = document.forms.actionsForm
 const {modalContainer, modal, formService} = init(form)
 
 export function openTaskActionsForm(options) {
-  modalContainer.classList.add("active")
-  modal.classList.add(options.action)
-  form.elements.name.focus()
+  open(modalContainer, modal, form, options.action)
 
   formService.init(
     formData => {
