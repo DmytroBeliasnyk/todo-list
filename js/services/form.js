@@ -1,6 +1,6 @@
 import {FORM_MESSAGES} from "../utils/constants.js";
 
-export default (form) => {
+export function formService(form) {
   const _messageContainer = form.querySelector(".form__error-message")
   const _inputNameLabel = form.querySelector(".input-name-label")
 

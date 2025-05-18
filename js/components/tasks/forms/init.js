@@ -1,9 +1,9 @@
-import FormService from "../../../services/form.js";
+import {formService} from "../../../services/form.js";
 
 export function init(form) {
   const modal = form.closest(".modal")
   const modalContainer = modal.parentNode
-  const formService = FormService(form)
+  const service = formService(form)
 
   modalContainer.addEventListener("click", event => {
     if (event.target.classList.contains("modal-container")) {
@@ -20,6 +20,6 @@ export function init(form) {
   return {
     modalContainer: modalContainer,
     modal: modal,
-    formService: formService
+    formService: service
   }
 }

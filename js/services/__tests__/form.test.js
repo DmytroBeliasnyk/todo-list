@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import {jest} from "@jest/globals"
-import FormService from "../form.js";
+import {formService} from "../form.js";
 import {FORM_MESSAGES} from "../../utils/constants.js";
 
 const inputName = document.createElement("input")
@@ -18,9 +18,9 @@ messageContainer.className = "form__error-message"
 const testForm = document.createElement("form")
 testForm.append(nameLabel, messageContainer)
 
-let formService
+let service
 beforeEach(() => {
-  formService = FormService(testForm)
+  service = formService(testForm)
 })
 afterEach(() => {
   jest.clearAllMocks()
@@ -29,7 +29,7 @@ afterEach(() => {
 test("form service", () => {
   const spyListeners = jest.spyOn(testForm, "addEventListener")
   const mockFn = jest.fn(
-    testForm => FormService(testForm)
+    testForm => formService(testForm)
   )
 
   const res = mockFn(testForm)
@@ -46,9 +46,9 @@ test.each([
 ])
 (`init: %s`, (_, callbackSubmit, callbackReset) => {
   const spyListener = jest.spyOn(testForm, "addEventListener")
-  const spyClearError = jest.spyOn(formService, "clearError")
+  const spyClearError = jest.spyOn(service, "clearError")
   const mockInit = jest.fn(() => {
-    formService.init(callbackSubmit, callbackReset)
+    service.init(callbackSubmit, callbackReset)
   })
 
   mockInit()
@@ -73,7 +73,7 @@ describe.each([
       action()
     })
 
-    formService.init(mockSubmitCallback, mockResetCallback)
+    service.init(mockSubmitCallback, mockResetCallback)
     mockSubmit()
 
     expect(mockSubmit).toHaveReturned()
@@ -91,7 +91,7 @@ describe.each([
     ["undefined callbacks", undefined, undefined],
   ])
   (`%s: form ${actionName}`, (_, callbackSubmit, callbackReset) => {
-    formService.init(callbackSubmit, callbackReset)
+    service.init(callbackSubmit, callbackReset)
     const mockSubmit = jest.fn(() => {
       testForm.submit()
     })
@@ -111,7 +111,7 @@ test.each([
   const spyFocus = jest.spyOn(inputName, "focus")
   const expectedMessage = message ?? FORM_MESSAGES.UNKNOWN_ERROR
 
-  formService.setError(message)
+  service.setError(message)
 
   expect(nameLabel.classList.contains("has-error")).toBeTruthy()
   expect(messageContainer.textContent).toBe(expectedMessage)
@@ -121,7 +121,7 @@ test.each([
 
 test.each([
   ["", () => {
-    formService.clearError()
+    service.clearError()
   }],
   ["on input", () => {
     inputName.dispatchEvent(new InputEvent('input', {
@@ -131,7 +131,7 @@ test.each([
     }))
   }]
 ])("clear error %s", (_, act) => {
-  formService.setError("error")
+  service.setError("error")
 
   act()
 
