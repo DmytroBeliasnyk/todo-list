@@ -1,24 +1,8 @@
-import FormService from "../../services/form.js";
-import {FORM_MESSAGES} from "../../utils/constants.js";
-
-const modal = document.querySelector("#task-actions-form-modal")
-const modalContainer = modal.parentNode
+import {FORM_MESSAGES} from "../../../utils/constants.js";
+import {init} from "./init.js";
 
 const form = document.forms.actionsForm
-const formService = FormService(form)
-
-modalContainer.addEventListener("click", event => {
-    if (event.target.className === "modal-container") {
-      form.reset()
-    }
-  }
-)
-
-modalContainer.addEventListener("keyup", event => {
-  if (event.code === "Escape") {
-    form.reset()
-  }
-})
+const {modalContainer, modal, formService} = init(form)
 
 export function openTaskActionsForm(options) {
   modalContainer.classList.add("active")

@@ -1,9 +1,9 @@
 import {taskStorageInit} from "./services/entities/task-storage.js";
 import {taskRenderInit} from "./components/tasks/render.js";
-import {openTaskForm, taskFormInit} from "./components/tasks/form.js";
+import {openTaskForm} from "./components/tasks/forms/add-task.js";
+import {openTaskActionsForm} from "./components/tasks/forms/actions-task.js";
 import {taskFiltersInit} from "./components/tasks/filters.js";
 import {FORM_ACTIONS, TASK_STATUS} from "./utils/constants.js";
-import {openTaskActionsForm} from "./components/tasks/actions-form.js";
 
 const taskStorage = taskStorageInit()
 const tasksRender = taskRenderInit({
@@ -63,24 +63,6 @@ const tasksRender = taskRenderInit({
 })
 let renderNextPage = tasksRender.renderPage(taskStorage.getAll())
 
-taskFormInit({
-  addCallback: task => {
-    try {
-      taskStorage.add(task)
-      tasksRender.addTask(task)
-    } catch (error) {
-      console.error(error)
-    }
-  },
-})
-
-taskFiltersInit(
-  taskStorage.getAll,
-  tasks => {
-    renderNextPage = tasksRender.renderPage(tasks)
-  }
-)
-
 const loaderObserver = new IntersectionObserver(
   (entries) => {
     if (entries[0].isIntersecting) {
@@ -93,6 +75,30 @@ const loaderObserver = new IntersectionObserver(
   }
 )
 loaderObserver.observe(document.querySelector("#tasks__loader"))
+
+taskFiltersInit(
+  taskStorage.getAll,
+  tasks => {
+    renderNextPage = tasksRender.renderPage(tasks)
+  }
+)
+
+document.querySelector(".open-task-form-add-task")
+  .addEventListener("click", () => {
+    openTaskForm({
+      action: FORM_ACTIONS.ADD_TASK,
+      formSubmitCallback: (task) => {
+        task.id = crypto.randomUUID()
+
+        try {
+          taskStorage.add(task)
+          tasksRender.addTask(task)
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    })
+  })
 
 window.addEventListener("storage", () => {
   renderNextPage = tasksRender.renderPage(taskStorage.getAll())
