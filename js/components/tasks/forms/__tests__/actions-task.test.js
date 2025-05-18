@@ -26,7 +26,7 @@ afterEach(() => {
 })
 
 describe("submit form", () => {
-  test("valid input", async () => {
+  test("valid name", async () => {
     const {openTaskActionsForm} = await import("../actions-task.js")
     const options = {formSubmitCallback: jest.fn()}
     inputName.value = "valid-name"
@@ -37,7 +37,7 @@ describe("submit form", () => {
     expect(options.formSubmitCallback).toHaveBeenCalledWith("valid-name")
   })
 
-  test("invalid input", async () => {
+  test("invalid name", async () => {
     const {openTaskActionsForm} = await import("../actions-task.js")
     const options = {formSubmitCallback: jest.fn()}
     inputName.value = ""
@@ -47,6 +47,23 @@ describe("submit form", () => {
 
     expect(options.formSubmitCallback).not.toHaveBeenCalled()
     expect(errorContainer.textContent).toBe(FORM_MESSAGES.EMPTY_NAME)
+  })
+
+  test("not equal name", async () => {
+    const {openTaskActionsForm} = await import("../actions-task.js")
+    const options = {
+      formSubmitCallback: jest.fn(() => {
+        throw new Error()
+      })
+    }
+    inputName.value = "not equal name"
+
+    openTaskActionsForm(options)
+    form.submit()
+
+    expect(options.formSubmitCallback).toHaveBeenCalledWith("not equal name")
+    expect(options.formSubmitCallback).toThrowError()
+    expect(errorContainer.textContent).toBe(FORM_MESSAGES.NOT_EQUAL_NAME)
   })
 })
 
