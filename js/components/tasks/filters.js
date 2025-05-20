@@ -1,6 +1,6 @@
 import {filterService} from "../../services/filter.js";
 import {debounce} from "../../utils/debounce.js";
-import {FILTERS_IDs,TASK_STATUS} from "../../utils/constants.js";
+import {FILTERS_IDs, TASK_STATUS} from "../../utils/constants.js";
 
 const filters = new Map([
   [FILTERS_IDs.SEARCH_INPUT, (tasks, searchValue) => {
@@ -18,7 +18,12 @@ const filters = new Map([
   )],
 ])
 
-export function taskFiltersInit(getTasks, renderCallback) {
+export function filtersHandlersInit(getTasks, renderCallback) {
+  if (typeof getTasks !== "function" || typeof renderCallback !== "function") {
+    throw new Error("Invalid parameters types.")
+  }
+  if (document.querySelector(".navigation").dataset.handlersAttached === "true") return
+
   const render = () => renderCallback(
     filterService.applyFilters(
       getTasks()
@@ -27,7 +32,7 @@ export function taskFiltersInit(getTasks, renderCallback) {
 
   document.querySelector(".navigation__search")
     .addEventListener("input", event => {
-      debounce((target) => {
+      debounce(target => {
         filterService.setFilter(
           target.id,
           tasks => filters.get(target.id)(tasks, target.value.trim())
@@ -48,8 +53,8 @@ export function taskFiltersInit(getTasks, renderCallback) {
       } else {
         for (const enabledFilter of event.currentTarget.querySelectorAll(".enabled")) {
           if (
-            !enabledFilter.dataset.hasOwnProperty('enabledTogether') &&
-            !targetFilter.dataset.hasOwnProperty('enabledTogether')
+            !enabledFilter.hasAttribute("data-enable-together") &&
+            !targetFilter.hasAttribute("data-enable-together")
           ) {
             enabledFilter.classList.remove("enabled")
             filterService.removeFilter(enabledFilter.id)
@@ -65,4 +70,6 @@ export function taskFiltersInit(getTasks, renderCallback) {
 
       render()
     })
+
+  document.querySelector(".navigation").dataset.handlersAttached = "true"
 }
