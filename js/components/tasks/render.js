@@ -12,7 +12,8 @@ export function taskRenderInit(options) {
       })
   })
 
-  const _pages = createPages(10)
+  const _countOnPage = options.countOnPage
+  const _pages = createPages(_countOnPage)
 
   return {
     addTask(task) {

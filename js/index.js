@@ -8,6 +8,7 @@ import {FORM_ACTIONS, TASK_STATUS} from "./utils/constants.js";
 const taskStorage = taskStorageInit()
 const tasksRender = taskRenderInit({
   taskContainer: document.querySelector(".tasks__container"),
+  countOnPage: 10,
   callbacks: {
     edit: (task, renderCallback) => openTaskForm({
       action: FORM_ACTIONS.EDIT_TASK,
@@ -76,14 +77,14 @@ const loaderObserver = new IntersectionObserver(
 )
 loaderObserver.observe(document.querySelector("#tasks__loader"))
 
-try{
+try {
   filtersHandlersInit(
     taskStorage.getAll,
     tasks => {
       renderNextPage = tasksRender.renderPage(tasks)
     }
   )
-}catch (error){
+} catch (error) {
   console.error(error)
 }
 

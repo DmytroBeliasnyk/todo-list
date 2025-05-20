@@ -4,7 +4,6 @@
 import {jest} from "@jest/globals"
 import {filtersHandlersInit} from "../tasks/filters.js"
 import {TASK_STATUS} from "../../utils/constants.js"
-import * as sea from "node:sea";
 
 jest.useFakeTimers()
 
