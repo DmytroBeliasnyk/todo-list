@@ -1,16 +1,16 @@
 import {initApp} from "./js/init.js";
-import {openTaskForm} from "./js/components/tasks/forms/add-task.js";
 import {FORM_ACTIONS} from "./js/utils/constants.js";
 
-const render = {
-  nextPage: null,
+const actions = {
+  renderNextPage: null,
+  openTaskForm: null,
 }
-const {taskStorage, taskRender} = initApp(render)
+const {taskStorage, taskRender} = initApp(actions)
 
 const loaderObserver = new IntersectionObserver(
   (entries) => {
     if (entries[0].isIntersecting) {
-      render.nextPage()
+      actions.renderNextPage()
     }
   },
   {
@@ -22,7 +22,7 @@ loaderObserver.observe(document.querySelector("#tasks__loader"))
 
 document.querySelector(".open-task-form-add-task")
   .addEventListener("click", () => {
-    openTaskForm({
+    actions.openTaskForm({
       action: FORM_ACTIONS.ADD_TASK,
       formSubmitCallback: (task) => {
         task.id = crypto.randomUUID()
@@ -38,5 +38,5 @@ document.querySelector(".open-task-form-add-task")
   })
 
 window.addEventListener("storage", () => {
-  render.nextPage = taskRender.renderPage(taskStorage.getAll())
+  actions.renderNextPage = taskRender.renderPage(taskStorage.getAll())
 })
