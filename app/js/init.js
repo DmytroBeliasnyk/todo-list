@@ -1,11 +1,11 @@
 import {taskStorageInit} from "./services/entities/task-storage.js";
 import {taskRenderInit} from "./components/tasks/render.js";
-import {openTaskForm} from "./components/tasks/forms/add-task.js";
-import {FORM_ACTIONS, TASK_STATUS} from "./utils/constants.js";
 import {openTaskActionsForm} from "./components/tasks/forms/actions-task.js";
+import {openTaskForm} from "./components/tasks/forms/add-task.js";
 import {filtersHandlersInit} from "./components/tasks/filters.js";
+import {FORM_ACTIONS, TASK_STATUS} from "./utils/constants.js";
 
-export function initApp(render) {
+export function initApp(actions) {
   const taskStorage = taskStorageInit()
   const taskRender = taskRenderInit({
     taskContainer: document.querySelector(".tasks__container"),
@@ -63,13 +63,15 @@ export function initApp(render) {
       }
     },
   })
-  render.nextPage = taskRender.renderPage(taskStorage.getAll())
+
+  actions.renderNextPage = taskRender.renderPage(taskStorage.getAll())
+  actions.openTaskForm = openTaskForm
 
   try {
     filtersHandlersInit(
       taskStorage.getAll,
       tasks => {
-        render.nextPage = taskRender.renderPage(tasks)
+        actions.renderNextPage = taskRender.renderPage(tasks)
       }
     )
   } catch (error) {
