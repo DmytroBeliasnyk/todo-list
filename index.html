@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>TODO list</title>
-  <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/app/styles/reset.css">
-  <link rel="stylesheet" href="/app/styles/variables.css">
-  <link rel="stylesheet" href="/app/styles/index.css">
-  <link rel="stylesheet" href="/app/styles/form.css">
+  <link rel="stylesheet" href="./src/styles/reset.css">
+  <link rel="stylesheet" href="./src/styles/variables.css">
+  <link rel="stylesheet" href="./src/styles/index.css">
 </head>
 <body>
 <div class="container">
@@ -16,10 +14,8 @@
     <main>
       <div class="navigation">
         <div class="search-wrapper">
-          <label>
-            <input class="navigation__search" id="search" placeholder="Search task by name">
-            <div class="fa-solid fa-magnifying-glass search-icon"></div>
-          </label>
+          <label id="search-label" for="search"></label>
+          <input class="navigation__search" id="search" placeholder="Search task by name">
         </div>
         <div class="navigation__filters">
           <div class="filter button click-animation" id="filter-in-progress"
@@ -87,5 +83,5 @@
   </div>
 </div>
 </body>
-<script type="module" src="../index.js"></script>
+<script type="module" src="src/index.js"></script>
 </html>

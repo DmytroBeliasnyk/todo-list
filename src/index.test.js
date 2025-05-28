@@ -25,7 +25,7 @@ const mockInitApp = jest.fn(actions => {
     taskRender: {renderPage: mockTaskRenderRenderPage},
   }
 })
-jest.unstable_mockModule("./js/init.js", () => ({
+jest.unstable_mockModule("./js/init-app.js", () => ({
   initApp: mockInitApp,
 }))
 

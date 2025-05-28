@@ -36,12 +36,12 @@ beforeAll(() => {
   }))
 })
 
-test("init app", async () => {
+test("init src", async () => {
   const expectedInitialization = {
     renderNextPage: null,
     openTaskForm: null,
   }
-  const {initApp} = await import("./init.js")
+  const {initApp} = await import("./init-app.js")
   const mockInitApp = jest.fn(() => initApp(expectedInitialization))
 
   mockInitApp()
