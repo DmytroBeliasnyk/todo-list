@@ -1,4 +1,4 @@
-import {TASK_STATUS, TASK_STORAGE_KEY} from "../../utils/constants.js";
+import {TASK_STATUS, TASK_STORAGE_KEY} from "@/utils/constants.js";
 
 export function taskStorageInit(repo = localStorage, key = TASK_STORAGE_KEY) {
   let tasks = JSON.parse(repo.getItem(key) || "[]")

@@ -1,4 +1,4 @@
-import {FORM_MESSAGES} from "../../../utils/constants.js";
+import {FORM_MESSAGES} from "@/utils/constants.js";
 import {init} from "./init.js";
 import {open} from "./open.js";
 

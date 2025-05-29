@@ -1,4 +1,4 @@
-import {formService} from "../../../services/form.js";
+import {formService} from "@/services/form.js";
 
 export function init(form) {
   const modal = form.closest(".modal")
