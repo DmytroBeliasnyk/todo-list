@@ -7,4 +7,8 @@ export default {
       '@': resolve(__dirname, 'src/js')
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
 }

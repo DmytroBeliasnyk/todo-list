@@ -1,8 +1,7 @@
-import {jest} from "@jest/globals"
 import {taskStorageInit} from "../task-storage.js";
-import {TASK_STORAGE_KEY, TASK_STATUS} from "../../../utils/constants.js";
+import {TASK_STORAGE_KEY, TASK_STATUS} from "@/utils/constants.js";
 
-test("task storage init", () => {
+it("task storage init", () => {
   expect(taskStorageInit(mockLocalStorage(), TASK_STORAGE_KEY)).toBeTruthy()
 })
 
@@ -20,7 +19,7 @@ describe("add", () => {
       taskStorage = taskStorageInit(mockStorage, TASK_STORAGE_KEY)
     })
 
-    test.each([
+    it.each([
       ["valid", {...validTask}, {...validTask, status: TASK_STATUS.IN_PROGRESS}],
       ["has status", {...validTask, status: TASK_STATUS.IN_PROGRESS},
         {...validTask, status: TASK_STATUS.IN_PROGRESS}],
@@ -45,7 +44,7 @@ describe("add", () => {
       taskStorage = taskStorageInit(mockStorage, TASK_STORAGE_KEY)
     })
 
-    test.each([
+    it.each([
       ["empty name", {name: "", id: 1}],
       ["no name", {id: 1}],
       ["no id", {name: "name"}],
@@ -60,7 +59,7 @@ describe("add", () => {
   })
 })
 
-test("get all", () => {
+it("get all", () => {
   const mockStorage = mockLocalStorage()
   const taskStorage = taskStorageInit(mockStorage, TASK_STORAGE_KEY)
 
@@ -86,7 +85,7 @@ describe("update", () => {
   })
 
   describe("valid task", () => {
-    test.each([
+    it.each([
       ["new name", {name: "new name", id: 1, status: "in progress"}],
       ["new description", {name: "name", description: "new description", id: 1, status: "in progress"}],
       ["new status", {name: "name", id: 1, status: "done"}],
@@ -106,7 +105,7 @@ describe("update", () => {
   })
 
   describe("invalid task", () => {
-    test.each([
+    it.each([
       ["no id", {name: "name", status: "in progress"}],
       ["no name", {id: 1, status: "in progress"}],
       ["no existent id", {name: "name", id: -1, status: "in progress"}],
@@ -119,7 +118,7 @@ describe("update", () => {
       }
     )
 
-    test("no status", () => {
+    it("no status", () => {
       taskStorage.update({name: "name", id: 1})
 
       const tasks = JSON.parse(mockStorage.getItem(TASK_STORAGE_KEY) || "[]")
@@ -149,7 +148,7 @@ describe("remove", () => {
     mockStorage.setItem.mockClear()
   })
 
-  test("valid task", () => {
+  it("valid task", () => {
     const inputTask = {name: "name", id: 1}
     taskStorage.remove(inputTask)
 
@@ -160,7 +159,7 @@ describe("remove", () => {
     expect(tasks[0].id).toBe(2)
   })
   describe("invalid task", () => {
-    test.each([
+    it.each([
       ["no id", {name: "name"}],
       ["no existent id", {name: "name", id: -1}],
       ["undefined task", undefined]
@@ -175,8 +174,8 @@ function mockLocalStorage() {
   const store = {}
 
   return {
-    getItem: jest.fn(key => store[key] || null),
-    setItem: jest.fn((key, value) => {
+    getItem: vi.fn(key => store[key] || null),
+    setItem: vi.fn((key, value) => {
       store[key] = value
     }),
   }

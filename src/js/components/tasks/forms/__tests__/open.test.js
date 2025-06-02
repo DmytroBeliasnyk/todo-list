@@ -1,19 +1,15 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-import {FORM_ACTIONS} from "../../../../utils/constants.js"
+import {FORM_ACTIONS} from "@/utils/constants.js"
 
 document.body.innerHTML = `<div class="modal-container">
                             <div class="modal">
-                              <form name="testForm">
+                              <form name="itForm">
                                 <input name="name">
                                 <textarea name="description"></textarea>
                               </form>
                             </div>
                            </div>`
 
-const form = document.forms.testForm
+const form = document.forms.itForm
 const inputName = form.elements.name
 const inputDescription = form.elements.description
 const modal = form.closest(".modal")
@@ -26,18 +22,18 @@ afterEach(() => {
   inputDescription.value = ""
 })
 
-test.each([
+it.each([
   ["add", {action: FORM_ACTIONS.ADD_TASK}],
   ["edit", {
     action: FORM_ACTIONS.EDIT_TASK,
-    task: {name: "test-task", description: "test-description"},
+    task: {name: "it-task", description: "it-description"},
   }],
   ["done", {action: FORM_ACTIONS.DONE_TASK}],
   ["remove", {action: FORM_ACTIONS.REMOVE_TASK}]
 ])
 ("open form to %s task", async (_, options) => {
   const {open} = await import("../open.js")
-  const spyInputNameFocus = jest.spyOn(inputName, "focus")
+  const spyInputNameFocus = vi.spyOn(inputName, "focus")
 
   open(modalContainer, modal, form, options.action, options.task)
 

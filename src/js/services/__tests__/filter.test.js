@@ -1,22 +1,21 @@
-import {jest} from "@jest/globals"
 import {filterService} from "../filter.js";
 
 const tasks = [{name: "task1", id: 1}, {name: "task2", id: 2}]
-const mockApplyFilters = jest.fn(tasks => filterService.applyFilters(tasks))
+const mockApplyFilters = vi.fn(tasks => filterService.applyFilters(tasks))
 
 afterEach(() => {
   filterService.removeFilter(1)
   filterService.removeFilter(2)
 
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-test("apply", () => {
-  const filter1 = jest.fn(tasks => {
+it("apply", () => {
+  const filter1 = vi.fn(tasks => {
     tasks.pop()
     return tasks
   })
-  const filter2 = jest.fn(tasks => {
+  const filter2 = vi.fn(tasks => {
     tasks.shift()
     return tasks
   })
@@ -31,16 +30,16 @@ test("apply", () => {
   expect(res).toHaveLength(0)
 })
 
-test("apply: no filters", () => {
+it("apply: no filters", () => {
   const res = mockApplyFilters(tasks)
 
   expect(mockApplyFilters).toHaveReturned()
   expect(res).toEqual(tasks)
 })
 
-test("remove", () => {
-  filterService.setFilter(1, jest.fn)
-  const mockRemoveFilter = jest.fn(filterId => {
+it("remove", () => {
+  filterService.setFilter(1, vi.fn)
+  const mockRemoveFilter = vi.fn(filterId => {
     filterService.removeFilter(filterId)
   })
 

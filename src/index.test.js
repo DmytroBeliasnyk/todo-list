@@ -1,8 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-
 class IntersectionObserver {
   observe() {
     return null;
@@ -12,20 +7,20 @@ class IntersectionObserver {
 window.IntersectionObserver = IntersectionObserver;
 global.IntersectionObserver = IntersectionObserver;
 
-const mockRenderNextPage = jest.fn()
-const mockOpenTaskForm = jest.fn()
-const mockTaskRenderRenderPage = jest.fn()
+const mockRenderNextPage = vi.fn()
+const mockOpenTaskForm = vi.fn()
+const mockTaskRenderRenderPage = vi.fn()
 
-const mockInitApp = jest.fn(actions => {
+const mockInitApp = vi.fn(actions => {
   actions.renderNextPage = mockRenderNextPage
   actions.openTaskForm = mockOpenTaskForm
 
   return {
-    taskStorage: {getAll: jest.fn()},
+    taskStorage: {getAll: vi.fn()},
     taskRender: {renderPage: mockTaskRenderRenderPage},
   }
 })
-jest.unstable_mockModule("./js/init-app.js", () => ({
+vi.mock("./js/init-app.js", () => ({
   initApp: mockInitApp,
 }))
 
@@ -37,7 +32,7 @@ test("run index", async () => {
   expect(mockInitApp).toHaveReturned()
 })
 
-test("open task form", async () => {
+it("open task form", async () => {
   await import("./index.js")
 
   document.querySelector(".open-task-form-add-task").click()
@@ -45,7 +40,7 @@ test("open task form", async () => {
   expect(mockOpenTaskForm).toHaveBeenCalled()
 })
 
-test("storage event", async () => {
+it("storage event", async () => {
   await import("./index.js")
 
   window.dispatchEvent(new StorageEvent("storage"))

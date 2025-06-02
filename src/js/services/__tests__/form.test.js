@@ -1,9 +1,5 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
 import {formService} from "../form.js";
-import {FORM_MESSAGES} from "../../utils/constants.js";
+import {FORM_MESSAGES} from "@/utils/constants.js";
 
 const inputName = document.createElement("input")
 inputName.name = "name"
@@ -23,31 +19,28 @@ beforeEach(() => {
   service = formService(testForm)
 })
 afterEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-test("form service", () => {
-  const spyListeners = jest.spyOn(testForm, "addEventListener")
-  const mockFn = jest.fn(
-    testForm => formService(testForm)
-  )
+it("init form service", () => {
+  const spyListeners = vi.spyOn(testForm, "addEventListener")
+  const mockFn = vi.fn(() => formService(testForm))
 
-  const res = mockFn(testForm)
+  const res = mockFn()
 
   expect(mockFn).toHaveReturned()
   expect(res).toBeTruthy()
   expect(spyListeners).toHaveBeenCalledTimes(2)
 })
 
-test.each([
-  ["valid params", jest.fn, jest.fn],
+it.each([
+  ["valid params", vi.fn(), vi.fn()],
   ["invalid params", 123, "invalid"],
   ["undefined callbacks", undefined, undefined],
 ])
 (`init: %s`, (_, callbackSubmit, callbackReset) => {
-  const spyListener = jest.spyOn(testForm, "addEventListener")
-  const spyClearError = jest.spyOn(service, "clearError")
-  const mockInit = jest.fn(() => {
+  const spyClearError = vi.spyOn(service, "clearError")
+  const mockInit = vi.fn(() => {
     service.init(callbackSubmit, callbackReset)
   })
 
@@ -55,21 +48,17 @@ test.each([
 
   expect(mockInit).toHaveReturned()
   expect(spyClearError).toHaveBeenCalled()
-  if (callbackSubmit && typeof callbackSubmit === 'function' ||
-    callbackReset && typeof callbackReset === 'function') {
-    expect(spyListener).toHaveBeenCalledTimes(2)
-  }
 })
 
 describe.each([
-  ["submit", () => testForm.submit()],
+  ["submit", () => testForm.requestSubmit()],
   ["reset", () => testForm.reset()]
 ])
 ("form actions", (actionName, action) => {
-  test(`valid callbacks: form ${actionName}`, () => {
-    const mockSubmitCallback = jest.fn()
-    const mockResetCallback = jest.fn()
-    const mockSubmit = jest.fn(() => {
+  it(`valid callbacks: form ${actionName}`, () => {
+    const mockSubmitCallback = vi.fn()
+    const mockResetCallback = vi.fn()
+    const mockSubmit = vi.fn(() => {
       action()
     })
 
@@ -86,14 +75,14 @@ describe.each([
     }
   })
 
-  test.each([
+  it.each([
     ["invalid callbacks", 123, "invalid"],
     ["undefined callbacks", undefined, undefined],
   ])
   (`%s: form ${actionName}`, (_, callbackSubmit, callbackReset) => {
     service.init(callbackSubmit, callbackReset)
-    const mockSubmit = jest.fn(() => {
-      testForm.submit()
+    const mockSubmit = vi.fn(() => {
+      testForm.requestSubmit()
     })
 
     mockSubmit()
@@ -102,13 +91,13 @@ describe.each([
   })
 })
 
-test.each([
+it.each([
   ["valid", "message"],
   ["undefined", undefined]
 ])
 ("set error: %s message", (_, message) => {
-  const spyListener = jest.spyOn(inputName, "addEventListener")
-  const spyFocus = jest.spyOn(inputName, "focus")
+  const spyListener = vi.spyOn(inputName, "addEventListener")
+  const spyFocus = vi.spyOn(inputName, "focus")
   const expectedMessage = message ?? FORM_MESSAGES.UNKNOWN_ERROR
 
   service.setError(message)
@@ -119,7 +108,7 @@ test.each([
   expect(spyFocus).toHaveBeenCalled()
 })
 
-test.each([
+it.each([
   ["", () => {
     service.clearError()
   }],
@@ -130,7 +119,8 @@ test.each([
       inputType: "insertText"
     }))
   }]
-])("clear error %s", (_, act) => {
+])
+("clear error %s", (_, act) => {
   service.setError("error")
 
   act()

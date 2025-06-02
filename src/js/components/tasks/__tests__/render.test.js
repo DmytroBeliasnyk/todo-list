@@ -1,17 +1,13 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-import {taskRenderInit} from "../tasks/render.js";
-import {TASK_STATUS} from "../../utils/constants.js";
+import {taskRenderInit} from "../render.js";
+import {TASK_STATUS} from "@/utils/constants.js";
 
 document.body.innerHTML = `<div class="tasks__container"></div>`
 
 const taskContainer = document.querySelector(".tasks__container")
 const countOnPage = 5
-const editCallback = jest.fn()
-const doneCallback = jest.fn()
-const removeCallback = jest.fn()
+const editCallback = vi.fn()
+const doneCallback = vi.fn()
+const removeCallback = vi.fn()
 
 const tasksRender = taskRenderInit({
   taskContainer: taskContainer,
@@ -27,7 +23,7 @@ afterEach(() => {
   taskContainer.replaceChildren()
 })
 
-test.each([
+it.each([
   ["task", {name: "name", status: TASK_STATUS.IN_PROGRESS}],
   ["donned task", {name: "name", status: TASK_STATUS.DONE}]
 ])
@@ -43,7 +39,7 @@ test.each([
 })
 
 
-test.each([
+it.each([
   ["edit task", "", editCallback],
   ["done button", ".task__done", doneCallback],
   ["remove button", ".task__remove", removeCallback]
@@ -69,7 +65,7 @@ describe("render", () => {
     }
   })
 
-  test.each([
+  it.each([
     ["first", () => {
     }, countOnPage],
     ["next", nextPage => {

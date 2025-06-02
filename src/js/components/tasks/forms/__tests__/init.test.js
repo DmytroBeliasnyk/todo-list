@@ -1,18 +1,14 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
 import {init} from "../init.js";
 
 document.body.innerHTML = `<div class="modal-container">
                             <div class="modal">
-                              <form name="test"></form>
+                              <form name="it"></form>
                             </div>
                            </div>`
-const testForm = document.forms.test
+const itForm = document.forms.it
 
-test("init form", () => {
-  const mockInitFn = jest.fn(() => init(testForm))
+it("init form", () => {
+  const mockInitFn = vi.fn(() => init(itForm))
 
   const {modalContainer, modal, formService} = mockInitFn()
 
@@ -22,13 +18,13 @@ test("init form", () => {
   expect(formService).toBeTruthy()
 })
 
-test.each([
+it.each([
   ["click", new MouseEvent("click")],
   ["key up", new KeyboardEvent("keyup", {code: "Escape"})]
 ])
 ("form reset on %s", (_, event) => {
-  const spyReset = jest.spyOn(testForm, "reset")
-  const {modalContainer} = init(testForm)
+  const spyReset = vi.spyOn(itForm, "reset")
+  const {modalContainer} = init(itForm)
 
   modalContainer.dispatchEvent(event)
 

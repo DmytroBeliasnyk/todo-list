@@ -1,6 +1,6 @@
 import {createPages} from "../pagination.js";
 
-test.each([
+it.each([
   ["array length > 0", [0, 0, 0, 0, 0, 0, 0, 0, 0]],
   ["array length == 0", []]
 ])

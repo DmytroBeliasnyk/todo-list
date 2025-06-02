@@ -1,7 +1,6 @@
-import {jest} from "@jest/globals"
 import {debounce} from "../debounce.js";
 
-const fn = jest.fn(done => {
+const fn = vi.fn(done => {
   expect(fn).toHaveBeenCalled()
   done()
 })
@@ -11,11 +10,11 @@ beforeEach(() => {
   debounceFn = debounce(fn, 500)
 })
 
-test("debounce: one call", done => {
+it("debounce: one call", done => {
   debounceFn(done)
 })
 
-test("debounce: several calls", done => {
+it("debounce: several calls", done => {
   for (let i = 0; i < 10; i++) {
     debounceFn(done)
   }

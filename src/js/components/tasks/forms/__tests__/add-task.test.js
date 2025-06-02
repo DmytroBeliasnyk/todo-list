@@ -1,8 +1,4 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-import {FORM_ACTIONS, FORM_MESSAGES} from "../../../../utils/constants.js"
+import {FORM_ACTIONS, FORM_MESSAGES} from "@/utils/constants.js"
 
 document.body.innerHTML = `<div class="modal-container">
                             <div class="modal">
@@ -28,46 +24,46 @@ afterEach(() => {
 })
 
 describe("submit form", () => {
-  test("add valid task", async () => {
+  it("add valid task", async () => {
     const {openTaskForm} = await import("../add-task.js")
     const options = {
       action: FORM_ACTIONS.ADD_TASK,
-      formSubmitCallback: jest.fn()
+      formSubmitCallback: vi.fn()
     }
     const expectedTask = {
-      name: "test-name",
-      description: "test-description"
+      name: "it-name",
+      description: "it-description"
     }
     inputName.value = expectedTask.name
     inputDescription.value = expectedTask.description
 
     openTaskForm(options)
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).toHaveBeenCalledWith(expectedTask)
   })
 
-  test("add invalid task", async () => {
+  it("add invalid task", async () => {
     const {openTaskForm} = await import("../add-task.js")
     const options = {
       action: FORM_ACTIONS.ADD_TASK,
-      formSubmitCallback: jest.fn()
+      formSubmitCallback: vi.fn()
     }
     inputName.value = ""
 
     openTaskForm(options)
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).not.toHaveBeenCalled()
     expect(errorContainer.textContent).toBe(FORM_MESSAGES.EMPTY_NAME)
   })
 
-  test("edit valid task", async () => {
+  it("edit valid task", async () => {
     const {openTaskForm} = await import("../add-task.js")
     const options = {
       action: FORM_ACTIONS.EDIT_TASK,
       task: {name: "old-name", description: "old-description"},
-      formSubmitCallback: jest.fn()
+      formSubmitCallback: vi.fn()
     }
     const expectedTask = {
       name: "new-name",
@@ -77,17 +73,17 @@ describe("submit form", () => {
     openTaskForm(options)
     inputName.value = expectedTask.name
     inputDescription.value = expectedTask.description
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).toHaveBeenCalledWith(expectedTask)
   })
 
-  test("edit invalid task", async () => {
+  it("edit invalid task", async () => {
     const {openTaskForm} = await import("../add-task.js")
     const options = {
       action: FORM_ACTIONS.EDIT_TASK,
       task: {name: "old-name", description: "old-description"},
-      formSubmitCallback: jest.fn()
+      formSubmitCallback: vi.fn()
     }
     const expectedTask = {
       name: "",
@@ -97,14 +93,14 @@ describe("submit form", () => {
     openTaskForm(options)
     inputName.value = expectedTask.name
     inputDescription.value = expectedTask.description
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).not.toHaveBeenCalled()
     expect(errorContainer.textContent).toBe(FORM_MESSAGES.EMPTY_NAME)
   })
 })
 
-test("reset form", async () => {
+it("reset form", async () => {
   const {openTaskForm} = await import("../add-task.js")
 
   openTaskForm({action: "action"})

@@ -1,11 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-import {filtersHandlersInit} from "../tasks/filters.js"
-import {TASK_STATUS} from "../../utils/constants.js"
+import {filtersHandlersInit} from "../filters.js"
+import {TASK_STATUS} from "@/utils/constants.js"
 
-jest.useFakeTimers()
+vi.useFakeTimers()
 
 document.body.innerHTML = `
             <div class="navigation">
@@ -21,35 +17,35 @@ const filtersContainer = document.querySelector(".navigation__filters")
 const filterInProgress = document.querySelector("#filter-in-progress")
 const filterDone = document.querySelector("#filter-done")
 
-const spySearchListener = jest.spyOn(search, "addEventListener")
-const spyFiltersListener = jest.spyOn(filtersContainer, "addEventListener")
+const spySearchListener = vi.spyOn(search, "addEventListener")
+const spyFiltersListener = vi.spyOn(filtersContainer, "addEventListener")
 
 const tasks = [
   {name: "task1", status: TASK_STATUS.IN_PROGRESS},
   {name: "task2", status: TASK_STATUS.IN_PROGRESS},
   {name: "task3", status: TASK_STATUS.DONE}
 ]
-const mockRenderCallback = jest.fn()
-const mockFiltersHandlersInit = jest.fn(() => {
+const mockRenderCallback = vi.fn()
+const mockFiltersHandlersInit = vi.fn(() => {
   filtersHandlersInit(() => tasks, mockRenderCallback)
 })
 mockFiltersHandlersInit()
 
 afterEach(() => {
-  jest.clearAllMocks()
-  jest.clearAllTimers()
+  vi.clearAllMocks()
+  vi.clearAllTimers()
 })
 
 describe("init filters handlers", () => {
-  test("valid params", () => {
+  it("valid params", () => {
     expect(mockFiltersHandlersInit).toHaveReturned()
     expect(spySearchListener).toHaveBeenCalled()
     expect(spyFiltersListener).toHaveBeenCalled()
   })
 
-  test("repeat call", () => {
-    const mockInitFn = jest.fn(() => {
-      filtersHandlersInit(jest.fn(), jest.fn())
+  it("repeat call", () => {
+    const mockInitFn = vi.fn(() => {
+      filtersHandlersInit(vi.fn(), vi.fn())
     })
 
     mockInitFn()
@@ -59,8 +55,8 @@ describe("init filters handlers", () => {
     expect(spyFiltersListener).not.toHaveBeenCalled()
   })
 
-  test("invalid params", () => {
-    const mockInitFn = jest.fn(() => {
+  it("invalid params", () => {
+    const mockInitFn = vi.fn(() => {
       filtersHandlersInit(123, "123")
     })
 
@@ -71,7 +67,7 @@ describe("init filters handlers", () => {
 })
 
 describe("search", () => {
-  test.each([
+  it.each([
     ["task", tasks],
     ["1", [{name: "task1", status: TASK_STATUS.IN_PROGRESS}]],
     ["no task", []],
@@ -88,7 +84,7 @@ describe("search", () => {
 
     expect(mockRenderCallback).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(250)
+    vi.advanceTimersByTime(250)
     expect(mockRenderCallback).toHaveBeenCalledWith(expectedTasks)
   })
 })
@@ -103,8 +99,8 @@ describe("filters", () => {
     delete filterInProgress.dataset.enableTogether
   })
 
-  test("click on container", () => {
-    const spyFiltersContainer = jest.spyOn(filtersContainer, "click")
+  it("click on container", () => {
+    const spyFiltersContainer = vi.spyOn(filtersContainer, "click")
     filterInProgress.classList.add("enabled")
 
     filtersContainer.click()
@@ -114,7 +110,7 @@ describe("filters", () => {
     expect(filterDone.classList.contains("enabled")).toBeFalsy()
   })
 
-  test.each([
+  it.each([
     ["in progress", filterInProgress, [
       {name: "task1", status: TASK_STATUS.IN_PROGRESS},
       {name: "task2", status: TASK_STATUS.IN_PROGRESS},
@@ -131,7 +127,7 @@ describe("filters", () => {
     expect(mockRenderCallback).toHaveBeenCalledWith(expectedTasks)
   })
 
-  test.each([
+  it.each([
     ["in progress", filterInProgress],
     ["done", filterDone]
   ])
@@ -147,7 +143,7 @@ describe("filters", () => {
     expect(mockRenderCallback).lastCalledWith(tasks)
   })
 
-  test("enable together", () => {
+  it("enable together", () => {
     filterInProgress.dataset.enableTogether = ""
 
     filterInProgress.click()
@@ -159,7 +155,7 @@ describe("filters", () => {
   })
 })
 
-test.each([
+it.each([
   ["task", filterInProgress, [
     {name: "task1", status: TASK_STATUS.IN_PROGRESS},
     {name: "task2", status: TASK_STATUS.IN_PROGRESS}

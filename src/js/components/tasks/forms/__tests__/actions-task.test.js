@@ -1,8 +1,4 @@
-/**
- * @jest-environment jsdom
- */
-import {jest} from "@jest/globals"
-import {FORM_MESSAGES} from "../../../../utils/constants.js"
+import {FORM_MESSAGES} from "@/utils/constants.js"
 
 document.body.innerHTML = `<div class="modal-container">
                             <div class="modal">
@@ -26,40 +22,40 @@ afterEach(() => {
 })
 
 describe("submit form", () => {
-  test("valid name", async () => {
+  it("valid name", async () => {
     const {openTaskActionsForm} = await import("../actions-task.js")
-    const options = {formSubmitCallback: jest.fn()}
+    const options = {formSubmitCallback: vi.fn()}
     inputName.value = "valid-name"
 
     openTaskActionsForm(options)
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).toHaveBeenCalledWith("valid-name")
   })
 
-  test("invalid name", async () => {
+  it("invalid name", async () => {
     const {openTaskActionsForm} = await import("../actions-task.js")
-    const options = {formSubmitCallback: jest.fn()}
+    const options = {formSubmitCallback: vi.fn()}
     inputName.value = ""
 
     openTaskActionsForm(options)
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).not.toHaveBeenCalled()
     expect(errorContainer.textContent).toBe(FORM_MESSAGES.EMPTY_NAME)
   })
 
-  test("not equal name", async () => {
+  it("not equal name", async () => {
     const {openTaskActionsForm} = await import("../actions-task.js")
     const options = {
-      formSubmitCallback: jest.fn(() => {
+      formSubmitCallback: vi.fn(() => {
         throw new Error()
       })
     }
     inputName.value = "not equal name"
 
     openTaskActionsForm(options)
-    form.submit()
+    form.requestSubmit()
 
     expect(options.formSubmitCallback).toHaveBeenCalledWith("not equal name")
     expect(options.formSubmitCallback).toThrowError()
@@ -67,7 +63,7 @@ describe("submit form", () => {
   })
 })
 
-test("reset form", async () => {
+it("reset form", async () => {
   const {openTaskActionsForm} = await import("../actions-task.js")
 
   openTaskActionsForm({action: "action"})
