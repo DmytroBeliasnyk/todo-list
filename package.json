@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "jsdom": "^26.1.0",
+    "sass": "^1.89.1",
     "vite": "^6.3.5",
     "vitest": "^3.1.4"
   }

@@ -1,3 +1,4 @@
+import '#/task.scss'
 import {createPages} from "@/utils/pagination.js";
 import {TASK_STATUS, TOOLTIPS} from "@/utils/constants.js";
 

@@ -1,0 +1,86 @@
+@use '../abstract/variables' as *;
+
+.navigation {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding: 0 2px;
+  width: 100%;
+}
+
+.search-wrapper {
+  display: flex;
+  gap: 8px;
+  background-color: $secondary-bg-color;
+  padding: 5px 8px;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.search-wrapper:has(.navigation__search:focus) {
+  border-bottom: 1px solid $secondary-color;
+}
+
+.search-wrapper:has(.navigation__search:focus) #search-label:before {
+  color: $secondary-color;
+}
+
+#search-label:before {
+  content: "\f002";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+  color: $primary-color;
+}
+
+.navigation__search {
+  background-color: transparent;
+}
+
+.navigation__filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filter {
+  position: relative;
+  background-color: transparent;
+  border-radius: 5px;
+  padding: 5px;
+  color: $primary-color;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.filter:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: 30px;
+  left: -27px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: $primary-color;
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
+}
+
+#filter-in-progress::before {
+  content: "\f03a";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+#filter-done::before {
+  content: "\f0ae";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.enabled {
+  background-color: $secondary-color;
+  color: inherit;
+}

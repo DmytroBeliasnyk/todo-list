@@ -1,0 +1,144 @@
+@use '../abstract/variables' as *;
+.task {
+  display: flex;
+  background-color: $secondary-bg-color;
+  cursor: pointer;
+}
+
+.task.done {
+  background-color: rgba(17, 24, 39, 0.3);
+  color: #cad2dd;
+}
+
+.task__content-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+}
+
+.task__content-wrapper:hover {
+  border-bottom: 1px solid $secondary-color;
+}
+
+.task__left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task__right-column {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.task__open-actions-btn {
+  position: relative;
+}
+
+.task__open-actions-btn::before {
+  content: "\f053";
+  font-family: "Font Awesome 6 Free", serif;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 5px 10px;
+  margin: -5px -10px;
+}
+
+.task__open-actions-btn.open::before {
+  content: "\f054";
+  padding-right: 0;
+  margin-right: 8px;
+}
+
+.task__open-actions-btn:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: 20px;
+  left: -40px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: $primary-color;
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
+}
+
+.task__actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+
+.task__actions-wrapper.open {
+  width: 29px;
+}
+
+.task__done {
+  border-radius: 0;
+  font-size: 15px;
+  background-color: #008000FF;
+}
+
+.task__done::before {
+  content: "\f14a";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.task__done:active {
+  background-color: #006400FF;
+  color: $animation-font-color;
+}
+
+.task.done .task__done {
+  background-color: #006400FF;
+}
+
+.task__remove {
+  border-radius: 0;
+  font-size: 15px;
+  color: #FFFFFF;
+  background-color: #FF0000FF;
+}
+
+.task__remove::before {
+  content: "\f1f8";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.task__remove:active {
+  background-color: #8B0000FF;
+  color: $animation-font-color;
+}
+
+.task__description-icon.has-description:before {
+  content: "\f036";
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.task__description-icon:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: 43px;
+  left: -10px;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: $primary-color;
+  white-space: nowrap;
+  font-size: 8px;
+  color: #FFFFFF;
+}

@@ -1,7 +1,5 @@
-import "@fortawesome/fontawesome-free/css/solid.min.css"
-import "./styles/form.css"
-import {initApp} from "./js/init-app.js";
-import {FORM_ACTIONS} from "./js/utils/constants.js";
+import {initApp} from "@/init-app.js";
+import {FORM_ACTIONS} from "@/utils/constants.js";
 
 const actions = {
   renderNextPage: null,

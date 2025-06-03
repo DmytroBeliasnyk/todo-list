@@ -1,0 +1,106 @@
+@use '../abstract/variables' as *;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: $font-color;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: $primary-bg-color;
+  height: 100%;
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  width: 80%;
+}
+
+header,
+footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+header {
+  padding: 10px 0 5px 2px;
+  border-bottom: 1px solid $primary-color;
+}
+
+footer {
+  padding: 2px 0 10px 2px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+  gap: 8px;
+}
+
+.button {
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.click-animation {
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+}
+
+.scrolling::-webkit-scrollbar {
+  width: 15px;
+}
+
+.scrolling::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 20px $secondary-color;
+  border: 5px solid transparent;
+  border-radius: 8px;
+  min-height: 50px;
+  cursor: pointer;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  width: 100%;
+  padding: 0 2px;
+  overflow: auto;
+}
+
+.tasks__container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#tasks__loader {
+  min-height: 1px;
+}
+
+.open-task-form-add-task {
+  background-color: $secondary-color;
+}
+
+.open-task-form-add-task::before {
+  content: "\f055";
+  margin-right: 8px;
+  font-family: "Font Awesome 6 Free", serif;
+  font-weight: 900;
+}
+
+.open-task-form-add-task:active {
+  background-color: $button-animation-color;
+  color: $animation-font-color;
+}

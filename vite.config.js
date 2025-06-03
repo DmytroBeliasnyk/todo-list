@@ -4,7 +4,8 @@ export default {
   base: '/todo-list/',
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src/js')
+      '@': resolve(__dirname, 'src/js'),
+      '#': resolve(__dirname, 'src/styles/components'),
     },
   },
   test: {

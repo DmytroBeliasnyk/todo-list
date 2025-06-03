@@ -1,3 +1,5 @@
+import '#/form.scss'
+
 export function open(modalContainer, modal, form, action, task = null) {
   modalContainer.classList.add("active")
   modal.classList.add(action)
