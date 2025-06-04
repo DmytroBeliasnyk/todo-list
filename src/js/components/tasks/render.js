@@ -6,7 +6,7 @@ export function taskRenderInit(options) {
   const _taskContainer = options.taskContainer
   const _callbacks = options.callbacks
 
-  document.addEventListener("click", () => {
+  document.addEventListener("click", event => {
     _taskContainer.querySelectorAll(".open")
       .forEach(element => {
         element.classList.remove("open")
@@ -92,9 +92,10 @@ function createTaskElement(task, taskContainer, callbacks) {
   const removeButton = createDivElement("task__remove",
     {
       clickHandler: () => {
-        callbacks.remove(
-          task,
-          () => {
+        actionsWrapper.classList.remove("open")
+        openActionsButton.classList.remove("open")
+
+        callbacks.remove(task, () => {
             taskElement.remove()
           }
         )
@@ -113,9 +114,7 @@ function createTaskElement(task, taskContainer, callbacks) {
     "task" + (task.status === TASK_STATUS.DONE ? " done" : ""),
     {
       clickHandler: () => {
-        callbacks.edit(
-          task,
-          task => {
+        callbacks.edit(task, task => {
             name.textContent = task.name
             descriptionIcon.classList.toggle("has-description", task.description.trim())
           })
