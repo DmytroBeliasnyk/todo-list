@@ -24,3 +24,19 @@
     font-weight: 900;
   }
 }
+
+@mixin tooltip($top, $left) {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  top: $top;
+  left: $left;
+  z-index: 1;
+
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: $primary-color;
+  white-space: nowrap;
+  font-size: 8px;
+  color: $font-color;
+}
