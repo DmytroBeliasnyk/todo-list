@@ -72,7 +72,7 @@ function createTaskElement(task, taskContainer, callbacks) {
   const contentWrapper = createDivElement("task__content-wrapper")
   contentWrapper.append(leftColumn, rightColumn)
 
-  const doneButton = createDivElement("task__done button click-animation",
+  const doneButton = createDivElement("task__done",
     {
       clickHandler: () => {
         if (task.status === TASK_STATUS.DONE) return
@@ -89,7 +89,7 @@ function createTaskElement(task, taskContainer, callbacks) {
         )
       }
     })
-  const removeButton = createDivElement("task__remove button click-animation",
+  const removeButton = createDivElement("task__remove",
     {
       clickHandler: () => {
         callbacks.remove(

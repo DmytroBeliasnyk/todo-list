@@ -1,4 +1,5 @@
 @use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
 
 .navigation {
   display: flex;
@@ -6,81 +7,75 @@
   justify-content: space-between;
   padding: 0 2px;
   width: 100%;
-}
 
-.search-wrapper {
-  display: flex;
-  gap: 8px;
-  background-color: $secondary-bg-color;
-  padding: 5px 8px;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
+  .search-wrapper {
+    display: flex;
+    gap: 8px;
+    background-color: $secondary-bg-color;
+    padding: 5px 8px;
 
-.search-wrapper:has(.navigation__search:focus) {
-  border-bottom: 1px solid $secondary-color;
-}
+    &:has(.navigation__search:focus) {
+      border-bottom: 1px solid $secondary-color;
 
-.search-wrapper:has(.navigation__search:focus) #search-label:before {
-  color: $secondary-color;
-}
+      #search-label::before {
+        color: $secondary-color;
+      }
+    }
 
-#search-label:before {
-  content: "\f002";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-  color: $primary-color;
-}
+    #search-label {
+      @include icon("\f002");
 
-.navigation__search {
-  background-color: transparent;
-}
+      &:before {
+        color: $primary-color;
+      }
+    }
 
-.navigation__filters {
-  display: flex;
-  gap: 10px;
-}
+    .navigation__search {
+      background-color: transparent;
+    }
+  }
 
-.filter {
-  position: relative;
-  background-color: transparent;
-  border-radius: 5px;
-  padding: 5px;
-  color: $primary-color;
-  font-size: 20px;
-  cursor: pointer;
-}
+  .navigation__filters {
+    display: flex;
+    gap: 10px;
 
-.filter:hover::after {
-  content: attr(data-tooltip);
+    .filter {
+      position: relative;
+      background-color: transparent;
+      border-radius: 5px;
+      padding: 5px;
+      color: $primary-color;
+      font-size: 20px;
+      cursor: pointer;
 
-  position: absolute;
-  top: 30px;
-  left: -27px;
-  z-index: 1;
+      &.enabled {
+        background-color: $secondary-color;
+        color: inherit;
+      }
 
-  display: inline-block;
-  padding: 2px 4px;
-  background-color: $primary-color;
-  white-space: nowrap;
-  font-size: 8px;
-  color: #FFFFFF;
-}
+      &:hover::after {
+        content: attr(data-tooltip);
 
-#filter-in-progress::before {
-  content: "\f03a";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
+        position: absolute;
+        top: 30px;
+        left: -27px;
+        z-index: 1;
 
-#filter-done::before {
-  content: "\f0ae";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
+        display: inline-block;
+        padding: 2px 4px;
+        background-color: $primary-color;
+        white-space: nowrap;
+        font-size: 8px;
+        color: $font-color;
+      }
+    }
 
-.enabled {
-  background-color: $secondary-color;
-  color: inherit;
+    #filter-in-progress {
+      @include icon("\f03a");
+    }
+
+    #filter-done {
+      @include icon("\f0ae");
+    }
+  }
 }

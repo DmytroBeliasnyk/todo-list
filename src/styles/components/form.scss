@@ -1,10 +1,6 @@
 @use '../abstract/variables' as *;
-
-button, input, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
+@use '../abstract/mixins' as *;
+@use '../abstract/templates' as *;
 
 .modal-container {
   display: none;
@@ -14,108 +10,101 @@ button, input, textarea {
   height: 100%;
   width: 100%;
   background-color: rgba(17, 24, 39, 0.5);
-}
 
-.modal-container.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  &.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex: 0 1 auto;
-  padding: 20px;
-  background-color: $primary-bg-color;
-  border: 1px solid $primary-color;
-  border-radius: 5px;
-}
+  .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex: 0 1 auto;
+    padding: 20px;
+    background-color: $primary-bg-color;
+    border: 1px solid $primary-color;
+    border-radius: 5px;
 
-.modal__title {
-  text-align: left;
-  width: 100%;
-}
+    .modal__title {
+      text-align: left;
+      width: 100%;
+    }
 
-.modal__title-actions {
-  text-align: center;
-  max-width: 280px;
-}
+    .modal__title-actions {
+      text-align: center;
+      max-width: 280px;
+    }
 
-.modal.add .modal__title-edit {
-  display: none;
-}
+    &.add .modal__title-edit {
+      display: none;
+    }
 
-.modal.edit .modal__title-add {
-  display: none;
-}
+    &.edit .modal__title-add {
+      display: none;
+    }
 
-.modal.done .modal__title-remove {
-  display: none;
-}
+    &.done .modal__title-remove {
+      display: none;
+    }
 
-.modal.remove .modal__title-done {
-  display: none;
+    &.remove .modal__title-done {
+      display: none;
+    }
+  }
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
 
-.form__inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .form__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-.form__label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+    & textarea {
+      resize: none;
+      @extend %scrolling;
+    }
 
-.form__input {
-  display: block;
-  width: 100%;
-  background-color: $secondary-bg-color;
-  padding: 5px 8px;
-}
+    .form__label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
 
-.form__input:focus {
-  border-bottom: 1px solid $secondary-color;
-}
+      .form__input {
+        display: block;
+        width: 100%;
+        background-color: $secondary-bg-color;
+        padding: 5px 8px;
 
-.form__error-message {
-  color: $error-color;
-  font-size: 14px;
-}
+        &:focus {
+          border-bottom: 1px solid $secondary-color;
+        }
+      }
 
-.input-name-label.has-error .input-name {
-  border-bottom: 1px solid $error-color;
-}
+      .form__error-message {
+        color: $error-color;
+        font-size: 14px;
+      }
+    }
 
-.form__inputs textarea {
-  resize: none;
-}
+    .input-name-label.has-error .input-name {
+      border-bottom: 1px solid $error-color;
+    }
+  }
 
-.form__actions {
-  display: flex;
-  justify-content: space-around;
-}
+  .form__actions {
+    display: flex;
+    justify-content: space-around;
 
-.form__submit,
-.form__close {
-  font-size: 14px;
-  background-color: $secondary-color;
-}
-
-.form__close:active,
-.form__submit:active {
-  background-color: $button-animation-color;
-  color: $animation-font-color;
+    .form__action {
+      @include button(14px, $secondary-color, $button-animation-color);
+    }
+  }
 }

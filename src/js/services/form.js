@@ -1,4 +1,4 @@
-import {FORM_MESSAGES} from "../utils/constants.js";
+import {FORM_MESSAGES} from "@/utils/constants.js";
 
 export function formService(form) {
   const _messageContainer = form.querySelector(".form__error-message")

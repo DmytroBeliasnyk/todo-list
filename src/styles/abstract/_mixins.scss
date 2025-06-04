@@ -1,0 +1,26 @@
+@use 'variables' as *;
+
+@mixin button($fz, $bgc, $active-bgc) {
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+
+  font-size: $fz;
+  background-color: $bgc;
+
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+
+  &:active {
+    color: $animation-font-color;
+    background-color: $active-bgc;
+  }
+}
+
+@mixin icon($icon) {
+  &::before {
+    content: $icon;
+    font-family: "Font Awesome 6 Free", serif;
+    font-weight: 900;
+  }
+}

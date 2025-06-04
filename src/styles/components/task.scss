@@ -1,144 +1,129 @@
 @use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+
 .task {
   display: flex;
   background-color: $secondary-bg-color;
   cursor: pointer;
-}
 
-.task.done {
-  background-color: rgba(17, 24, 39, 0.3);
-  color: #cad2dd;
-}
+  &.done {
+    background-color: rgba(17, 24, 39, 0.3);
+    color: #cad2dd;
+  }
 
-.task__content-wrapper {
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 8px;
-}
+  .task__content-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
 
-.task__content-wrapper:hover {
-  border-bottom: 1px solid $secondary-color;
-}
+    &:hover {
+      border-bottom: 1px solid $secondary-color;
+    }
 
-.task__left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+    .task__left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
 
-.task__right-column {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
 
-.task__open-actions-btn {
-  position: relative;
-}
+      .task__description-icon {
+        &.has-description {
+          @include icon("\f036");
 
-.task__open-actions-btn::before {
-  content: "\f053";
-  font-family: "Font Awesome 6 Free", serif;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 5px 10px;
-  margin: -5px -10px;
-}
+          &::before {
+            font-size: 12px;
+          }
+        }
 
-.task__open-actions-btn.open::before {
-  content: "\f054";
-  padding-right: 0;
-  margin-right: 8px;
-}
+        &:hover::after {
+          content: attr(data-tooltip);
 
-.task__open-actions-btn:hover::after {
-  content: attr(data-tooltip);
+          position: absolute;
+          top: 43px;
+          left: -10px;
+          z-index: 1;
 
-  position: absolute;
-  top: 20px;
-  left: -40px;
-  z-index: 1;
+          display: inline-block;
+          padding: 2px 4px;
+          background-color: $primary-color;
+          white-space: nowrap;
+          font-size: 8px;
+          color: #FFFFFF;
+        }
+      }
+    }
 
-  display: inline-block;
-  padding: 2px 4px;
-  background-color: $primary-color;
-  white-space: nowrap;
-  font-size: 8px;
-  color: #FFFFFF;
-}
+    .task__right-column {
+      display: flex;
+      align-items: center;
+      gap: 24px;
 
-.task__actions-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 0;
-  transition: width 0.2s ease;
-  overflow: hidden;
-}
+      .task__open-actions-btn {
+        position: relative;
+        @include icon("\f053");
 
-.task__actions-wrapper.open {
-  width: 29px;
-}
+        &::before {
+          font-size: 12px;
+          padding: 5px 10px;
+          margin: -5px -10px;
+        }
 
-.task__done {
-  border-radius: 0;
-  font-size: 15px;
-  background-color: #008000FF;
-}
+        &.open {
+          @include icon("\f054");
 
-.task__done::before {
-  content: "\f14a";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
+          &::before {
+            padding-right: 0;
+            margin-right: 8px;
+          }
+        }
 
-.task__done:active {
-  background-color: #006400FF;
-  color: $animation-font-color;
-}
+        &:hover::after {
+          content: attr(data-tooltip);
 
-.task.done .task__done {
-  background-color: #006400FF;
-}
+          position: absolute;
+          top: 20px;
+          left: -40px;
+          z-index: 1;
 
-.task__remove {
-  border-radius: 0;
-  font-size: 15px;
-  color: #FFFFFF;
-  background-color: #FF0000FF;
-}
+          display: inline-block;
+          padding: 2px 4px;
+          background-color: $primary-color;
+          white-space: nowrap;
+          font-size: 8px;
+          color: $font-color;
+        }
+      }
+    }
+  }
 
-.task__remove::before {
-  content: "\f1f8";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
+  .task__actions-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 0;
+    transition: width 0.2s ease;
+    overflow: hidden;
 
-.task__remove:active {
-  background-color: #8B0000FF;
-  color: $animation-font-color;
-}
+    &.open {
+      width: 29px;
+    }
 
-.task__description-icon.has-description:before {
-  content: "\f036";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-  font-size: 12px;
-}
+    .task__done {
+      @include button(15px, #008000FF, #006400FF);
+      @include icon("\f14a");
+      border-radius: 0;
 
-.task__description-icon:hover::after {
-  content: attr(data-tooltip);
+      .task.done & {
+        background-color: #006400FF;
+      }
+    }
 
-  position: absolute;
-  top: 43px;
-  left: -10px;
-  z-index: 1;
-
-  display: inline-block;
-  padding: 2px 4px;
-  background-color: $primary-color;
-  white-space: nowrap;
-  font-size: 8px;
-  color: #FFFFFF;
+    .task__remove {
+      @include button(15px, #FF0000FF, #8B0000FF);
+      @include icon("\f1f8");
+      border-radius: 0;
+      color: $font-color;
+    }
+  }
 }
